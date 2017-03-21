@@ -1,25 +1,8 @@
-# README #
+# Compsys303 Group 20 #
 
-Welcome to Hamish and Roman's git repo for their COMPSYS 302 Java project
+Welcome to Hamish and Roman's git repo for their COMPSYS 302 Java project.
 
-### What is this repository for? ###
+### Build instructions ###
 
-* This should be a game provided all goes well
-* Version: 0.0
-
-### How do I get set up? ###
-
-* Do something
-* Do something else
-* ...
-* Profit??
-
-### Contribution guidelines ###
-
-* Write tests
-* Write code
-* Don't break the build
-
-### Who do I talk to? ###
-
-* Hamish, don't talk to me
+* Run the game: `gradle run`
+* Run the unit test: `gradle test`
