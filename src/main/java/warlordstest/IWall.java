@@ -6,22 +6,22 @@ package warlordstest;
  */
 public interface IWall {
 
-    /***
-     *  Set the horizontal position of the wall to the given value.
-     * @param x
-     */
-    void setXPos(int x);
+	/***
+	 *  Set the horizontal position of the wall to the given value.
+	 * @param x
+	 */
+	void setXPos(int x);
 
-    /***
-     *  Set the vertical position of the warlord to the given value.
-     * @param y
-     */
-    void setYpos(int y);
+	/***
+	 *  Set the vertical position of the warlord to the given value.
+	 * @param y
+	 */
+	void setYpos(int y);
 
-    /***
-     * Determine if this wall has been destroyed.
-     *
-     * @return true if the ball has collided with this wall. Otherwise, return false.
-     */
-    boolean isDestroyed();
+	/***
+	 * Determine if this wall has been destroyed.
+	 *
+	 * @return true if the ball has collided with this wall. Otherwise, return false.
+	 */
+	boolean isDestroyed();
 }
