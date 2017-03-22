@@ -7,6 +7,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import java.util.List;
 
 public class GameView {
 
@@ -33,6 +34,14 @@ public class GameView {
 	private void clearCanvas() {
 		gc.setFill(Color.BLACK);
 		gc.fillRect(0, 0, 800, 600);
+	}
+
+	public void drawObjects(List<GameObject> gameObjects) {
+		clearCanvas();
+		for (GameObject gameObject : gameObjects) {
+			gc.setFill(Color.GREEN);
+			gc.fillOval(gameObject.getXPos(), gameObject.getYPos(), 20, 20);
+		}
 	}
 
 	public Scene getScene() {

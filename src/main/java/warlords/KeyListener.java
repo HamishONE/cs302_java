@@ -1,8 +1,6 @@
 package warlords;
 
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyEvent;
 import java.util.List;
 
 public class KeyListener {
@@ -16,12 +14,16 @@ public class KeyListener {
 	}
 
 	public void startListening() {
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				for ( KeyboardInput currentPlayer: playerList) {
-					currentPlayer.keyPress(event.getCode());
-				}
+
+		scene.setOnKeyPressed(event -> {
+			for (KeyboardInput currentPlayer: playerList) {
+				currentPlayer.keyPress(event.getCode());
+			}
+		});
+
+		scene.setOnKeyReleased(event -> {
+			for (KeyboardInput currentPlayer: playerList) {
+				currentPlayer.keyRelease(event.getCode());
 			}
 		});
 	}

@@ -21,8 +21,13 @@ public class KeyboardInput implements IUserInput {
 		InputType inputType = keyMap.get(keyCode);
 		if (inputType != null) {
 			lastKeyPress = inputType;
-			System.out.println("KEY PRESS");
 		}
 	}
 
+	public void keyRelease(KeyCode keyCode) {
+		InputType inputType = keyMap.get(keyCode);
+		if (inputType != null) {
+			lastKeyPress = null;
+		}
+	}
 }
