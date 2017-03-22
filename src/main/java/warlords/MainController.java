@@ -4,34 +4,45 @@ import javafx.scene.input.KeyCode;
 import warlordstest.IGame;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Timer;
 
 public class MainController implements IGame {
 
 	//TODO REMOVE THIS TEMP MAP
 	static HashMap<KeyCode, InputType> P1Map = new HashMap<>();
+	static HashMap<KeyCode, InputType> P2Map = new HashMap<>();
+	static HashMap<KeyCode, InputType> P3Map = new HashMap<>();
 	static {
 		P1Map.put(KeyCode.LEFT, InputType.LEFT);
 		P1Map.put(KeyCode.RIGHT, InputType.RIGHT);
+		P2Map.put(KeyCode.A, InputType.LEFT);
+		P2Map.put(KeyCode.D, InputType.RIGHT);
+		P3Map.put(KeyCode.NUMPAD4, InputType.LEFT);
+		P3Map.put(KeyCode.NUMPAD6, InputType.RIGHT);
 	}
 
 	private Ball ball;
-	private Paddle paddle;
 	private GameView gameView;
-	private KeyboardInput player1;
 	private boolean isClosed = false;
+	private ArrayList<Paddle> paddles = new ArrayList<>(4);
+	private ArrayList<IUserInput> players = new ArrayList<>(4);
 
 	public Ball getBall() {
 		return ball;
 	}
 
-	public Paddle getPaddle() {
-		return paddle;
-	}
-
 	public void setupGameObjects() {
+
 		ball = new Ball();
-		paddle = new Paddle();
+
+		paddles.add(new Paddle());
+		paddles.add(new Paddle());
+		paddles.add(new Paddle());
+		paddles.add(new Paddle());
+
+		players.add(new KeyboardInput(P1Map));
+		players.add(new KeyboardInput(P2Map));
+		players.add(new KeyboardInput(P3Map));
+		players.add(new ArtificialUser());
 	}
 
 	public void beginGame() {
@@ -39,9 +50,10 @@ public class MainController implements IGame {
 		setupGameObjects();
 		gameView = new GameView();
 
-		player1 = new KeyboardInput(P1Map);
 		KeyListener listener = new KeyListener(gameView.getScene(), new ArrayList<KeyboardInput>() {{
-			add(player1);
+			add((KeyboardInput) players.get(0));
+			add((KeyboardInput) players.get(1));
+			add((KeyboardInput) players.get(2));
 		}});
 		listener.startListening();
 
@@ -53,7 +65,7 @@ public class MainController implements IGame {
 					tick();
 					drawFrame();
 					try {
-						Thread.sleep(1);
+						Thread.sleep(10);
 					} catch (InterruptedException e) {
 						System.out.println("XCEPpttetl");
 						e.printStackTrace();
@@ -67,17 +79,19 @@ public class MainController implements IGame {
 
 	private void processInput() {
 
-		InputType inputType = player1.getInputType();
-		if (inputType == InputType.LEFT) {
-			paddle.moveLeft();
-		} else if (inputType == InputType.RIGHT) {
-			paddle.moveRight();
+		for (int i=0; i<4; i++) {
+			InputType input = players.get(i).getInputType();
+			if (input == InputType.LEFT) {
+				paddles.get(i).moveLeft();
+			} else if (input == InputType.RIGHT) {
+				paddles.get(i).moveRight();
+			}
 		}
 	}
 
 	private void drawFrame() {
 		ArrayList<GameObject> gameObjects = new ArrayList<>();
-		gameObjects.add(paddle);
+		gameObjects.addAll(paddles);
 		gameView.drawObjects(gameObjects);
 	}
 
