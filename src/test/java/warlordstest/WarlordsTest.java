@@ -21,11 +21,11 @@ public class WarlordsTest extends TestSuite {
 	@Before
 	public void setUp(){
 
-		//Instantiate objects to initialise the fields - and preferably no other game objects, to minimise the possibility of conflicts
-		//All game objects should be instantiated at coordinates (0,0) with zero velocity
-		Ball ball = new Ball();
-		this.ball = ball;
-		this.game = new Game(ball);
+		MainController mainController = new MainController();
+		mainController.beginGame();
+		this.game = mainController;
+		this.ball = mainController.getBall();
+
 		this.paddle = new Paddle();
 		this.player1Wall = new Wall();
 		this.player1 = new Warlord();
