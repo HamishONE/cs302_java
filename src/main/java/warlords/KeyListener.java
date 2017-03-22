@@ -9,13 +9,13 @@ import javafx.scene.input.KeyEvent;
 import java.util.HashMap;
 import java.util.List;
 
-public class KeyListner {
+public class KeyListener {
 
 	private Scene scene;
 	private List<KeyboardInput> playerList;
 
 
-	public KeyListner(Scene scene, List<KeyboardInput> playerList) {
+	public KeyListener(Scene scene, List<KeyboardInput> playerList) {
 		this.scene = scene;
 		this.playerList = playerList;
 	}
