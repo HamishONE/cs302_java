@@ -5,7 +5,6 @@ import warlordstest.IGame;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainController implements IGame {
 
@@ -20,7 +19,7 @@ public class MainController implements IGame {
 	private Paddle paddle;
 	private GameView gameView;
 	private KeyboardInput player1;
-	private Timer timer;
+	private boolean isClosed = false;
 
 	public Ball getBall() {
 		return ball;
@@ -46,15 +45,24 @@ public class MainController implements IGame {
 		}});
 		listener.startListening();
 
-		timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
+		Thread thread = new Thread() {
 			@Override
 			public void run() {
-				processInput();
-				tick();
-				drawFrame();
+				while (!isClosed) {
+					processInput();
+					tick();
+					drawFrame();
+					try {
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+						System.out.println("XCEPpttetl");
+						e.printStackTrace();
+					}
+				}
 			}
-		}, 0, 10);
+		};
+		thread.setName("Work Harder");
+		thread.start();
 	}
 
 	private void processInput() {
@@ -89,6 +97,6 @@ public class MainController implements IGame {
 	}
 
 	void close() {
-		timer.cancel();
+		isClosed = true;
 	}
 }

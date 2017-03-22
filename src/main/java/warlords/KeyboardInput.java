@@ -14,7 +14,7 @@ public class KeyboardInput implements IUserInput {
 
 	@Override
 	public InputType getInputType() {
-		return lastKeyPress;
+			return lastKeyPress;
 	}
 
 	public void keyPress(KeyCode keyCode) {
@@ -26,7 +26,7 @@ public class KeyboardInput implements IUserInput {
 
 	public void keyRelease(KeyCode keyCode) {
 		InputType inputType = keyMap.get(keyCode);
-		if (inputType != null) {
+		if (inputType == lastKeyPress) {
 			lastKeyPress = null;
 		}
 	}

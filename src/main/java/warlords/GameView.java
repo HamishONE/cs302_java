@@ -11,6 +11,9 @@ import java.util.List;
 
 public class GameView {
 
+	private static final int GAME_HEIGHT = 450;
+	private static final int GAME_WIDTH = 1200;
+
 	private Scene scene;
 	private GraphicsContext gc;
 
@@ -22,7 +25,7 @@ public class GameView {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Canvas canvas = new Canvas(800, 600);
+		Canvas canvas = new Canvas(GAME_WIDTH, GAME_HEIGHT);
 		grid.add(canvas, 0, 0);
 		gc = canvas.getGraphicsContext2D();
 		clearCanvas();
@@ -33,7 +36,7 @@ public class GameView {
 
 	private void clearCanvas() {
 		gc.setFill(Color.BLACK);
-		gc.fillRect(0, 0, 800, 600);
+		gc.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 	}
 
 	public void drawObjects(List<GameObject> gameObjects) {
