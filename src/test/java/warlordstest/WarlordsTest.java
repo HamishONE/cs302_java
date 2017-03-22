@@ -2,6 +2,7 @@ package warlordstest;
 
 import junit.framework.TestSuite;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,11 +13,10 @@ public class WarlordsTest extends TestSuite {
 
 	private IGame game;
 	private IBall ball;
-
-	//private IPaddle paddle;
-	//private IWall player1Wall;
-	//private IWarlord player1;
-	//private IWarlord player2;
+	private IPaddle paddle;
+	private IWall player1Wall;
+	private IWarlord player1;
+	private IWarlord player2;
 
 	@Before
 	public void setUp(){
@@ -26,6 +26,10 @@ public class WarlordsTest extends TestSuite {
 		Ball ball = new Ball();
 		this.ball = ball;
 		this.game = new Game(ball);
+		this.paddle = new Paddle();
+		this.player1Wall = new Wall();
+		this.player1 = new Warlord();
+		this.player2 = new Warlord();
 	}
 
 	@Test
@@ -42,7 +46,7 @@ public class WarlordsTest extends TestSuite {
 		assertTrue("If unimpeded, the ball should be moved by its velocity in each direction", this.ball.getXPos() == 550 && this.ball.getYPos() ==  550);
 	}
 
-	/*
+	@Ignore
 	@Test
 	public void testBallCollisionWithBoundary(){
 
@@ -60,6 +64,7 @@ public class WarlordsTest extends TestSuite {
 
 	}
 
+	@Ignore
 	@Test
 	public void testBallCollisionWithPaddle(){
 
@@ -69,7 +74,7 @@ public class WarlordsTest extends TestSuite {
 		this.ball.setYVelocity(10);
 
 		this.paddle.setXPos(500);
-		this.paddle.setYpos(500);
+		this.paddle.setYPos(500);
 
 		this.game.tick();
 
@@ -78,6 +83,7 @@ public class WarlordsTest extends TestSuite {
 
 	}
 
+	@Ignore
 	@Test
 	public void testBallCollisionWithWall(){
 
@@ -87,7 +93,7 @@ public class WarlordsTest extends TestSuite {
 		this.ball.setYVelocity(10);
 
 		this.player1Wall.setXPos(500);
-		this.player1Wall.setYpos(500);
+		this.player1Wall.setYPos(500);
 
 		assertFalse("The wall should not be destroyed yet", this.player1Wall.isDestroyed());
 
@@ -99,6 +105,7 @@ public class WarlordsTest extends TestSuite {
 
 	}
 
+	@Ignore
 	@Test
 	public void testBallCollisionWithWarlord(){
 
@@ -108,7 +115,7 @@ public class WarlordsTest extends TestSuite {
 		this.ball.setYVelocity(10);
 
 		this.player1.setXPos(500);
-		this.player1.setYpos(500);
+		this.player1.setYPos(500);
 
 		assertFalse("The warlord should not be dead yet", this.player1.isDead());
 
@@ -118,6 +125,7 @@ public class WarlordsTest extends TestSuite {
 
 	}
 
+	@Ignore
 	@Test
 	public void testBallCollisionAtHighSpeed(){
 
@@ -127,7 +135,7 @@ public class WarlordsTest extends TestSuite {
 		this.ball.setYVelocity(300);
 
 		this.paddle.setXPos(500);
-		this.paddle.setYpos(500);
+		this.paddle.setYPos(500);
 
 		this.game.tick();
 
@@ -136,6 +144,7 @@ public class WarlordsTest extends TestSuite {
 
 	}
 
+	@Ignore
 	@Test
 	public void testGameEndFromKnockout(){
 
@@ -148,7 +157,7 @@ public class WarlordsTest extends TestSuite {
 		this.ball.setYVelocity(10);
 
 		this.player1.setXPos(500);
-		this.player1.setYpos(500);
+		this.player1.setYPos(500);
 
 		this.game.tick();
 
@@ -157,6 +166,7 @@ public class WarlordsTest extends TestSuite {
 
 	}
 
+	@Ignore
 	@Test
 	public void testGameEndFromTimeout(){
 
@@ -171,7 +181,4 @@ public class WarlordsTest extends TestSuite {
 		assertTrue("Player 1 should have won", this.player1.hasWon());
 
 	}
-	*/
-
-
 }

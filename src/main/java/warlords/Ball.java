@@ -1,73 +1,35 @@
 package warlords;
 
-import warlordstest.*;
+import warlordstest.IBall;
 
-public class Ball implements IBall {
+public class Ball extends GameObject implements IBall {
 
-	private int x = 0, y = 0, dx = 0, dy = 0;
+	private int dX = 0;
+	private int dY = 0;
 
-	/***
-	 *  Set the horizontal position of the ball to the given value.
-	 * @param x
-	 */
-	public void setXPos(int x) {
-		this.x = x;
-	}
-
-	/***
-	 * Set the vertical position of the ball to the given value.
-	 * @param y
-	 */
-	public void setYPos(int y) {
-		this.y = y;
-	}
-
-	/***
-	 * @return the horizontal position of the ball.
-	 */
-	public int getXPos() {
-		return x;
-	}
-
-	/***
-	 * @return the vertical position of the ball.
-	 */
-	public int getYPos() {
-		return y;
-	}
-
-	/***
-	 *  Set the horizontal velocity of the ball to the given value.
-	 * @param dX
-	 */
-	public void setXVelocity(int dX) {
-		this.dx = dX;
-	}
-
-	/***
-	 *  Set the vertical velocity of the ball to the given value.
-	 * @param dY
-	 */
-	public void setYVelocity(int dY) {
-		this.dy = dY;
-	}
-
-	/***
-	 * @return the horizontal velocity of the ball.
-	 */
-	public int getXVelocity() {
-		return dx;
-	}
-
-	/***
-	 * @return the vertical velocity of the ball.
-	 */
-	public int getYVelocity() {
-		return dy;
-	}
-
+	@Override
 	public void tick() {
-		x += dx;
-		y += dy;
+		x += dX;
+		y += dY;
+	}
+
+	@Override
+	public void setXVelocity(int dX) {
+		this.dX = dX;
+	}
+
+	@Override
+	public void setYVelocity(int dY) {
+		this.dY = dY;
+	}
+
+	@Override
+	public int getXVelocity() {
+		return dX;
+	}
+
+	@Override
+	public int getYVelocity() {
+		return dY;
 	}
 }
