@@ -22,7 +22,7 @@ public class WarlordsTest extends TestSuite {
 	public void setUp(){
 
 		MainController mainController = new MainController();
-		mainController.beginGame();
+		mainController.setupGameObjects();
 		this.game = mainController;
 		this.ball = mainController.getBall();
 

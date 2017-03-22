@@ -1,7 +1,6 @@
 package warlords;
 
 import javafx.scene.input.KeyCode;
-
 import java.util.HashMap;
 
 public class KeyboardInput implements IUserInput {
@@ -20,7 +19,7 @@ public class KeyboardInput implements IUserInput {
 
 	public void keyPress(KeyCode keyCode) {
 		InputType inputType = keyMap.get(keyCode);
-		if(inputType != null) {
+		if (inputType != null) {
 			lastKeyPress = inputType;
 			System.out.println("KEY PRESS");
 		}
