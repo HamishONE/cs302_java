@@ -28,10 +28,45 @@ public class MainController implements IGame {
 	private GameView gameView;
 	private ArrayList<Paddle> paddles = new ArrayList<>(4);
 	private ArrayList<IUserInput> players = new ArrayList<>(4);
+	private ArrayList<Wall> walls = new ArrayList<>();
 
 	// FOR TESTING
 	public Ball getBall() {
 		return ball;
+	}
+
+	private void addWalls(int xOffset, int yOffset, double angleOffset) {
+
+		double initialRadius = 150;
+		double wallWidth = 20;
+		double padding = 2;
+		int rows = 3;
+
+		double radius = initialRadius;
+		for (int row=0; row<rows; row++) {
+			double lengthAvailable = radius * PI/2;
+			int num = (int) Math.floor((lengthAvailable - padding) / (wallWidth + padding));
+
+			double lengthUsed = num*wallWidth + (num+1)*padding;
+			double unusedSpace = lengthAvailable - lengthUsed;
+			double additionalPadding = unusedSpace / (num+1);
+			padding += additionalPadding;
+			double angle = angleOffset;
+
+			for (int i = 0; i < num; i++) {
+
+				angle += (padding + wallWidth / 2) / radius;
+
+				double x = radius * Math.cos(angle);
+				double y = radius * Math.sin(angle);
+
+				Wall wall = new Wall((int)x + xOffset, (int)y + yOffset);
+				walls.add(wall);
+
+				angle += (wallWidth / 2) / radius;
+			}
+			radius += wallWidth + padding*2;
+		}
 	}
 
 	public void setupGameObjects() {
@@ -46,11 +81,15 @@ public class MainController implements IGame {
 		paddles.add(new Paddle(0, 600, 3*PI/2, game));
 		paddles.add(new Paddle(900, 600, PI, game));
 
-
 		players.add(new KeyboardInput(P1Map));
 		players.add(new KeyboardInput(P2Map));
 		players.add(new KeyboardInput(P3Map));
 		players.add(new ArtificialUser());
+
+		addWalls(0, 0, 0);
+		addWalls(game.getWidth(), 0, PI/2);
+		addWalls(game.getWidth(), game.getHeight(), PI);
+		addWalls(0, game.getHeight(), 3*PI/2);
 	}
 
 	public void beginGame() {
@@ -118,6 +157,7 @@ public class MainController implements IGame {
 		ArrayList<GameObject> gameObjects = new ArrayList<>();
 		gameObjects.add(ball);
 		gameObjects.addAll(paddles);
+		gameObjects.addAll(walls);
 		gameView.drawObjects(gameObjects);
 	}
 
