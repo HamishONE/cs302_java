@@ -26,7 +26,7 @@ public class WarlordsTest extends TestSuite {
 		this.game = mainController;
 		this.ball = mainController.getBall();
 
-		this.paddle = new Paddle();
+		this.paddle = new Paddle(0,0);
 		this.player1Wall = new Wall();
 		this.player1 = new Warlord();
 		this.player2 = new Warlord();

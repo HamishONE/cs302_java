@@ -16,8 +16,8 @@ public class MainController implements IGame {
 		P1Map.put(KeyCode.RIGHT, InputType.RIGHT);
 		P2Map.put(KeyCode.A, InputType.LEFT);
 		P2Map.put(KeyCode.D, InputType.RIGHT);
-		P3Map.put(KeyCode.NUMPAD4, InputType.LEFT);
-		P3Map.put(KeyCode.NUMPAD6, InputType.RIGHT);
+		P3Map.put(KeyCode.DIGIT4, InputType.LEFT);
+		P3Map.put(KeyCode.DIGIT6, InputType.RIGHT);
 	}
 
 	private Ball ball;
@@ -34,10 +34,10 @@ public class MainController implements IGame {
 
 		ball = new Ball();
 
-		paddles.add(new Paddle());
-		paddles.add(new Paddle());
-		paddles.add(new Paddle());
-		paddles.add(new Paddle());
+		paddles.add(new Paddle(10, 10));
+		paddles.add(new Paddle(100, 100));
+		paddles.add(new Paddle(200, 200));
+		paddles.add(new Paddle(300, 300));
 
 		players.add(new KeyboardInput(P1Map));
 		players.add(new KeyboardInput(P2Map));

@@ -9,6 +9,11 @@ public class Paddle extends GameObject implements IPaddle {
 
 	}
 
+	public Paddle(int x, int y) {
+		setXPos(x);
+		setYPos(y);
+	}
+
 	public void moveLeft() {
 		x -= 1;
 	}
