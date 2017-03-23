@@ -2,8 +2,13 @@ package warlords;
 
 public abstract class GameObject {
 
-	protected int x = 0;
-	protected int y = 0;
+	protected int x;
+	protected int y;
+
+	public GameObject(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 
 	/***
 	 *  Set the horizontal position of the ball to the given value.

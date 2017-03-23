@@ -4,6 +4,10 @@ import warlordstest.IWarlord;
 
 public class Warlord extends GameObject implements IWarlord {
 
+	public Warlord(int x, int y) {
+		super(x, y);
+	}
+
 	@Override
 	public boolean isDead() {
 		return false;
