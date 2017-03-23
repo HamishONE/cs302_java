@@ -43,7 +43,7 @@ public class GameView {
 		clearCanvas();
 		for (GameObject gameObject : gameObjects) {
 			gc.setFill(Color.GREEN);
-			gc.fillOval(gameObject.getXPos(), gameObject.getYPos(), 20, 20);
+			gc.fillOval(gameObject.getXPos()-10, gameObject.getYPos()-10, 20, 20);
 		}
 	}
 

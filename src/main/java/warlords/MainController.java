@@ -4,6 +4,7 @@ import javafx.scene.input.KeyCode;
 import warlordstest.IGame;
 import java.util.ArrayList;
 import java.util.HashMap;
+import static java.lang.Math.PI;
 
 public class MainController implements IGame {
 
@@ -38,10 +39,10 @@ public class MainController implements IGame {
 		game = new Game(900, 600);
 		ball = new Ball(0, 0);
 
-		paddles.add(new Paddle(250, 0, game));
-		paddles.add(new Paddle(0, 0, game));
-		paddles.add(new Paddle(0, 0, game));
-		paddles.add(new Paddle(0, 0, game));
+		paddles.add(new Paddle(0, 0, 0.0, game));
+		paddles.add(new Paddle(900, 0, PI/2, game));
+		paddles.add(new Paddle(0, 600, 3*PI/2, game));
+		paddles.add(new Paddle(900, 600, PI, game));
 
 
 		players.add(new KeyboardInput(P1Map));
