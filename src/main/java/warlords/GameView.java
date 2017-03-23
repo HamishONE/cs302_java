@@ -45,7 +45,7 @@ public class GameView {
 		clearCanvas();
 		for (GameObject gameObject : gameObjects) {
 			gc.save(); // saves the current state on stack, including the current transform
-			Rotate r = new Rotate(gameObject.getRotation(), gameObject.getXPos(), gameObject.getYPos());
+			Rotate r = new Rotate(gameObject.getRotation()*(180/Math.PI), gameObject.getXPos(), gameObject.getYPos());
 			gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
 			gc.drawImage(gameObject.getSprite(), gameObject.getXPos(), gameObject.getYPos());
 			gc.restore(); // back to original state (before rotation)

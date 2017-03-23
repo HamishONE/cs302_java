@@ -77,9 +77,9 @@ public class MainController implements IGame {
 		ball.generateRandomMovement(5);
 
 		paddles.add(new Paddle(0, 0, 0.0, game));
-		paddles.add(new Paddle(900, 0, PI/2, game));
-		paddles.add(new Paddle(0, 600, 3*PI/2, game));
-		paddles.add(new Paddle(900, 600, PI, game));
+		paddles.add(new Paddle(game.getWidth(), 0, PI/2, game));
+		paddles.add(new Paddle(0, game.getHeight(), 3*PI/2, game));
+		paddles.add(new Paddle(game.getWidth(), game.getHeight(), PI, game));
 
 		players.add(new KeyboardInput(P1Map));
 		players.add(new KeyboardInput(P2Map));
