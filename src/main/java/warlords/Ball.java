@@ -7,6 +7,10 @@ public class Ball extends GameObject implements IBall {
 	private int dX = 0;
 	private int dY = 0;
 
+	public Ball(int x, int y) {
+		super(x, y);
+	}
+
 	@Override
 	public void tick() {
 		x += dX;
