@@ -20,18 +20,22 @@ public class MainController implements IGame {
 		P3Map.put(KeyCode.NUMPAD6, InputType.RIGHT);
 	}
 
+	private boolean isClosed = false;
+
+	private Game game;
 	private Ball ball;
 	private GameView gameView;
-	private boolean isClosed = false;
 	private ArrayList<Paddle> paddles = new ArrayList<>(4);
 	private ArrayList<IUserInput> players = new ArrayList<>(4);
 
+	// FOR TESTING
 	public Ball getBall() {
 		return ball;
 	}
 
 	public void setupGameObjects() {
 
+		game = new Game(900, 600);
 		ball = new Ball();
 
 		paddles.add(new Paddle());
@@ -48,7 +52,7 @@ public class MainController implements IGame {
 	public void beginGame() {
 
 		setupGameObjects();
-		gameView = new GameView();
+		gameView = new GameView(game);
 
 		KeyListener listener = new KeyListener(gameView.getScene(), new ArrayList<KeyboardInput>() {{
 			add((KeyboardInput) players.get(0));
