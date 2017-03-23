@@ -26,17 +26,15 @@ public class WarlordsTest extends TestSuite {
 		this.game = mainController;
 		this.ball = mainController.getBall();
 
-<<<<<<< HEAD
-		this.paddle = new Paddle(0,0);
-		this.player1Wall = new Wall();
-		this.player1 = new Warlord();
-		this.player2 = new Warlord();
-=======
-		this.paddle = new Paddle(0, 0);
+		this.paddle = new Paddle(0,0, 0.0, new Game(10,10));
 		this.player1Wall = new Wall(0, 0);
 		this.player1 = new Warlord(0, 0);
 		this.player2 = new Warlord(0, 0);
->>>>>>> 754dd8733a878674da1385c8390a3c4ab3ee299b
+
+		this.paddle = new Paddle(0, 0, 0.0, new Game(10,10));
+		this.player1Wall = new Wall(0, 0);
+		this.player1 = new Warlord(0, 0);
+		this.player2 = new Warlord(0, 0);
 	}
 
 	@Test
