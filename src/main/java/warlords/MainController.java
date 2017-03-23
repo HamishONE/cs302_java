@@ -37,7 +37,9 @@ public class MainController implements IGame {
 	public void setupGameObjects() {
 
 		game = new Game(900, 600);
-		ball = new Ball(0, 0);
+
+		ball = new Ball(game.getWidth()/2, game.getHeight()/2);
+		ball.generateRandomMovement(5);
 
 		paddles.add(new Paddle(0, 0, 0.0, game));
 		paddles.add(new Paddle(900, 0, PI/2, game));
@@ -69,6 +71,7 @@ public class MainController implements IGame {
 				while (!isClosed) {
 					processInput();
 					tick();
+					checkCollisions();
 					drawFrame();
 					try {
 						Thread.sleep(10);
@@ -95,8 +98,25 @@ public class MainController implements IGame {
 		}
 	}
 
+	private void checkCollisions() {
+
+		if (ball.getXPos() > game.getWidth()) {
+			ball.rebound(Math.PI/2);
+		}
+		else if (ball.getXPos() < 0) {
+			ball.rebound(Math.PI/2);
+		}
+		else if (ball.getYPos() > game.getHeight()) {
+			ball.rebound(0);
+		}
+		else if (ball.getYPos() < 0) {
+			ball.rebound(0);
+		}
+	}
+
 	private void drawFrame() {
 		ArrayList<GameObject> gameObjects = new ArrayList<>();
+		gameObjects.add(ball);
 		gameObjects.addAll(paddles);
 		gameView.drawObjects(gameObjects);
 	}
