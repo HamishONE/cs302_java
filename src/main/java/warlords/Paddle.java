@@ -23,6 +23,10 @@ public class Paddle extends GameObject implements IPaddle {
 		setPosition();
 	}
 
+	public Double getAngle() {
+		return theta;
+	}
+
 	@Override
 	public void tick() {
 	}

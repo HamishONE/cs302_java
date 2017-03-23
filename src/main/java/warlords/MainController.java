@@ -145,6 +145,15 @@ public class MainController implements IGame {
 		else if (ball.getYPos() < 0) {
 			ball.rebound(0);
 		}
+
+		for (Paddle paddle : paddles) {
+			int xDiff = Math.abs(ball.getXPos() - paddle.getXPos());
+			int yDiff = Math.abs(ball.getYPos() - paddle.getYPos());
+			if (xDiff < 20 && yDiff < 20) {
+				double surfaceAngle = paddle.getAngle() - PI/2;
+				ball.rebound(surfaceAngle);
+			}
+		}
 	}
 
 	private void drawFrame() {
