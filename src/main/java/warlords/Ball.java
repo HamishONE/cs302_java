@@ -9,7 +9,7 @@ public class Ball extends GameObject implements IBall {
 	private double dY = 0;
 
 	public Ball(int x, int y) {
-		super(x, y);
+		super(x, y, null);
 	}
 
 	@Override

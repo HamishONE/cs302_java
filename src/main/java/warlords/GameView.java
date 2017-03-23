@@ -7,6 +7,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
+
 import java.util.List;
 
 public class GameView {
@@ -42,8 +44,16 @@ public class GameView {
 	public void drawObjects(List<GameObject> gameObjects) {
 		clearCanvas();
 		for (GameObject gameObject : gameObjects) {
-			gc.setFill(Color.GREEN);
-			gc.fillOval(gameObject.getXPos()-10, gameObject.getYPos()-10, 20, 20);
+			gc.save(); // saves the current state on stack, including the current transform
+			Rotate r = new Rotate(gameObject.getRotation(), gameObject.getXPos(), gameObject.getYPos());
+			gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+			gc.drawImage(gameObject.getSprite(), gameObject.getXPos(), gameObject.getYPos());
+			gc.restore(); // back to original state (before rotation)
+
+			//http://stackoverflow.com/questions/18260421/how-to-draw-image-rotated-on-javafx-canvas
+			//TODO need to make sure that any sprites are pivoting from center of sprite, not point where they are being placed
+			//TODO need to talk to Hummush on where we want the origin of sprites to be...
+
 		}
 	}
 

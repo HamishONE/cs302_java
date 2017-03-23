@@ -10,11 +10,12 @@ public class Paddle extends GameObject implements IPaddle {
 	private Double theta_init;
 	private int x_init;
 	private int y_init;
+	private Double rotation = 0.0;
 
 	private double ANGLE_DIFF = PI/150;
 
 	public Paddle(int x, int y, Double theta, Game game) {
-		super(x, y);
+		super(x, y, null);
 		x_init = x;
 		y_init = y;
 		theta_init = theta;
@@ -64,5 +65,10 @@ public class Paddle extends GameObject implements IPaddle {
 	private void setPosition() {
 		x = (int)((5.0/18.0)*game.getWidth()*cos(theta))+x_init;
 		y = (int)((5.0/12.0)*game.getHeight()*sin(theta))+y_init;
+	}
+
+	@Override
+	public Double getRotation() {
+		return rotation;
 	}
 }
