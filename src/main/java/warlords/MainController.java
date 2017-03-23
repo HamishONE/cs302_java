@@ -91,9 +91,9 @@ public class MainController implements IGame {
 		for (int i=0; i<4; i++) {
 			InputType input = players.get(i).getInputType();
 			if (input == InputType.LEFT) {
-				paddles.get(i).moveCW();
+				paddles.get(i).moveLeft();
 			} else if (input == InputType.RIGHT) {
-				paddles.get(i).moveCCW();
+				paddles.get(i).moveRight();
 			}
 		}
 	}

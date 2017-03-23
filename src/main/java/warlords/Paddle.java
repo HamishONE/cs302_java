@@ -27,14 +27,30 @@ public class Paddle extends GameObject implements IPaddle {
 	public void tick() {
 	}
 
-	public void moveCW() {
+	public void moveLeft() {
+		if (y_init < game.getWidth()/2) {
+			moveCW();
+		} else {
+			moveCCW();
+		}
+	}
+
+	public void moveRight() {
+		if (y_init > game.getWidth()/2) {
+			moveCW();
+		} else {
+			moveCCW();
+		}
+	}
+
+	private void moveCW() {
 		if (theta < theta_init+ PI/2) {
 			theta += ANGLE_DIFF;
 			setPosition();
 		}
 	}
 
-	public void moveCCW() {
+	private void moveCCW() {
 		if (theta > theta_init) {
 			theta -= ANGLE_DIFF;
 			setPosition();
