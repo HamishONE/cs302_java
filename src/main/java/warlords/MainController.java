@@ -21,7 +21,7 @@ public class MainController implements IGame {
 		P3Map.put(KeyCode.DIGIT6, InputType.RIGHT);
 	}
 
-	private boolean isClosed = false;
+	private boolean loopRunning = false;
 
 	private Game game;
 	private Ball ball;
@@ -104,25 +104,19 @@ public class MainController implements IGame {
 		}});
 		listener.startListening();
 
-		Thread thread = new Thread() {
-			@Override
-			public void run() {
-				while (!isClosed) {
-					processInput();
-					tick();
-					checkCollisions();
-					drawFrame();
-					try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						System.out.println("XCEPpttetl");
-						e.printStackTrace();
-					}
-				}
-			}
-		};
-		thread.setName("Work Harder");
-		thread.start();
+		loopRunning = true;
+	}
+
+	public void runLoop() {
+
+		if (!loopRunning) {
+			return;
+		}
+
+		processInput();
+		tick();
+		checkCollisions();
+		drawFrame();
 	}
 
 	private void processInput() {
@@ -174,9 +168,5 @@ public class MainController implements IGame {
 	@Override
 	public void setTimeRemaining(int seconds) {
 
-	}
-
-	void close() {
-		isClosed = true;
 	}
 }
