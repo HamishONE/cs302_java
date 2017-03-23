@@ -38,10 +38,10 @@ public class MainController implements IGame {
 		game = new Game(900, 600);
 		ball = new Ball(0, 0);
 
-		paddles.add(new Paddle(10, 10));
-		paddles.add(new Paddle(100, 100));
-		paddles.add(new Paddle(200, 200));
-		paddles.add(new Paddle(300, 300));
+		paddles.add(new Paddle(250, 0, game));
+		paddles.add(new Paddle(0, 0, game));
+		paddles.add(new Paddle(0, 0, game));
+		paddles.add(new Paddle(0, 0, game));
 
 
 		players.add(new KeyboardInput(P1Map));
