@@ -9,7 +9,7 @@ public class Ball extends GameObject implements IBall {
 	private double dY = 0;
 
 	public Ball(int x, int y) {
-		super(x, y, null);
+		super(x, y, "/green_circle.png");
 	}
 
 	@Override
@@ -61,8 +61,5 @@ public class Ball extends GameObject implements IBall {
 		// Transform dU and dV back into absolute coordinates
 		dX = dU*cos(phi) - dV*sin(phi);
 		dY = dU*sin(phi) + dV*cos(phi);
-
-		// Move the ball forward one tick
-		tick();
 	}
 }

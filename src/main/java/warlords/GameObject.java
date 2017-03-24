@@ -15,7 +15,11 @@ public abstract class GameObject {
 
 		width = 24;
 		height = 24;
-		spritePath = "/test_sprite.png";
+		if (imgPath != null) {
+			spritePath = imgPath;
+		} else {
+			spritePath = "/test_sprite.png";
+		}
 	}
 
 	/***

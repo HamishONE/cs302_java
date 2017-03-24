@@ -28,29 +28,38 @@ public class CollisionDetector {
 			y += dY;
 
 			for (Paddle paddle : paddles) {
-				if (paddle.getRectangle().contains(x, y)) {
-					ball.rebound(paddle.getRotation());
+				if (paddle.getRectangle().intersects(x-ball.getWidth()/2, y-ball.getHeight()/2, ball.getWidth(),
+						ball.getHeight())) {
+					reboundBall(x, y, num - i, paddle.getRotation());
 					return;
 				}
 			}
 
-			if (ball.getXPos() >= game.getWidth()) {
-				ball.rebound(Math.PI/2);
+			if (x + ball.getWidth()/2 >= game.getWidth()) {
+				reboundBall(x, y, num - i, Math.PI/2);
 				return;
 			}
-			else if (ball.getXPos() <= 0) {
-				ball.rebound(Math.PI/2);
+			else if (x <= ball.getWidth()/2) {
+				reboundBall(x, y, num - i, Math.PI/2);
 				return;
 			}
-			else if (ball.getYPos() >= game.getHeight()) {
-				ball.rebound(0);
+			else if (y + ball.getHeight()/2 >= game.getHeight()) {
+				reboundBall(x, y, num - i, 0);
 				return;
 			}
-			else if (ball.getYPos() <= 0) {
-				ball.rebound(0);
+			else if (y <= ball.getHeight()/2) {
+				reboundBall(x, y, num - i, 0);
 				return;
 			}
 
+			ball.tick();
+		}
+	}
+
+	private void reboundBall(double x, double y, int remaining, double surfaceAngle) {
+
+		ball.rebound(surfaceAngle);
+		for (int i=0; i<remaining; i++) {
 			ball.tick();
 		}
 	}

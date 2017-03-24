@@ -16,7 +16,7 @@ public class Paddle extends GameObject implements IPaddle {
 	private double ANGLE_DIFF = PI/150;
 
 	public Paddle(int x, int y, Double theta, Game game) {
-		super(x, y, null);
+		super(x, y, "/red.png");
 		this.width = 100;
 		this.height = 20;
 		x_init = x;
