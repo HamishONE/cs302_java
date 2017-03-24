@@ -54,7 +54,7 @@ public class GameView {
 			Image image = getImage(gameObject.getSpritePath());
 			double x = gameObject.getXPos() - gameObject.getWidth()/2;
 			double y = gameObject.getYPos() - gameObject.getHeight()/2;
-			gc.drawImage(image, x, y);
+			gc.drawImage(image, x, y, gameObject.getWidth(), gameObject.getHeight());
 
 			gc.restore(); // back to original state (before rotation)
 		}
