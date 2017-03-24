@@ -84,7 +84,7 @@ public class MainController implements IGame {
 		players.add(new KeyboardInput(P1Map));
 		players.add(new KeyboardInput(P2Map));
 		players.add(new KeyboardInput(P3Map));
-		players.add(new ArtificialUser());
+		players.add(new ArtificialUser(ball, paddles.get(3)));
 
 		addWalls(0, 0, 0);
 		addWalls(game.getWidth(), 0, PI/2);
