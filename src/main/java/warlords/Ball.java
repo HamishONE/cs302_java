@@ -40,7 +40,19 @@ public class Ball extends GameObject implements IBall {
 
 	public void generateRandomMovement(int speed) {
 
-		double angle = random() * 2*PI;
+		double MIN_ANGLE = 0.3;
+
+		double angle = random() * (2*PI - MIN_ANGLE*8) + MIN_ANGLE;
+		if (angle > PI/2 - MIN_ANGLE) {
+			angle += MIN_ANGLE*2;
+		}
+		if (angle > PI - MIN_ANGLE) {
+			angle += MIN_ANGLE*2;
+		}
+		if (angle > 3*PI/2 - MIN_ANGLE) {
+			angle += MIN_ANGLE*2;
+		}
+
 		dX = speed * cos(angle);
 		dY = speed * sin(angle);
 	}
