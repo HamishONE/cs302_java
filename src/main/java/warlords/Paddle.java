@@ -1,7 +1,9 @@
 package warlords;
 
 import warlordstest.IPaddle;
-
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import static java.lang.Math.*;
 
 public class Paddle extends GameObject implements IPaddle {
@@ -71,5 +73,13 @@ public class Paddle extends GameObject implements IPaddle {
 	@Override
 	public Double getRotation() {
 		return theta - PI/2;
+	}
+
+	public Shape getRectangle() {
+
+		Shape shape = new Rectangle2D.Double(x - width/2, y - height/2, width, height);
+		AffineTransform at = AffineTransform.getRotateInstance(theta - PI/2, x, y);
+		shape = at.createTransformedShape(shape);
+		return shape;
 	}
 }

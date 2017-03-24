@@ -74,7 +74,7 @@ public class MainController implements IGame {
 		game = new Game(900, 600);
 
 		ball = new Ball(game.getWidth()/2, game.getHeight()/2);
-		ball.generateRandomMovement(5);
+		ball.generateRandomMovement(1);
 
 		paddles.add(new Paddle(0, 0, 0.0, game));
 		paddles.add(new Paddle(game.getWidth(), 0, PI/2, game));
@@ -114,7 +114,6 @@ public class MainController implements IGame {
 		}
 
 		processInput();
-		tick();
 		checkCollisions();
 		drawFrame();
 	}
@@ -134,26 +133,20 @@ public class MainController implements IGame {
 	private void checkCollisions() {
 
 		if (ball.getXPos() > game.getWidth()) {
-			ball.rebound(Math.PI/2);
+			ball.rebound(Math.PI/2, false);
 		}
 		else if (ball.getXPos() < 0) {
-			ball.rebound(Math.PI/2);
+			ball.rebound(Math.PI/2, false);
 		}
 		else if (ball.getYPos() > game.getHeight()) {
-			ball.rebound(0);
+			ball.rebound(0, false);
 		}
 		else if (ball.getYPos() < 0) {
-			ball.rebound(0);
+			ball.rebound(0, false);
 		}
 
-		for (Paddle paddle : paddles) {
-			int xDiff = Math.abs(ball.getXPos() - paddle.getXPos());
-			int yDiff = Math.abs(ball.getYPos() - paddle.getYPos());
-			if (xDiff < 20 && yDiff < 20) {
-				double surfaceAngle = paddle.getAngle() - PI/2;
-				ball.rebound(surfaceAngle);
-			}
-		}
+		CollisionDetector collisionDetector = new CollisionDetector(ball, paddles);
+		collisionDetector.moveBall(5);
 	}
 
 	private void drawFrame() {

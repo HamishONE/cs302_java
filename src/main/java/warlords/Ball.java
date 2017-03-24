@@ -14,8 +14,8 @@ public class Ball extends GameObject implements IBall {
 
 	@Override
 	public void tick() {
-		x += round(dX);
-		y += round(dY);
+		x += dX;
+		y += dY;
 	}
 
 	@Override
@@ -49,7 +49,11 @@ public class Ball extends GameObject implements IBall {
 	 * Reflects the balls motion against a surface at a given angle in space
 	 * @param phi the absolute angle of the surface in radians
 	 */
-	public void rebound(double phi) {
+	public void rebound(double phi, boolean isWall) {
+
+		if (isWall) {
+			phi += PI;
+		}
 
 		// Transform the balls motion into a coordinate system where dU is parallel to the surface to rebound off
 		double dU = dX*cos(phi) - dY*sin(phi);
@@ -61,6 +65,10 @@ public class Ball extends GameObject implements IBall {
 		// Transform dU and dV back into absolute coordinates
 		dX = dU*cos(phi) + dV*sin(phi);
 		dY = -1*dU*sin(phi) + dV*cos(phi);
+
+		if (isWall) {
+			dY = -dY;
+		}
 
 		// Move the ball forward one tick
 		tick();
