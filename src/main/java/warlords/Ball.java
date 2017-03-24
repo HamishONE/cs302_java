@@ -49,26 +49,18 @@ public class Ball extends GameObject implements IBall {
 	 * Reflects the balls motion against a surface at a given angle in space
 	 * @param phi the absolute angle of the surface in radians
 	 */
-	public void rebound(double phi, boolean isWall) {
-
-		if (isWall) {
-			phi += PI;
-		}
+	public void rebound(double phi) {
 
 		// Transform the balls motion into a coordinate system where dU is parallel to the surface to rebound off
-		double dU = dX*cos(phi) - dY*sin(phi);
-		double dV = dX*sin(phi) + dY*cos(phi);
+		double dU = dX*cos(phi) + dY*sin(phi);
+		double dV = -1*dX*sin(phi) + dY*cos(phi);
 
 		// Reverse the component of the balls motion normal to the surface it is rebounding off
 		dV = -dV;
 
 		// Transform dU and dV back into absolute coordinates
-		dX = dU*cos(phi) + dV*sin(phi);
-		dY = -1*dU*sin(phi) + dV*cos(phi);
-
-		if (isWall) {
-			dY = -dY;
-		}
+		dX = dU*cos(phi) - dV*sin(phi);
+		dY = dU*sin(phi) + dV*cos(phi);
 
 		// Move the ball forward one tick
 		tick();

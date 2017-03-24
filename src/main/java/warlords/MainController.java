@@ -131,21 +131,7 @@ public class MainController implements IGame {
 	}
 
 	private void checkCollisions() {
-
-		if (ball.getXPos() > game.getWidth()) {
-			ball.rebound(Math.PI/2, false);
-		}
-		else if (ball.getXPos() < 0) {
-			ball.rebound(Math.PI/2, false);
-		}
-		else if (ball.getYPos() > game.getHeight()) {
-			ball.rebound(0, false);
-		}
-		else if (ball.getYPos() < 0) {
-			ball.rebound(0, false);
-		}
-
-		CollisionDetector collisionDetector = new CollisionDetector(ball, paddles);
+		CollisionDetector collisionDetector = new CollisionDetector(ball, paddles, game);
 		collisionDetector.moveBall(5);
 	}
 
