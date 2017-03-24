@@ -5,10 +5,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
-
+import java.util.HashMap;
 import java.util.List;
 
 public class GameView {
@@ -16,6 +17,7 @@ public class GameView {
 	private Scene scene;
 	private GraphicsContext gc;
 	private Game game;
+	private HashMap<String, Image> imageCache = new HashMap<>();
 	
 	public GameView(Game game) {
 
@@ -44,17 +46,22 @@ public class GameView {
 	public void drawObjects(List<GameObject> gameObjects) {
 		clearCanvas();
 		for (GameObject gameObject : gameObjects) {
+
 			gc.save(); // saves the current state on stack, including the current transform
 			Rotate r = new Rotate(gameObject.getRotation()*(180/Math.PI), gameObject.getXPos(), gameObject.getYPos());
 			gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
-			gc.drawImage(gameObject.getSprite(), gameObject.getXPos(), gameObject.getYPos());
+
+			Image image = getImage(gameObject.getSpritePath());
+			double x = gameObject.getXPos() - gameObject.getWidth()/2;
+			double y = gameObject.getYPos() - gameObject.getHeight()/2;
+			gc.drawImage(image, x, y);
+
 			gc.restore(); // back to original state (before rotation)
-
-			//http://stackoverflow.com/questions/18260421/how-to-draw-image-rotated-on-javafx-canvas
-			//TODO need to make sure that any sprites are pivoting from center of sprite, not point where they are being placed
-			//TODO need to talk to Hummush on where we want the origin of sprites to be...
-
 		}
+	}
+
+	private Image getImage(String path) {
+		return imageCache.computeIfAbsent(path, p -> new Image(getClass().getResource(p).toString(), true));
 	}
 
 	public Scene getScene() {
