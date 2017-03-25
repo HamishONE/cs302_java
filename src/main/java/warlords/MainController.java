@@ -27,6 +27,13 @@ public class MainController {
 	private ArrayList<IUserInput> userInputs = new ArrayList<>();
 	private GameView gameView;
 	private boolean gameStarted = false;
+	private int height;
+	private int width;
+
+	public MainController(int height, int width) {
+		this.height = height;
+		this.width = width;
+	}
 
 	public void start() {
 
@@ -36,12 +43,12 @@ public class MainController {
 		keyboardInputs.add(new KeyboardInput(P3Map));
 		userInputs.addAll(keyboardInputs);
 
-		gameView = new GameView(800, 600);
+		gameView = new GameView(width, height);
 
 		KeyListener listener = new KeyListener(gameView.getScene(), keyboardInputs);
 		listener.startListening();
 
-		menuController = new MenuController(userInputs, 800, 800, gameView);
+		menuController = new MenuController(userInputs, width, height, gameView);
 	}
 
 	public void runLoop() {
@@ -50,7 +57,7 @@ public class MainController {
 			menuController.runLoop();
 			if (menuController.doStartGame()) {
 				gameStarted = true;
-				gameController = new GameController(userInputs, 800, 600, gameView);
+				gameController = new GameController(userInputs, width, height, gameView);
 				gameController.beginGame();
 			}
 		}

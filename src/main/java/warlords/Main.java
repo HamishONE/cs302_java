@@ -27,7 +27,7 @@ public class Main extends Application {
 		primaryStage.setTitle("CS302 Java Game");
 		primaryStage.show();
 
-		mainController = new MainController();
+		mainController = new MainController(600, 800);
 
 		Timeline timeline = new Timeline(
 			new KeyFrame(

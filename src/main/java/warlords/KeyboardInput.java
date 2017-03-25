@@ -1,7 +1,9 @@
 package warlords;
 
 import javafx.scene.input.KeyCode;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class KeyboardInput implements IUserInput {
 
@@ -12,11 +14,22 @@ public class KeyboardInput implements IUserInput {
 		this.keyMap = keyMap;
 	}
 
+	private boolean isControlKey(InputType key) {
+
+		List<InputType> controlKeys = Arrays.asList(
+				InputType.MENU_DOWN,
+				InputType.MENU_UP,
+				InputType.MENU_SELECT,
+				InputType.PAUSE,
+				InputType.ESCAPE
+		);
+		return controlKeys.contains(key);
+	}
+
 	@Override
 	public InputType getInputType() {
 		InputType keyPress = lastKeyPress;
-		if (keyPress == InputType.MENU_DOWN || keyPress == InputType.MENU_UP ||
-				keyPress == InputType.MENU_SELECT || keyPress == InputType.PAUSE) {
+		if (isControlKey(keyPress)) {
 			lastKeyPress = null;
 		}
 		return keyPress;
