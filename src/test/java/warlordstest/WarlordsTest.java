@@ -132,7 +132,6 @@ public class WarlordsTest extends TestSuite {
 
 	}
 
-	@Ignore
 	@Test
 	public void testBallCollisionAtHighSpeed(){
 

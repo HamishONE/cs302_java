@@ -144,7 +144,7 @@ public class GameController implements IGame {
 
 	private void checkCollisions() {
 		CollisionDetector collisionDetector = new CollisionDetector(ball, paddles, walls, warlords, game);
-		collisionDetector.moveBall(5);
+		collisionDetector.moveBall();
 	}
 
 	private void drawFrame() {

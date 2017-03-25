@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CollisionDetector {
 
-	private static final double MULTIPLIER = 0.2;
+	private static final double MULTIPLIER = 0.01;
 
 	private Ball ball;
 	private List<Paddle> paddles;
@@ -36,7 +36,7 @@ public class CollisionDetector {
 		}
 	}
 
-	public void moveBall(int num) {
+	public void moveBall() {
 
 		double dX = ball.getXVelocity() * MULTIPLIER;
 		double dY = ball.getYVelocity() * MULTIPLIER;
@@ -44,6 +44,7 @@ public class CollisionDetector {
 		double x = ball.getXPos();
 		double y = ball.getYPos();
 
+		int num = (int) Math.round(1/MULTIPLIER);
 		for (int i=0; i<num; i++) {
 
 			x += dX;
