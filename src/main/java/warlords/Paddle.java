@@ -75,6 +75,7 @@ public class Paddle extends GameObject implements IPaddle {
 		return theta - PI/2;
 	}
 
+	@Override
 	public Shape getRectangle() {
 
 		Shape shape = new Rectangle2D.Double(x - width/2, y - height/2, width, height);

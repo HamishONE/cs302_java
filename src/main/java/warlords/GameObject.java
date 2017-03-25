@@ -1,5 +1,7 @@
 package warlords;
 
+import java.awt.*;
+
 public abstract class GameObject {
 
 	protected double x;
@@ -69,4 +71,8 @@ public abstract class GameObject {
 	}
 
 	public abstract void tick();
+
+	public Shape getRectangle() {
+		return null;
+	}
 }

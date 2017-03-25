@@ -1,16 +1,20 @@
 package warlords;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CollisionDetector {
 
 	private Ball ball;
 	private List<Paddle> paddles;
+	private List<Wall> walls;
 	private Game game;
 
-	public CollisionDetector(Ball ball, List<Paddle> paddles, Game game) {
+	public CollisionDetector(Ball ball, List<Paddle> paddles, List<Wall> walls, Game game) {
 		this.ball = ball;
 		this.paddles = paddles;
+		this.walls = walls;
 		this.game = game;
 	}
 
@@ -27,10 +31,12 @@ public class CollisionDetector {
 			x += dX;
 			y += dY;
 
-			for (Paddle paddle : paddles) {
-				if (paddle.getRectangle().intersects(x-ball.getWidth()/2, y-ball.getHeight()/2, ball.getWidth(),
+			ArrayList<GameObject> allObjects = new ArrayList<>(paddles);
+			allObjects.addAll(walls);
+			for (GameObject gameObject : allObjects) {
+				if (gameObject.getRectangle().intersects(x-ball.getWidth()/2, y-ball.getHeight()/2, ball.getWidth(),
 						ball.getHeight())) {
-					reboundBall(x, y, num - i, paddle.getRotation());
+					reboundBall(x, y, num - i, gameObject.getRotation());
 					return;
 				}
 			}

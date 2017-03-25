@@ -48,7 +48,7 @@ public class GameController implements IGame {
 				double x = radius * Math.cos(angle);
 				double y = radius * Math.sin(angle);
 
-				Wall wall = new Wall((int)x + xOffset, (int)y + yOffset);
+				Wall wall = new Wall((int)x + xOffset, (int)y + yOffset, angle);
 				walls.add(wall);
 
 				angle += (wallWidth / 2) / radius;
@@ -126,7 +126,7 @@ public class GameController implements IGame {
 	}
 
 	private void checkCollisions() {
-		CollisionDetector collisionDetector = new CollisionDetector(ball, paddles, game);
+		CollisionDetector collisionDetector = new CollisionDetector(ball, paddles, walls, game);
 		collisionDetector.moveBall(5);
 	}
 
