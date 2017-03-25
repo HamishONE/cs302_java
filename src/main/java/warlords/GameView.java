@@ -2,12 +2,15 @@ package warlords;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +62,38 @@ public class GameView {
 			gc.drawImage(image, x, y, gameObject.getWidth(), gameObject.getHeight());
 
 			gc.restore(); // back to original state (before rotation)
+		}
+	}
+
+	public void drawMenuItems(List<MenuItem> menuItems) {
+
+		int PADDING = 50;
+		int TEXT_HEIGHT = 50;
+		int BORDER_WIDTH = 4;
+		int CORNER_RADIUS = 15;
+
+		clearCanvas();
+		double maxWidth = width - PADDING*2;
+
+		double y = PADDING + TEXT_HEIGHT/2;
+		for (MenuItem menuItem : menuItems) {
+
+			if (menuItem.isSelected()) {
+				gc.setFill(Color.WHITE);
+				gc.fillRoundRect(PADDING - BORDER_WIDTH, y - TEXT_HEIGHT/2 - 10 - BORDER_WIDTH, maxWidth + BORDER_WIDTH*2,
+						TEXT_HEIGHT + 20 + BORDER_WIDTH*2, CORNER_RADIUS, CORNER_RADIUS);
+			}
+
+			gc.setFill(Color.ORANGE);
+			gc.fillRoundRect(PADDING, y - TEXT_HEIGHT/2 - 10, maxWidth, TEXT_HEIGHT + 20, CORNER_RADIUS, CORNER_RADIUS);
+
+			gc.setFill(Color.WHITE);
+			gc.setFont(new Font("Algerian", TEXT_HEIGHT));
+			gc.setTextAlign(TextAlignment.CENTER);
+			gc.setTextBaseline(VPos.CENTER);
+			gc.fillText(menuItem.getText(), width/2, y, maxWidth);
+
+			y += PADDING*2;
 		}
 	}
 

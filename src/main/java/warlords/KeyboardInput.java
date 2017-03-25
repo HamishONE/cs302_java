@@ -14,7 +14,12 @@ public class KeyboardInput implements IUserInput {
 
 	@Override
 	public InputType getInputType() {
-			return lastKeyPress;
+		InputType keyPress = lastKeyPress;
+		if (keyPress == InputType.MENU_DOWN || keyPress == InputType.MENU_UP ||
+				keyPress == InputType.MENU_SELECT || keyPress == InputType.PAUSE) {
+			lastKeyPress = null;
+		}
+		return keyPress;
 	}
 
 	public void keyPress(KeyCode keyCode) {
