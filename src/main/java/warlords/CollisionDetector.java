@@ -5,6 +5,8 @@ import java.util.List;
 
 public class CollisionDetector {
 
+	private static final double MULTIPLIER = 0.2;
+
 	private Ball ball;
 	private List<Paddle> paddles;
 	private List<Wall> walls;
@@ -36,8 +38,8 @@ public class CollisionDetector {
 
 	public void moveBall(int num) {
 
-		double dX = ball.getXVelocity();
-		double dY = ball.getYVelocity();
+		double dX = ball.getXVelocity() * MULTIPLIER;
+		double dY = ball.getYVelocity() * MULTIPLIER;
 
 		double x = ball.getXPos();
 		double y = ball.getYPos();
@@ -80,7 +82,7 @@ public class CollisionDetector {
 				return;
 			}
 
-			ball.tick();
+			ball.tick(MULTIPLIER);
 		}
 	}
 
@@ -88,7 +90,7 @@ public class CollisionDetector {
 
 		ball.rebound(surfaceAngle);
 		for (int i=0; i<remaining; i++) {
-			ball.tick();
+			ball.tick(MULTIPLIER);
 		}
 	}
 }

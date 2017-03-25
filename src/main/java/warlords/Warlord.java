@@ -23,11 +23,6 @@ public class Warlord extends GameObject implements IWarlord {
 		return hasWon;
 	}
 
-	@Override
-	public void tick() {
-
-	}
-
 	public void causeDamage(int damage) {
 		health -= damage;
 

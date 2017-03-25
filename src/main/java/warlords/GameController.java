@@ -67,7 +67,7 @@ public class GameController implements IGame {
 	public void setupGameObjects() {
 
 		ball = new Ball(game.getWidth()/2, game.getHeight()/2);
-		ball.generateRandomMovement(2);
+		ball.generateRandomMovement(10);
 
 		paddles.add(new Paddle(0, 0, 0.0, game));
 		paddles.add(new Paddle(game.getWidth(), 0, PI/2, game));
@@ -98,18 +98,22 @@ public class GameController implements IGame {
 	}
 
 	public void runLoop() {
+		drawFrame();
+		tick();
+	}
+
+	@Override
+	public void tick() {
 
 		if (!loopRunning) {
 			return;
 		}
-
+		if (isPaused) {
+			gameView.drawPauseIndicator();
+		}
 		processInput();
 		if (!isPaused) {
 			checkCollisions();
-		}
-		drawFrame();
-		if (isPaused) {
-			gameView.drawPauseIndicator();
 		}
 	}
 
@@ -153,11 +157,6 @@ public class GameController implements IGame {
 		gameObjects.addAll(paddles);
 		gameObjects.add(ball);
 		gameView.drawObjects(gameObjects);
-	}
-
-	@Override
-	public void tick() {
-		ball.tick();
 	}
 
 	@Override
