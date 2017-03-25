@@ -4,10 +4,9 @@ import junit.framework.TestSuite;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
-
 import warlords.*;
+import java.util.ArrayList;
 
 public class WarlordsTest extends TestSuite {
 
@@ -21,10 +20,11 @@ public class WarlordsTest extends TestSuite {
 	@Before
 	public void setUp(){
 
-		MainController mainController = new MainController();
-		mainController.setupGameObjects();
-		this.game = mainController;
-		this.ball = mainController.getBall();
+		GameController gameController = new GameController(new ArrayList<>(), 1000, 1000, null);
+		gameController.setupGameObjects();
+
+		this.game = gameController;
+		this.ball = gameController.ball;
 
 		this.paddle = new Paddle(0,0, 0.0, new Game(10,10));
 		this.player1Wall = new Wall(0, 0);

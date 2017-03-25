@@ -38,6 +38,6 @@ public class Main extends Application {
 		);
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.play();
-		mainController.beginGame();
+		mainController.start();
 	}
 }

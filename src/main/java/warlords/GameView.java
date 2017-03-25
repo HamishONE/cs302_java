@@ -16,12 +16,14 @@ public class GameView {
 
 	private Scene scene;
 	private GraphicsContext gc;
-	private Game game;
 	private HashMap<String, Image> imageCache = new HashMap<>();
-	
-	public GameView(Game game) {
+	private double width;
+	private double height;
 
-		this.game = game;
+	public GameView(double width, double height) {
+
+		this.width = width;
+		this.height = height;
 
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
@@ -29,7 +31,7 @@ public class GameView {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Canvas canvas = new Canvas(game.getWidth(), game.getHeight());
+		Canvas canvas = new Canvas(width, height);
 		grid.add(canvas, 0, 0);
 		gc = canvas.getGraphicsContext2D();
 		clearCanvas();
@@ -40,7 +42,7 @@ public class GameView {
 
 	private void clearCanvas() {
 		gc.setFill(Color.BLACK);
-		gc.fillRect(0, 0, game.getWidth(), game.getHeight());
+		gc.fillRect(0, 0, width, height);
 	}
 
 	public void drawObjects(List<GameObject> gameObjects) {
