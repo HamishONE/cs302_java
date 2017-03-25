@@ -27,6 +27,6 @@ public class Wall extends GameObject implements IWall {
 	}
 
 	public void causeDamage(int damage) {
-		health -= 1;
+		health -= damage;
 	}
 }

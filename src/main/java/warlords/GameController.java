@@ -13,6 +13,7 @@ public class GameController implements IGame {
 	private ArrayList<Paddle> paddles = new ArrayList<>(4);
 	private ArrayList<IUserInput> players = new ArrayList<>(4);
 	private ArrayList<Wall> walls = new ArrayList<>();
+	private ArrayList<Warlord> warlords = new ArrayList<>(4);
 	private ArrayList<IUserInput> userInputs;
 	private boolean doExitGame = false;
 	private boolean isPaused = false;
@@ -73,6 +74,12 @@ public class GameController implements IGame {
 		paddles.add(new Paddle(0, game.getHeight(), 3*PI/2, game));
 		paddles.add(new Paddle(game.getWidth(), game.getHeight(), PI, game));
 
+		int WARLORD_MARGIN = 50;
+		warlords.add(new Warlord(WARLORD_MARGIN, WARLORD_MARGIN));
+		warlords.add(new Warlord(game.getWidth() - WARLORD_MARGIN, WARLORD_MARGIN));
+		warlords.add(new Warlord(WARLORD_MARGIN, game.getHeight() - WARLORD_MARGIN));
+		warlords.add(new Warlord(game.getWidth() - WARLORD_MARGIN, game.getHeight() - WARLORD_MARGIN));
+
 		players.addAll(userInputs);
 		for (int i=players.size(); i<4; i++) {
 			players.add(new ArtificialUser(ball, paddles.get(i)));
@@ -113,10 +120,14 @@ public class GameController implements IGame {
 			if (input != null && !isPaused) {
 				switch (input) {
 					case LEFT:
-						paddles.get(i).moveLeft();
+						if (!warlords.get(i).isDead()) {
+							paddles.get(i).moveLeft();
+						}
 						break;
 					case RIGHT:
-						paddles.get(i).moveRight();
+						if (!warlords.get(i).isDead()) {
+							paddles.get(i).moveRight();
+						}
 						break;
 					case PAUSE:
 						isPaused = true;
@@ -132,15 +143,15 @@ public class GameController implements IGame {
 	}
 
 	private void checkCollisions() {
-		CollisionDetector collisionDetector = new CollisionDetector(ball, paddles, walls, game);
+		CollisionDetector collisionDetector = new CollisionDetector(ball, paddles, walls, warlords, game);
 		collisionDetector.moveBall(5);
 	}
 
 	private void drawFrame() {
-		ArrayList<GameObject> gameObjects = new ArrayList<>();
-		gameObjects.add(ball);
+		ArrayList<GameObject> gameObjects = new ArrayList<>(walls);
+		gameObjects.addAll(warlords);
 		gameObjects.addAll(paddles);
-		gameObjects.addAll(walls);
+		gameObjects.add(ball);
 		gameView.drawObjects(gameObjects);
 	}
 

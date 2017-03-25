@@ -1,6 +1,5 @@
 package warlords;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +8,30 @@ public class CollisionDetector {
 	private Ball ball;
 	private List<Paddle> paddles;
 	private List<Wall> walls;
+	private List<Warlord> warlords;
 	private Game game;
 
-	public CollisionDetector(Ball ball, List<Paddle> paddles, List<Wall> walls, Game game) {
+	public CollisionDetector(Ball ball, List<Paddle> paddles, List<Wall> walls, List<Warlord> warlords, Game game) {
 		this.ball = ball;
 		this.paddles = paddles;
 		this.walls = walls;
+		this.warlords = warlords;
 		this.game = game;
+	}
+
+	private void destroyObject(GameObject gameObject) {
+
+		if (gameObject instanceof Wall) {
+			Wall wall = (Wall) gameObject;
+			wall.causeDamage(1);
+			if (wall.isDestroyed()) {
+				walls.remove(wall);
+			}
+		}
+		else if (gameObject instanceof Warlord) {
+			Warlord warlord = (Warlord) gameObject;
+			warlord.causeDamage(1);
+		}
 	}
 
 	public void moveBall(int num) {
@@ -33,17 +49,16 @@ public class CollisionDetector {
 
 			ArrayList<GameObject> allObjects = new ArrayList<>(paddles);
 			allObjects.addAll(walls);
+			for (Warlord warlord : warlords) {
+				if (!warlord.isDead()) {
+					allObjects.add(warlord);
+				}
+			}
 			for (GameObject gameObject : allObjects) {
 				if (gameObject.getRectangle().intersects(x-ball.getWidth()/2, y-ball.getHeight()/2, ball.getWidth(),
 						ball.getHeight())) {
 					reboundBall(x, y, num - i, gameObject.getRotation());
-					if (gameObject instanceof Wall) {
-						Wall wall = (Wall) gameObject;
-						wall.causeDamage(1);
-						if (wall.isDestroyed()) {
-							walls.remove(wall);
-						}
-					}
+					destroyObject(gameObject);
 					return;
 				}
 			}
