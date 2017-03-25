@@ -20,21 +20,29 @@ public class WarlordsTest extends TestSuite {
 	@Before
 	public void setUp(){
 
-		GameController gameController = new GameController(new ArrayList<>(), 1000, 1000, null);
+		// Setup a new game with 4 fake user inputs (otherwise AIs will move the paddles!)
+		GameController gameController = new GameController(new ArrayList<IUserInput>() {{
+			add(new KeyboardInput(null));
+			add(new KeyboardInput(null));
+			add(new KeyboardInput(null));
+			add(new KeyboardInput(null));
+		}}, 1000, 1000, null);
 		gameController.beginGame();
+
+		// Set the internal paddle rotation to 90deg which represents a horizontal surface
+		Paddle paddle = gameController.paddles.get(0);
+		paddle.rotationAngle = Math.PI/2;
+
+		// Set the internal wall rotation to 90deg which represents a horizontal surface
+		Wall wall = gameController.walls.get(0);
+		wall.rotationAngle = Math.PI/2;
 
 		this.game = gameController;
 		this.ball = gameController.ball;
-
-		this.paddle = new Paddle(0,0, 0.0, new Game(10,10));
-		this.player1Wall = new Wall(0, 0, 0);
-		this.player1 = new Warlord(0, 0);
-		this.player2 = new Warlord(0, 0);
-
-		this.paddle = new Paddle(0, 0, 0.0, new Game(10,10));
-		this.player1Wall = new Wall(0, 0, 0);
-		this.player1 = new Warlord(0, 0);
-		this.player2 = new Warlord(0, 0);
+		this.paddle = paddle;
+		this.player1Wall = wall;
+		this.player1 = gameController.warlords.get(0);
+		this.player2 = gameController.warlords.get(1);
 	}
 
 	@Test
@@ -66,7 +74,6 @@ public class WarlordsTest extends TestSuite {
 		assertTrue("The ball's velocity should be reversed in the direction of the collision", this.ball.getXVelocity() == 50 && this.ball.getYVelocity() == 50);
 	}
 
-	@Ignore
 	@Test
 	public void testBallCollisionWithPaddle(){
 
@@ -85,7 +92,6 @@ public class WarlordsTest extends TestSuite {
 
 	}
 
-	@Ignore
 	@Test
 	public void testBallCollisionWithWall(){
 
@@ -107,7 +113,6 @@ public class WarlordsTest extends TestSuite {
 
 	}
 
-	@Ignore
 	@Test
 	public void testBallCollisionWithWarlord(){
 
