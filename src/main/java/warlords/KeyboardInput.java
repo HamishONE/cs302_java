@@ -21,7 +21,7 @@ public class KeyboardInput implements IUserInput {
 				InputType.MENU_UP,
 				InputType.MENU_SELECT,
 				InputType.PAUSE,
-				InputType.ESCAPE
+				InputType.EXIT
 		);
 		return controlKeys.contains(key);
 	}

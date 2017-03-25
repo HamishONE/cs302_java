@@ -35,20 +35,26 @@ public class MenuController {
 		return doStartGame;
 	}
 
+	public void reset() {
+		doStartGame = false;
+	}
+
 	private void checkUserInput() {
 
-		InputType input = userInputs.get(0).getInputType();
-		if (input != null) {
-			switch (input) {
-				case MENU_UP:
-					changeSelection(-1);
-					break;
-				case MENU_DOWN:
-					changeSelection(1);
-					break;
-				case MENU_SELECT:
-					menuItems.get(selectedItem).runCallback();
-					break;
+		for (IUserInput userInput : userInputs) {
+			InputType input = userInput.getInputType();
+			if (input != null) {
+				switch (input) {
+					case MENU_UP:
+						changeSelection(-1);
+						break;
+					case MENU_DOWN:
+						changeSelection(1);
+						break;
+					case MENU_SELECT:
+						menuItems.get(selectedItem).runCallback();
+						break;
+				}
 			}
 		}
 	}

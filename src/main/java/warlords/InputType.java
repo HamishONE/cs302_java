@@ -4,7 +4,7 @@ public enum InputType {
 	LEFT,
 	RIGHT,
 	PAUSE,
-	ESCAPE,
+	EXIT,
 	MENU_DOWN,
 	MENU_UP,
 	MENU_SELECT

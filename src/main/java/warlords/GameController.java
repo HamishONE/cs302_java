@@ -14,6 +14,7 @@ public class GameController implements IGame {
 	private ArrayList<IUserInput> players = new ArrayList<>(4);
 	private ArrayList<Wall> walls = new ArrayList<>();
 	private ArrayList<IUserInput> userInputs;
+	private boolean doExitGame = false;
 
 	public GameController(ArrayList<IUserInput> userInputs, int width, int height, GameView gameView) {
 		this.userInputs = userInputs;
@@ -101,6 +102,8 @@ public class GameController implements IGame {
 				paddles.get(i).moveLeft();
 			} else if (input == InputType.RIGHT) {
 				paddles.get(i).moveRight();
+			} else if (input == InputType.EXIT) {
+				doExitGame = true;
 			}
 		}
 	}
@@ -131,5 +134,9 @@ public class GameController implements IGame {
 	@Override
 	public void setTimeRemaining(int seconds) {
 
+	}
+
+	public boolean doExitGame() {
+		return doExitGame;
 	}
 }
