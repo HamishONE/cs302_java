@@ -33,10 +33,14 @@ public class WarlordsTest extends TestSuite {
 		Paddle paddle = gameController.paddles.get(0);
 		paddle.rotationAngle = Math.PI/2;
 
+		// Set the internal wall rotation to 90deg which represents a horizontal surface
+		Wall wall = gameController.walls.get(0);
+		wall.rotationAngle = Math.PI/2;
+
 		this.game = gameController;
 		this.ball = gameController.ball;
 		this.paddle = paddle;
-		this.player1Wall = gameController.walls.get(0);
+		this.player1Wall = wall;
 		this.player1 = gameController.warlords.get(0);
 		this.player2 = gameController.warlords.get(1);
 	}
@@ -88,7 +92,6 @@ public class WarlordsTest extends TestSuite {
 
 	}
 
-	@Ignore
 	@Test
 	public void testBallCollisionWithWall(){
 
@@ -110,7 +113,6 @@ public class WarlordsTest extends TestSuite {
 
 	}
 
-	@Ignore
 	@Test
 	public void testBallCollisionWithWarlord(){
 
