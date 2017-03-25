@@ -38,7 +38,7 @@ public class Ball extends GameObject implements IBall {
 		return (int) round(dY);
 	}
 
-	public void generateRandomMovement(int speed) {
+	public void generateRandomMovement(double speed) {
 
 		double MIN_ANGLE = 0.3;
 

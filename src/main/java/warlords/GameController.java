@@ -66,7 +66,7 @@ public class GameController implements IGame {
 	public void setupGameObjects() {
 
 		ball = new Ball(game.getWidth()/2, game.getHeight()/2);
-		ball.generateRandomMovement(1);
+		ball.generateRandomMovement(2);
 
 		paddles.add(new Paddle(0, 0, 0.0, game));
 		paddles.add(new Paddle(game.getWidth(), 0, PI/2, game));

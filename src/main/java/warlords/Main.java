@@ -1,11 +1,9 @@
 package warlords;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class Main extends Application {
 
@@ -28,16 +26,14 @@ public class Main extends Application {
 		primaryStage.show();
 
 		mainController = new MainController(600, 800);
-
-		Timeline timeline = new Timeline(
-			new KeyFrame(
-				Duration.seconds(0),
-				event -> mainController.runLoop()
-			),
-			new KeyFrame(Duration.millis(10))
-		);
-		timeline.setCycleCount(Timeline.INDEFINITE);
-		timeline.play();
 		mainController.start();
+
+		AnimationTimer timer = new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				mainController.runLoop();
+			}
+		};
+		timer.start();
 	}
 }
