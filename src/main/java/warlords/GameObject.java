@@ -1,6 +1,9 @@
 package warlords;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import static java.lang.Math.PI;
 
 public abstract class GameObject {
 
@@ -9,11 +12,13 @@ public abstract class GameObject {
 	protected double width;
 	protected double height;
 	protected String spritePath;
+	protected double rotationAngle = 0;
 
-	public GameObject(int x, int y, String imgPath) {
+	public GameObject(int x, int y, String imgPath, double theta) {
 
 		this.x = x;
 		this.y = y;
+		this.rotationAngle = theta;
 
 		width = 24;
 		height = 24;
@@ -59,7 +64,7 @@ public abstract class GameObject {
 	}
 
 	public Double getRotation() {
-		return 0.0;
+		return rotationAngle - Math.PI/2;
 	}
 
 	public double getWidth() {
@@ -73,6 +78,9 @@ public abstract class GameObject {
 	public abstract void tick();
 
 	public Shape getRectangle() {
-		return null;
+		Shape shape = new Rectangle2D.Double(x - width/2, y - height/2, width, height);
+		AffineTransform at = AffineTransform.getRotateInstance(rotationAngle - PI/2, x, y);
+		shape = at.createTransformedShape(shape);
+		return shape;
 	}
 }

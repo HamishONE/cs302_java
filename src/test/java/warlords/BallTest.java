@@ -18,7 +18,7 @@ public class BallTest extends TestSuite {
 		assertTrue("x velocity is as given", ball.getXVelocity() == -1);
 		assertTrue("x position is as given", ball.getXPos() == 100);
 		assertTrue("y position is as given", ball.getYPos() == 150);
-		assertTrue("rotation is zero", ball.getRotation() == 0);
+		assertTrue("sprite should be rotated to stand upwards", ball.getRotation() == -Math.PI/2);
 	}
 
 	@Test
