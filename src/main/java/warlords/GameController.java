@@ -8,12 +8,12 @@ public class GameController implements IGame {
 
 	private boolean loopRunning = false;
 	private Game game;
-	public Ball ball;
+	public Ball ball; //TODO: Make private after phase 1
 	private GameView gameView;
-	private ArrayList<Paddle> paddles = new ArrayList<>(4);
+	public ArrayList<Paddle> paddles = new ArrayList<>(4); //TODO: Make private after phase 1
 	private ArrayList<IUserInput> players = new ArrayList<>(4);
-	private ArrayList<Wall> walls = new ArrayList<>();
-	private ArrayList<Warlord> warlords = new ArrayList<>(4);
+	public ArrayList<Wall> walls = new ArrayList<>(); //TODO: Make private after phase 1
+	public ArrayList<Warlord> warlords = new ArrayList<>(4); //TODO: Make private after phase 1
 	private ArrayList<IUserInput> userInputs;
 	private boolean doExitGame = false;
 	private boolean isPaused = false;

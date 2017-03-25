@@ -12,7 +12,7 @@ public abstract class GameObject {
 	protected double width;
 	protected double height;
 	protected String spritePath;
-	protected double rotationAngle = 0;
+	public double rotationAngle = 0; //TODO: Make protected after phase 1
 
 	public GameObject(int x, int y, String imgPath, double theta) {
 
