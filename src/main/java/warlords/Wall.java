@@ -9,6 +9,7 @@ import static java.lang.Math.PI;
 public class Wall extends GameObject implements IWall {
 
 	private double theta;
+	private int health = 1;
 
 	public Wall(int x, int y, double theta) {
 		super(x, y, null);
@@ -17,7 +18,7 @@ public class Wall extends GameObject implements IWall {
 
 	@Override
 	public boolean isDestroyed() {
-		return false;
+		return health <= 0;
 	}
 
 	@Override
@@ -37,5 +38,9 @@ public class Wall extends GameObject implements IWall {
 		AffineTransform at = AffineTransform.getRotateInstance(theta - PI/2, x, y);
 		shape = at.createTransformedShape(shape);
 		return shape;
+	}
+
+	public void causeDamage(int damage) {
+		health -= 1;
 	}
 }

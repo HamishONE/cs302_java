@@ -37,6 +37,13 @@ public class CollisionDetector {
 				if (gameObject.getRectangle().intersects(x-ball.getWidth()/2, y-ball.getHeight()/2, ball.getWidth(),
 						ball.getHeight())) {
 					reboundBall(x, y, num - i, gameObject.getRotation());
+					if (gameObject instanceof Wall) {
+						Wall wall = (Wall) gameObject;
+						wall.causeDamage(1);
+						if (wall.isDestroyed()) {
+							walls.remove(wall);
+						}
+					}
 					return;
 				}
 			}
