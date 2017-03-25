@@ -12,8 +12,10 @@ public class Wall extends GameObject implements IWall {
 	private int health = 1;
 
 	public Wall(int x, int y, double theta) {
-		super(x, y, null);
+		super(x, y, "/wal.png");
 		this.theta = theta;
+		width = 50;
+		height = 50;
 	}
 
 	@Override
