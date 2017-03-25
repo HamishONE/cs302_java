@@ -17,6 +17,8 @@ public class GameController implements IGame {
 	private ArrayList<IUserInput> userInputs;
 	private boolean doExitGame = false;
 	private boolean isPaused = false;
+	private int timeRemaining = 120000;
+	private long lastTimestamp;
 
 	public GameController(ArrayList<IUserInput> userInputs, int width, int height, GameView gameView) {
 		this.userInputs = userInputs;
@@ -91,6 +93,7 @@ public class GameController implements IGame {
 
 		setupGameObjects();
 		loopRunning = true;
+		lastTimestamp = System.nanoTime();
 	}
 
 	public void runLoop() {
@@ -104,12 +107,11 @@ public class GameController implements IGame {
 		if (!loopRunning) {
 			return;
 		}
-		if (isPaused) {
-			gameView.drawPauseIndicator();
-		}
 		processInput();
 		if (!isPaused) {
 			checkCollisions();
+			timeRemaining -= (System.nanoTime() - lastTimestamp) / 1e6;
+			lastTimestamp = System.nanoTime();
 		}
 	}
 
@@ -135,6 +137,7 @@ public class GameController implements IGame {
 				}
 			} else if (input == InputType.PAUSE) {
 				isPaused = false;
+				lastTimestamp = System.nanoTime();
 			}
 			if (input == InputType.EXIT) {
 				doExitGame = true;
@@ -153,16 +156,20 @@ public class GameController implements IGame {
 		gameObjects.addAll(paddles);
 		gameObjects.add(ball);
 		gameView.drawObjects(gameObjects);
+		gameView.drawTimer(timeRemaining/1000);
+		if (isPaused) {
+			gameView.drawPauseIndicator();
+		}
 	}
 
 	@Override
 	public boolean isFinished() {
-		return false;
+		return timeRemaining < 0;
 	}
 
 	@Override
 	public void setTimeRemaining(int seconds) {
-
+		timeRemaining = seconds*1000;
 	}
 
 	public boolean doExitGame() {

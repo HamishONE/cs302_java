@@ -105,6 +105,13 @@ public class GameView {
 		gc.fillText("Paused", width/2, 50, width - 100);
 	}
 
+	public void drawTimer(int secsRemaining) {
+		String text = String.format("%d:%02d", secsRemaining/60, secsRemaining%60);
+		gc.setFill(Color.WHITE);
+		gc.setFont(new Font("Cambria", 30));
+		gc.fillText(text, width - 250, 30);
+	}
+
 	private Image getImage(String path) {
 		return imageCache.computeIfAbsent(path, p -> new Image(getClass().getResource(p).toString(), true));
 	}
