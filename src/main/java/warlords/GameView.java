@@ -97,6 +97,14 @@ public class GameView {
 		}
 	}
 
+	public void drawPauseIndicator() {
+		gc.setFill(Color.WHITE);
+		gc.setFont(new Font("Corbel", 50));
+		gc.setTextAlign(TextAlignment.CENTER);
+		gc.setTextBaseline(VPos.CENTER);
+		gc.fillText("Paused", width/2, 50, width - 100);
+	}
+
 	private Image getImage(String path) {
 		return imageCache.computeIfAbsent(path, p -> new Image(getClass().getResource(p).toString(), true));
 	}

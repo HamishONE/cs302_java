@@ -62,8 +62,11 @@ public class MenuController {
 	private void changeSelection(int direction) {
 
 		int newSelection = selectedItem + direction;
-		if (newSelection < 0 || newSelection >= menuItems.size()) {
-			return;
+		if (newSelection < 0) {
+			newSelection = menuItems.size() - 1;
+		}
+		if (newSelection >= menuItems.size()) {
+			newSelection = 0;
 		}
 		selectedItem = newSelection;
 		for (MenuItem menuItem : menuItems) {

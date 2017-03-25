@@ -15,6 +15,7 @@ public class GameController implements IGame {
 	private ArrayList<Wall> walls = new ArrayList<>();
 	private ArrayList<IUserInput> userInputs;
 	private boolean doExitGame = false;
+	private boolean isPaused = false;
 
 	public GameController(ArrayList<IUserInput> userInputs, int width, int height, GameView gameView) {
 		this.userInputs = userInputs;
@@ -90,19 +91,35 @@ public class GameController implements IGame {
 		}
 
 		processInput();
-		checkCollisions();
+		if (!isPaused) {
+			checkCollisions();
+		}
 		drawFrame();
+		if (isPaused) {
+			gameView.drawPauseIndicator();
+		}
 	}
 
 	private void processInput() {
 
 		for (int i=0; i<4; i++) {
 			InputType input = players.get(i).getInputType();
-			if (input == InputType.LEFT) {
-				paddles.get(i).moveLeft();
-			} else if (input == InputType.RIGHT) {
-				paddles.get(i).moveRight();
-			} else if (input == InputType.EXIT) {
+			if (input != null && !isPaused) {
+				switch (input) {
+					case LEFT:
+						paddles.get(i).moveLeft();
+						break;
+					case RIGHT:
+						paddles.get(i).moveRight();
+						break;
+					case PAUSE:
+						isPaused = true;
+						break;
+				}
+			} else if (input == InputType.PAUSE) {
+				isPaused = false;
+			}
+			if (input == InputType.EXIT) {
 				doExitGame = true;
 			}
 		}
