@@ -12,10 +12,9 @@ public class Ball extends GameObject implements IBall {
 		super(x, y, "/green_circle.png", 0);
 	}
 
-	@Override
-	public void tick() {
-		x += dX;
-		y += dY;
+	public void tick(double multiplier) {
+		x += dX * multiplier;
+		y += dY * multiplier;
 	}
 
 	@Override

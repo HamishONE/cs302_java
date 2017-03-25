@@ -21,7 +21,7 @@ public class WarlordsTest extends TestSuite {
 	public void setUp(){
 
 		GameController gameController = new GameController(new ArrayList<>(), 1000, 1000, null);
-		gameController.setupGameObjects();
+		gameController.beginGame();
 
 		this.game = gameController;
 		this.ball = gameController.ball;
@@ -51,7 +51,6 @@ public class WarlordsTest extends TestSuite {
 		assertTrue("If unimpeded, the ball should be moved by its velocity in each direction", this.ball.getXPos() == 550 && this.ball.getYPos() ==  550);
 	}
 
-	@Ignore
 	@Test
 	public void testBallCollisionWithBoundary(){
 
@@ -65,8 +64,6 @@ public class WarlordsTest extends TestSuite {
 
 		assertTrue("The ball should remain within bounds", this.ball.getXPos() >= 0);
 		assertTrue("The ball's velocity should be reversed in the direction of the collision", this.ball.getXVelocity() == 50 && this.ball.getYVelocity() == 50);
-
-
 	}
 
 	@Ignore

@@ -25,10 +25,6 @@ public class Paddle extends GameObject implements IPaddle {
 		setPosition();
 	}
 
-	@Override
-	public void tick() {
-	}
-
 	public void moveLeft() {
 		if (y_init < game.getWidth()/2) {
 			moveCW();

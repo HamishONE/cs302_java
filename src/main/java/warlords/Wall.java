@@ -21,11 +21,6 @@ public class Wall extends GameObject implements IWall {
 		return health <= 0;
 	}
 
-	@Override
-	public void tick() {
-
-	}
-
 	public void causeDamage(int damage) {
 		health -= damage;
 	}
