@@ -31,26 +31,22 @@ public class GameController implements IGame {
 		double wallHeight = 15;
 		double padding = 5;
 		int rows = 3;
-		ArrayList<Integer> numInRow = new ArrayList<Integer>() {{
-			add(5);
-			add(6);
-			add(7);
-		}};
 
 		double radius = initialRadius;
 		for (int row=0; row<rows; row++) {
-			//double lengthAvailable = radius * PI/2;
-			//int num = (int) Math.floor((lengthAvailable - padding) / (wallWidth + padding));
+			double lengthAvailable = radius * PI/2;
+			int num = (int) Math.floor((lengthAvailable) / (wallWidth + padding));
 
-			//double lengthUsed = num*wallWidth + (num+1)*padding;
-			//double unusedSpace = lengthAvailable - lengthUsed;
-			//double additionalPadding = unusedSpace / (num+1);
-			//padding += additionalPadding;
+			double lengthUsed = num*wallWidth + (num+1)*padding;
+			double unusedSpace = lengthAvailable - lengthUsed;
+			double centerPadding = unusedSpace/2 ;
 			double angle = angleOffset;
 
-			for (int i = 0; i < numInRow.get(row); i++) {
-
-				angle += (padding + wallWidth / 2) / radius;
+			for (int i = 0; i < num; i++) {
+				if(i == 0) {
+					angle += (centerPadding)/radius;
+				}
+					angle += (padding + wallWidth / 2) / radius;
 
 				double x = radius * Math.cos(angle);
 				double y = radius * Math.sin(angle);
