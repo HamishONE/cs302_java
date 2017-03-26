@@ -73,10 +73,10 @@ public class GameController implements IGame {
 		paddles.add(new Paddle(game.getWidth(), game.getHeight(), PI, game));
 
 		int WARLORD_MARGIN = 50;
-		warlords.add(new Warlord(WARLORD_MARGIN, WARLORD_MARGIN));
-		warlords.add(new Warlord(game.getWidth() - WARLORD_MARGIN, WARLORD_MARGIN));
-		warlords.add(new Warlord(WARLORD_MARGIN, game.getHeight() - WARLORD_MARGIN));
-		warlords.add(new Warlord(game.getWidth() - WARLORD_MARGIN, game.getHeight() - WARLORD_MARGIN));
+		warlords.add(new Warlord(WARLORD_MARGIN, WARLORD_MARGIN, "/knightBlue.png"));
+		warlords.add(new Warlord(game.getWidth() - WARLORD_MARGIN, WARLORD_MARGIN, "/knightYellow.png"));
+		warlords.add(new Warlord(WARLORD_MARGIN, game.getHeight() - WARLORD_MARGIN, "/knightRed.png"));
+		warlords.add(new Warlord(game.getWidth() - WARLORD_MARGIN, game.getHeight() - WARLORD_MARGIN, "/knightGreen.png"));
 
 		players.addAll(userInputs);
 		for (int i=players.size(); i<4; i++) {

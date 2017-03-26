@@ -7,10 +7,10 @@ public class Warlord extends GameObject implements IWarlord {
 	private boolean hasWon = false;
 	private int health = 1;
 
-	public Warlord(int x, int y) {
-		super(x, y, null, 0);
-		this.width = 80;
-		this.height = 80;
+	public Warlord(int x, int y, String imgPath) {
+		super(x, y, imgPath, Math.PI/2);
+		this.width = 100;
+		this.height = 100;
 	}
 
 	@Override
