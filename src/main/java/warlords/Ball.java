@@ -9,7 +9,7 @@ public class Ball extends GameObject implements IBall {
 	private double dY = 0;
 
 	public Ball(int x, int y) {
-		super(x, y, "/green_circle.png", 0);
+		super(x, y, "/cannonBall.png", 0);
 	}
 
 	public void tick(double multiplier) {
