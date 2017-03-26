@@ -56,10 +56,10 @@ public class GameView {
 			Rotate r = new Rotate(gameObject.getRotation()*(180/Math.PI), gameObject.getXPos(), gameObject.getYPos());
 			gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
 
-			Image image = getImage(gameObject.getSpritePath());
+			Image image = getImage(gameObject.getSpritePath(), gameObject.getWidth(), gameObject.getHeight());
 			double x = gameObject.getXPos() - gameObject.getWidth()/2;
 			double y = gameObject.getYPos() - gameObject.getHeight()/2;
-			gc.drawImage(image, x, y, gameObject.getWidth(), gameObject.getHeight());
+			gc.drawImage(image, x, y);
 
 			gc.restore(); // back to original state (before rotation)
 		}
@@ -112,8 +112,8 @@ public class GameView {
 		gc.fillText(text, width - 250, 30);
 	}
 
-	private Image getImage(String path) {
-		return imageCache.computeIfAbsent(path, p -> new Image(getClass().getResource(p).toString(), true));
+	private Image getImage(String path, double width, double height) {
+		return imageCache.computeIfAbsent(path, p -> new Image(getClass().getResource(p).toString(), width, height, false, true, true));
 	}
 
 	public Scene getScene() {
