@@ -6,6 +6,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -38,6 +39,12 @@ public class GameView {
 		grid.add(canvas, 0, 0);
 		gc = canvas.getGraphicsContext2D();
 		clearCanvas();
+
+		BoxBlur blur = new BoxBlur();
+		blur.setWidth(1);
+		blur.setHeight(1);
+		blur.setIterations(1);
+		gc.setEffect(blur);
 
 		scene = new Scene(grid);
 		Main.setScene(scene);
