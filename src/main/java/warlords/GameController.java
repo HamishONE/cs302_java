@@ -124,7 +124,7 @@ public class GameController implements IGame {
 		processInput();
 		if (!isPaused) {
 			checkCollisions();
-			isFinished();
+			checkWinner();
 			timeRemaining -= (System.nanoTime() - lastTimestamp) / 1e6;
 			lastTimestamp = System.nanoTime();
 		}
@@ -184,46 +184,48 @@ public class GameController implements IGame {
 
 	private void checkWinner() {
 		//timeout - most walls
-		if(timeRemaining <= 0) {
-			 int[] ballOwners = new int[4];
-			for (Wall selectedWall: walls) {
+		int numPlayers = warlords.size();
+		if (timeRemaining <= 0) {
+			int[] ballOwners = new int[numPlayers];
+			for (Wall selectedWall : walls) {
 				ballOwners[selectedWall.getOwner()]++;
 			}
 
-			if(ballOwners[0] > ballOwners[1] && ballOwners[0] > ballOwners[2] && ballOwners[0] > ballOwners[3]) {
-				warlords.get(0).setAsWinner();
+			for (int i = 0; i < numPlayers; i++) {
+				boolean hasWon = true;
+				for (int j = 0; j < numPlayers; j++) {
+					if (i == j) {
+						continue;
+					}
+					if (ballOwners[i] <= ballOwners[j]) {
+						hasWon = false;
+					}
+					if (hasWon) {
+						warlords.get(i).setAsWinner();
+						state.setState(GameState.State.FINISHED);
+						return;
+					}
+				}
 			}
-			else if(ballOwners[1] > ballOwners[0] && ballOwners[1] > ballOwners[2] && ballOwners[1] > ballOwners[3]) {
-				warlords.get(1).setAsWinner();
-			}
-			else if(ballOwners[2] > ballOwners[0] && ballOwners[2] > ballOwners[1] && ballOwners[2] > ballOwners[3]) {
-				warlords.get(2).setAsWinner();
-			}
-			else if(ballOwners[3] > ballOwners[0] && ballOwners[3] > ballOwners[1] && ballOwners[3] > ballOwners[2]){
-				warlords.get(3).setAsWinner();
-			}
-			state.setState(GameState.State.FINISHED);
-		}
-		else
-		//	one player standing
-		if(warlords.get(1).isDead() && warlords.get(2).isDead() && warlords.get(3).isDead()){
-			warlords.get(0).setAsWinner();
-			state.setState(GameState.State.FINISHED);
-		}
-		else if(warlords.get(0).isDead() && warlords.get(2).isDead() && warlords.get(3).isDead()) {
-			warlords.get(1).setAsWinner();
-			state.setState(GameState.State.FINISHED);
-		}
-		else if(warlords.get(0).isDead() && warlords.get(1).isDead() && warlords.get(3).isDead()) {
-			warlords.get(2).setAsWinner();
-			state.setState(GameState.State.FINISHED);
-		}
-		else if(warlords.get(0).isDead() && warlords.get(1).isDead() && warlords.get(2).isDead()) {
-			warlords.get(3).setAsWinner();
-			state.setState(GameState.State.FINISHED);
 		}
 
-	}
+			for (int i = 0; i < numPlayers; i++) {
+				boolean hasWon = true;
+				for (int j = 0; j < numPlayers; j++) {
+					if (i == j) {
+						continue;
+					}
+					if (!warlords.get(j).isDead()) {
+						hasWon = false;
+					}
+					if (hasWon) {
+						warlords.get(i).setAsWinner();
+						state.setState(GameState.State.FINISHED);
+						return;
+					}
+				}
+			}
+		}
 
 	@Override
 	public void setTimeRemaining(int seconds) {

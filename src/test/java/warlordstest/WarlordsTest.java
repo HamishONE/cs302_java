@@ -21,7 +21,7 @@ public class WarlordsTest extends TestSuite {
 	public void setUp(){
 
 		Game game = new Game(1024, 768);
-		Ball ball = new Ball(0, 0);
+		Ball ball = new Ball(100, 100);
 		Paddle paddle = new Paddle(0, 0, 0D, game);
 		paddle.setRotation(Math.PI/2);
 		Wall wall = new Wall(0, 0, Math.PI/2, 0);
@@ -152,7 +152,6 @@ public class WarlordsTest extends TestSuite {
 
 	}
 
-	@Ignore
 	@Test
 	public void testGameEndFromKnockout(){
 
@@ -174,7 +173,6 @@ public class WarlordsTest extends TestSuite {
 
 	}
 
-	@Ignore
 	@Test
 	public void testGameEndFromTimeout(){
 
