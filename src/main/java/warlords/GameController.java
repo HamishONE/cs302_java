@@ -9,12 +9,12 @@ public class GameController implements IGame {
 	private boolean loopRunning = false;
 	private GameState state;
 	private Game game;
-	public Ball ball; //TODO: Make private after phase 1
+	private Ball ball;
 	private GameView gameView;
-	public ArrayList<Paddle> paddles = new ArrayList<>(4); //TODO: Make private after phase 1
+	private ArrayList<Paddle> paddles = new ArrayList<>(4);
 	private ArrayList<IUserInput> players = new ArrayList<>(4);
-	public ArrayList<Wall> walls = new ArrayList<>(); //TODO: Make private after phase 1
-	public ArrayList<Warlord> warlords = new ArrayList<>(4); //TODO: Make private after phase 1
+	private ArrayList<Wall> walls = new ArrayList<>();
+	private ArrayList<Warlord> warlords = new ArrayList<>(4);
 	private ArrayList<IUserInput> userInputs;
 	private boolean doExitGame = false;
 	private boolean isPaused = false;
@@ -26,6 +26,20 @@ public class GameController implements IGame {
 		game = new Game(width, height);
 		this.gameView = gameView;
 		this.state = state;
+		setupStandardGameObjects();
+	}
+
+	public GameController(GameView gameView, ArrayList<Paddle> paddles, ArrayList<IUserInput> players, ArrayList<Wall> walls,
+						  ArrayList<Warlord> warlords, Game game, Ball ball) {
+		this.game = game;
+		this.gameView = gameView;
+
+		this.paddles = paddles;
+		this.players = players;
+		this.walls = walls;
+		this.warlords = warlords;
+		this.ball = ball;
+		state = new GameState();
 	}
 
 	private void addWalls(int xOffset, int yOffset, double angleOffset, int owner) {
@@ -64,7 +78,7 @@ public class GameController implements IGame {
 		}
 	}
 
-	public void setupGameObjects() {
+	private void setupStandardGameObjects() {
 
 		ball = new Ball(game.getWidth()/2, game.getHeight()/2);
 		ball.generateRandomMovement(10);
@@ -85,15 +99,13 @@ public class GameController implements IGame {
 			players.add(new ArtificialUser(ball, paddles.get(i)));
 		}
 
-		addWalls(0, 0, 0, 1);
-		addWalls(game.getWidth(), 0, PI/2, 2);
-		addWalls(game.getWidth(), game.getHeight(), PI, 3);
-		addWalls(0, game.getHeight(), 3*PI/2, 4);
+		addWalls(0, 0, 0, 0);
+		addWalls(game.getWidth(), 0, PI/2, 1);
+		addWalls(game.getWidth(), game.getHeight(), PI, 2);
+		addWalls(0, game.getHeight(), 3*PI/2, 3);
 	}
 
 	public void beginGame() {
-
-		setupGameObjects();
 		loopRunning = true;
 		lastTimestamp = System.nanoTime();
 	}
@@ -120,7 +132,7 @@ public class GameController implements IGame {
 
 	private void processInput() {
 
-		for (int i=0; i<4; i++) {
+		for (int i=0; i<players.size(); i++) {
 			InputType input = players.get(i).getInputType();
 			if (input != null && !isPaused) {
 				switch (input) {
