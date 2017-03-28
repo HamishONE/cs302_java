@@ -7,6 +7,7 @@ import static java.lang.Math.PI;
 public class GameController implements IGame {
 
 	private boolean loopRunning = false;
+	private GameState state;
 	private Game game;
 	private Ball ball;
 	private GameView gameView;
@@ -20,10 +21,11 @@ public class GameController implements IGame {
 	private int timeRemaining = 120000;
 	private long lastTimestamp;
 
-	public GameController(ArrayList<IUserInput> userInputs, int width, int height, GameView gameView) {
+	public GameController(ArrayList<IUserInput> userInputs, int width, int height, GameView gameView, GameState state) {
 		this.userInputs = userInputs;
 		game = new Game(width, height);
 		this.gameView = gameView;
+		this.state = state;
 		setupStandardGameObjects();
 	}
 
@@ -37,9 +39,10 @@ public class GameController implements IGame {
 		this.walls = walls;
 		this.warlords = warlords;
 		this.ball = ball;
+		state = new GameState();
 	}
 
-	private void addWalls(int xOffset, int yOffset, double angleOffset) {
+	private void addWalls(int xOffset, int yOffset, double angleOffset, int owner) {
 
 		double initialRadius = 150;
 		double wallWidth = 40;
@@ -66,7 +69,7 @@ public class GameController implements IGame {
 				double x = radius * Math.cos(angle);
 				double y = radius * Math.sin(angle);
 
-				Wall wall = new Wall((int)x + xOffset, (int)y + yOffset, angle);
+				Wall wall = new Wall((int)x + xOffset, (int)y + yOffset, angle, owner);
 				walls.add(wall);
 
 				angle += (wallWidth / 2) / radius;
@@ -96,10 +99,10 @@ public class GameController implements IGame {
 			players.add(new ArtificialUser(ball, paddles.get(i)));
 		}
 
-		addWalls(0, 0, 0);
-		addWalls(game.getWidth(), 0, PI/2);
-		addWalls(game.getWidth(), game.getHeight(), PI);
-		addWalls(0, game.getHeight(), 3*PI/2);
+		addWalls(0, 0, 0, 0);
+		addWalls(game.getWidth(), 0, PI/2, 1);
+		addWalls(game.getWidth(), game.getHeight(), PI, 2);
+		addWalls(0, game.getHeight(), 3*PI/2, 3);
 	}
 
 	public void beginGame() {
@@ -121,6 +124,7 @@ public class GameController implements IGame {
 		processInput();
 		if (!isPaused) {
 			checkCollisions();
+			checkWinner();
 			timeRemaining -= (System.nanoTime() - lastTimestamp) / 1e6;
 			lastTimestamp = System.nanoTime();
 		}
@@ -176,8 +180,53 @@ public class GameController implements IGame {
 
 	@Override
 	public boolean isFinished() {
-		return timeRemaining < 0;
+		return state.getState() == GameState.State.FINISHED;
 	}
+
+	private void checkWinner() {
+		//timeout - most walls
+		int numPlayers = warlords.size();
+		if (timeRemaining <= 0) {
+			int[] ballOwners = new int[numPlayers];
+			for (Wall selectedWall : walls) {
+				ballOwners[selectedWall.getOwner()]++;
+			}
+
+			for (int i = 0; i < numPlayers; i++) {
+				boolean hasWon = true;
+				for (int j = 0; j < numPlayers; j++) {
+					if (i == j) {
+						continue;
+					}
+					if (ballOwners[i] <= ballOwners[j]) {
+						hasWon = false;
+					}
+					if (hasWon) {
+						warlords.get(i).setAsWinner();
+						state.setState(GameState.State.FINISHED);
+						return;
+					}
+				}
+			}
+		}
+
+			for (int i = 0; i < numPlayers; i++) {
+				boolean hasWon = true;
+				for (int j = 0; j < numPlayers; j++) {
+					if (i == j) {
+						continue;
+					}
+					if (!warlords.get(j).isDead()) {
+						hasWon = false;
+					}
+					if (hasWon) {
+						warlords.get(i).setAsWinner();
+						state.setState(GameState.State.FINISHED);
+						return;
+					}
+				}
+			}
+		}
 
 	@Override
 	public void setTimeRemaining(int seconds) {
