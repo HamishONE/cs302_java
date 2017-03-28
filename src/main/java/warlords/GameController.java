@@ -201,12 +201,13 @@ public class GameController implements IGame {
 					}
 					if (ballOwners[i] <= ballOwners[j]) {
 						hasWon = false;
+						break;
 					}
-					if (hasWon) {
-						warlords.get(i).setAsWinner();
-						state.setState(GameState.State.FINISHED);
-						return;
-					}
+				}
+				if (hasWon) {
+					warlords.get(i).setAsWinner();
+					state.setState(GameState.State.FINISHED);
+					return;
 				}
 			}
 		}
