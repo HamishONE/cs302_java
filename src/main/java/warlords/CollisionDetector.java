@@ -33,6 +33,8 @@ public class CollisionDetector {
 		else if (gameObject instanceof Warlord) {
 			Warlord warlord = (Warlord) gameObject;
 			warlord.causeDamage(1);
+			int index = warlords.indexOf(warlord);
+			paddles.set(index, null);
 		}
 	}
 
@@ -52,6 +54,7 @@ public class CollisionDetector {
 
 			ArrayList<GameObject> allObjects = new ArrayList<>(paddles);
 			allObjects.addAll(walls);
+			allObjects.remove(null);
 			for (Warlord warlord : warlords) {
 				if (!warlord.isDead()) {
 					allObjects.add(warlord);

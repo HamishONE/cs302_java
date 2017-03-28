@@ -166,6 +166,7 @@ public class GameController implements IGame {
 		gameObjects.addAll(warlords);
 		gameObjects.addAll(paddles);
 		gameObjects.add(ball);
+		gameObjects.remove(null);
 		gameView.drawObjects(gameObjects);
 		gameView.drawTimer(timeRemaining/1000);
 		if (isPaused) {
