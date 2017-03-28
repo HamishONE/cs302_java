@@ -2,6 +2,7 @@ package warlords;
 
 import warlordstest.IGame;
 import java.util.ArrayList;
+import java.util.Objects;
 import static java.lang.Math.PI;
 
 public class GameController implements IGame {
@@ -170,7 +171,7 @@ public class GameController implements IGame {
 		gameObjects.addAll(warlords);
 		gameObjects.addAll(paddles);
 		gameObjects.add(ball);
-		gameObjects.remove(null);
+		gameObjects.removeIf(Objects::isNull);
 		gameView.drawObjects(gameObjects);
 		gameView.drawTimer(timeRemaining/1000);
 		if (isPaused) {
@@ -210,23 +211,21 @@ public class GameController implements IGame {
 			}
 		}
 
-			for (int i = 0; i < numPlayers; i++) {
-				boolean hasWon = true;
-				for (int j = 0; j < numPlayers; j++) {
-					if (i == j) {
-						continue;
-					}
-					if (!warlords.get(j).isDead()) {
-						hasWon = false;
-					}
-					if (hasWon) {
-						warlords.get(i).setAsWinner();
-						state.setState(GameState.State.FINISHED);
-						return;
-					}
+		for (int i = 0; i < numPlayers; i++) {
+			boolean hasWon = true;
+			for (int j = 0; j < numPlayers; j++) {
+				if (i != j && !warlords.get(j).isDead()) {
+					hasWon = false;
+					break;
 				}
 			}
+			if (hasWon) {
+				warlords.get(i).setAsWinner();
+				state.setState(GameState.State.FINISHED);
+				return;
+			}
 		}
+	}
 
 	@Override
 	public void setTimeRemaining(int seconds) {

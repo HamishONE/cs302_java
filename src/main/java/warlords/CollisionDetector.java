@@ -2,6 +2,7 @@ package warlords;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CollisionDetector {
 
@@ -54,7 +55,7 @@ public class CollisionDetector {
 
 			ArrayList<GameObject> allObjects = new ArrayList<>(paddles);
 			allObjects.addAll(walls);
-			allObjects.remove(null);
+			allObjects.removeIf(Objects::isNull);
 			for (Warlord warlord : warlords) {
 				if (!warlord.isDead()) {
 					allObjects.add(warlord);
