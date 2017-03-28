@@ -26,7 +26,7 @@ public class WarlordsTest extends TestSuite {
 			add(new KeyboardInput(null));
 			add(new KeyboardInput(null));
 			add(new KeyboardInput(null));
-		}}, 1000, 1000, null);
+		}}, 1000, 1000, null, new GameState());
 		gameController.beginGame();
 
 		// Set the internal paddle rotation to 90deg which represents a horizontal surface

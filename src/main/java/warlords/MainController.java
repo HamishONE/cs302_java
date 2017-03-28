@@ -6,12 +6,6 @@ import java.util.HashMap;
 
 public class MainController {
 
-	private enum State {
-		IDLE,
-		MENU,
-		GAME
-	}
-
 	private HashMap<KeyCode, InputType> P1Map = new HashMap<>();
 	private HashMap<KeyCode, InputType> P2Map = new HashMap<>();
 	private HashMap<KeyCode, InputType> P3Map = new HashMap<>();
@@ -35,7 +29,7 @@ public class MainController {
 	private GameView gameView;
 	private int height;
 	private int width;
-	private State state = State.IDLE;
+	private GameState state = new GameState();
 
 	public MainController(int height, int width) {
 		this.height = height;
@@ -56,24 +50,24 @@ public class MainController {
 		listener.startListening();
 
 		menuController = new MenuController(userInputs, width, height, gameView);
-		state = State.MENU;
+		state.setState(GameState.State.MENU);
 	}
 
 	public void runLoop() {
 
-		switch (state) {
+		switch (state.getState()) {
 			case MENU:
 				menuController.runLoop();
 				if (menuController.doStartGame()) {
-					state = State.GAME;
-					gameController = new GameController(userInputs, width, height, gameView);
+					state.setState(GameState.State.GAME);
+					gameController = new GameController(userInputs, width, height, gameView, state);
 					gameController.beginGame();
 				}
 				break;
 			case GAME:
 				gameController.runLoop();
 				if (gameController.doExitGame()) {
-					state = State.MENU;
+					state.setState(GameState.State.MENU);
 					gameController = null;
 					menuController.reset();
 				}
