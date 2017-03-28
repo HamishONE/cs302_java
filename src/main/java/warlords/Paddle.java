@@ -25,6 +25,10 @@ public class Paddle extends GameObject implements IPaddle {
 		setPosition();
 	}
 
+	public void setRotation(double theta) {
+		rotationAngle = theta;
+	}
+
 	public void moveLeft() {
 		if (y_init < game.getWidth()/2) {
 			moveCW();

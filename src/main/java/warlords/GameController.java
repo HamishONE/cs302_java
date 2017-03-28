@@ -8,12 +8,12 @@ public class GameController implements IGame {
 
 	private boolean loopRunning = false;
 	private Game game;
-	public Ball ball; //TODO: Make private after phase 1
+	private Ball ball;
 	private GameView gameView;
-	public ArrayList<Paddle> paddles = new ArrayList<>(4); //TODO: Make private after phase 1
+	private ArrayList<Paddle> paddles = new ArrayList<>(4);
 	private ArrayList<IUserInput> players = new ArrayList<>(4);
-	public ArrayList<Wall> walls = new ArrayList<>(); //TODO: Make private after phase 1
-	public ArrayList<Warlord> warlords = new ArrayList<>(4); //TODO: Make private after phase 1
+	private ArrayList<Wall> walls = new ArrayList<>();
+	private ArrayList<Warlord> warlords = new ArrayList<>(4);
 	private ArrayList<IUserInput> userInputs;
 	private boolean doExitGame = false;
 	private boolean isPaused = false;
@@ -24,6 +24,19 @@ public class GameController implements IGame {
 		this.userInputs = userInputs;
 		game = new Game(width, height);
 		this.gameView = gameView;
+		setupStandardGameObjects();
+	}
+
+	public GameController(GameView gameView, ArrayList<Paddle> paddles, ArrayList<IUserInput> players, ArrayList<Wall> walls,
+						  ArrayList<Warlord> warlords, Game game, Ball ball) {
+		this.game = game;
+		this.gameView = gameView;
+
+		this.paddles = paddles;
+		this.players = players;
+		this.walls = walls;
+		this.warlords = warlords;
+		this.ball = ball;
 	}
 
 	private void addWalls(int xOffset, int yOffset, double angleOffset) {
@@ -62,7 +75,7 @@ public class GameController implements IGame {
 		}
 	}
 
-	public void setupGameObjects() {
+	private void setupStandardGameObjects() {
 
 		ball = new Ball(game.getWidth()/2, game.getHeight()/2);
 		ball.generateRandomMovement(10);
@@ -90,8 +103,6 @@ public class GameController implements IGame {
 	}
 
 	public void beginGame() {
-
-		setupGameObjects();
 		loopRunning = true;
 		lastTimestamp = System.nanoTime();
 	}
@@ -117,7 +128,7 @@ public class GameController implements IGame {
 
 	private void processInput() {
 
-		for (int i=0; i<4; i++) {
+		for (int i=0; i<players.size(); i++) {
 			InputType input = players.get(i).getInputType();
 			if (input != null && !isPaused) {
 				switch (input) {

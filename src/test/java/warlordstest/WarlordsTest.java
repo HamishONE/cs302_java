@@ -20,29 +20,31 @@ public class WarlordsTest extends TestSuite {
 	@Before
 	public void setUp(){
 
-		// Setup a new game with 4 fake user inputs (otherwise AIs will move the paddles!)
-		GameController gameController = new GameController(new ArrayList<IUserInput>() {{
-			add(new KeyboardInput(null));
-			add(new KeyboardInput(null));
-			add(new KeyboardInput(null));
-			add(new KeyboardInput(null));
-		}}, 1000, 1000, null);
+		Game game = new Game(1024, 768);
+		Ball ball = new Ball(0, 0);
+		Paddle paddle = new Paddle(0, 0, 0D, game);
+		paddle.setRotation(Math.PI/2);
+		Wall wall = new Wall(0, 0, Math.PI/2);
+		Warlord player1 = new Warlord(0, 0, "fake_img");
+		Warlord player2 = new Warlord(0, 0, "fake_img");
+
+		ArrayList<Paddle> paddles = new ArrayList<>();
+		paddles.add(paddle);
+		ArrayList<Wall> walls = new ArrayList<>();
+		walls.add(wall);
+		ArrayList<Warlord> warlords = new ArrayList<>();
+		warlords.add(player1);
+		warlords.add(player2);
+
+		GameController gameController = new GameController(null, paddles, new ArrayList<>(), walls, warlords, game, ball);
 		gameController.beginGame();
 
-		// Set the internal paddle rotation to 90deg which represents a horizontal surface
-		Paddle paddle = gameController.paddles.get(0);
-		paddle.rotationAngle = Math.PI/2;
-
-		// Set the internal wall rotation to 90deg which represents a horizontal surface
-		Wall wall = gameController.walls.get(0);
-		wall.rotationAngle = Math.PI/2;
-
 		this.game = gameController;
-		this.ball = gameController.ball;
+		this.ball = ball;
 		this.paddle = paddle;
 		this.player1Wall = wall;
-		this.player1 = gameController.warlords.get(0);
-		this.player2 = gameController.warlords.get(1);
+		this.player1 = player1;
+		this.player2 = player2;
 	}
 
 	@Test
