@@ -23,14 +23,17 @@ public class Warlord extends GameObject implements IWarlord {
 		return hasWon;
 	}
 
+	/**
+	 * Causes damage to the warlord.
+	 *
+	 * @param damage the amount of damage to be dealt
+	 */
 	public void causeDamage(int damage) {
 		health -= damage;
-
-		if (isDead()) {
-			this.spritePath = "/red.png";
-		}
 	}
-
+	/**
+	 * Sets the current warlord as the winning character
+	 */
 	public void setAsWinner() {
 		hasWon = true;
 	}

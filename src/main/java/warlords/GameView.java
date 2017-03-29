@@ -50,9 +50,14 @@ public class GameView {
 
 	public void drawObjects(List<GameObject> gameObjects) {
 		clearCanvas();
+
 		for (GameObject gameObject : gameObjects) {
 
 			gc.save(); // saves the current state on stack, including the current transform
+			if(gameObject instanceof Warlord && ((Warlord) gameObject).isDead()) {
+				gc.setGlobalAlpha(0.4);
+			}
+
 			Rotate r = new Rotate(gameObject.getRotation()*(180/Math.PI), gameObject.getXPos(), gameObject.getYPos());
 			gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
 
@@ -62,6 +67,7 @@ public class GameView {
 			gc.drawImage(image, x, y);
 
 			gc.restore(); // back to original state (before rotation)
+
 		}
 	}
 
