@@ -69,26 +69,36 @@ public class CollisionDetector {
 		allObjects.add(new Boundary(game));
 
 		MathLine ballPath = new MathLine(ball.getXPos(), ball.getYPos(), ball.getXVelocity(), ball.getYVelocity());
+		MathLine closestPath = null;
+		GameObject closestObject = null;
+		double shortestDistance = Double.MAX_VALUE;
 		for (GameObject gameObject : allObjects) {
 			ArrayList<MathLine> objectPaths = gameObject.getSideVectors();
 			ArrayList<MathVector> objectVertices = gameObject.getVertices();
 
 			for (int j=0; j<4; j++) {
-				MathVector intersection = ballPath.intersectPoint(objectPaths.get(j));
-				if (intersection == null) {
-					continue;
-				}
-				int nextIndex = (j == 3) ? 0 : j+1;
-				if (intersection.isBetween(objectVertices.get(j), objectVertices.get(nextIndex), ball.getWidth())) {
-					double initialMovement = intersection.distanceTo(ball.getPointVector());
-					double afterMovement = ball.getSpeed() - initialMovement;
-					reboundBall(objectPaths.get(j).getRotation(), initialMovement, afterMovement);
-					destroyObject(gameObject);
-					return;
+				MathLine objectPath = objectPaths.get(j);
+				//objectPath.extendLine(ball.getWidth()/2);
+				MathVector intersection = ballPath.intersectPoint(objectPath);
+				if (intersection != null) {
+					double distanceAway = intersection.distanceTo(ballPath.getPointVector());
+					if (distanceAway < shortestDistance) {
+						shortestDistance = distanceAway;
+						closestPath = objectPath;
+						closestObject = gameObject;
+					}
 				}
 			}
 		}
-		ball.tick();
+		if (closestPath != null) {
+			MathVector intersection = ballPath.intersectPoint(closestPath);
+			double initialMovement = intersection.distanceTo(ball.getPointVector());// - ball.getWidth()/2;
+			double afterMovement = ball.getSpeed() - initialMovement;// + ball.getWidth()/2;
+			reboundBall(closestPath.getRotation(), initialMovement, afterMovement);
+			destroyObject(closestObject);
+		} else {
+			ball.tick();
+		}
 	}
 
 	// Rebound the ball along the provided angle of a surface and complete it's motion

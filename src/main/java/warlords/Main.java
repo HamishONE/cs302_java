@@ -7,8 +7,16 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+	static private int countMax = 0;
+	static {
+		if (System.getProperty("debug") != null && System.getProperty("debug").equalsIgnoreCase("true")) {
+			countMax = 10;
+		}
+	}
+
 	private static Stage stage;
 	private MainController mainController;
+	private int counter = 0;
 
 	public static void setScene(Scene scene) {
 		stage.setScene(scene);
@@ -31,7 +39,10 @@ public class Main extends Application {
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
-				mainController.runLoop();
+				if (counter++ > countMax) {
+					counter = 0;
+					mainController.runLoop();
+				}
 			}
 		};
 		timer.start();

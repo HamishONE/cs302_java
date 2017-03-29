@@ -74,6 +74,11 @@ public class GameView {
 			double y = gameObject.getYPos() - gameObject.getHeight()/2;
 			gc.drawImage(image, x, y);
 
+			if (System.getProperty("debug") != null && System.getProperty("debug").equalsIgnoreCase("true")) {
+				gc.setStroke(Color.RED);
+				gc.strokeRect(x, y, gameObject.getWidth(), gameObject.getHeight());
+			}
+
 			gc.restore(); // back to original state (before rotation)
 
 		}
