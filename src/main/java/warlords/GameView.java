@@ -27,9 +27,9 @@ public class GameView {
 	private double height;
 
 	/**
-	 * Create a new
-	 * @param widthhuiuokyeg
-	 * @param height
+	 * Create a new canvas of the specified dimensions
+	 * @param width width of the canvas
+	 * @param height height of the canvas
 	 */
 	public GameView(double width, double height) {
 
