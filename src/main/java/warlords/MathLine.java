@@ -85,14 +85,23 @@ public class MathLine {
 	 * Extends the line at both ends
 	 * @param extension the distance to extend each end by
 	 */
-	public void extendLine(double extension) {
+	public void extendBothEnds(double extension) {
 
 		double xDirection = (dX == 0) ? 0 : dX/Math.abs(dX);
 		double yDirection = (dY == 0) ? 0 : dY/Math.abs(dY);
 
-		x += xDirection * extension;
-		y += yDirection * extension;
+		x -= xDirection * extension;
+		y -= yDirection * extension;
 		dX += xDirection * extension * 2;
 		dY += yDirection * extension * 2;
+	}
+
+	public void extendEnd(double extension) {
+
+		double xDirection = (dX == 0) ? 0 : dX/Math.abs(dX);
+		double yDirection = (dY == 0) ? 0 : dY/Math.abs(dY);
+
+		dX += xDirection * extension;
+		dY += yDirection * extension;
 	}
 }

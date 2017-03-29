@@ -57,7 +57,10 @@ public class GameView {
 	}
 
 	public void drawObjects(List<GameObject> gameObjects) {
-		clearCanvas();
+
+		if (!Main.isDebugMode()) {
+			clearCanvas();
+		}
 
 		for (GameObject gameObject : gameObjects) {
 
@@ -74,7 +77,7 @@ public class GameView {
 			double y = gameObject.getYPos() - gameObject.getHeight()/2;
 			gc.drawImage(image, x, y);
 
-			if (System.getProperty("debug") != null && System.getProperty("debug").equalsIgnoreCase("true")) {
+			if (Main.isDebugMode()) {
 				gc.setStroke(Color.RED);
 				gc.strokeRect(x, y, gameObject.getWidth(), gameObject.getHeight());
 			}

@@ -7,16 +7,13 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	static private int countMax = 0;
-	static {
-		if (System.getProperty("debug") != null && System.getProperty("debug").equalsIgnoreCase("true")) {
-			countMax = 10;
-		}
-	}
-
 	private static Stage stage;
 	private MainController mainController;
 	private int counter = 0;
+
+	public static boolean isDebugMode() {
+		return System.getProperty("debug") != null && System.getProperty("debug").equalsIgnoreCase("true");
+	}
 
 	public static void setScene(Scene scene) {
 		stage.setScene(scene);
@@ -36,6 +33,7 @@ public class Main extends Application {
 		mainController = new MainController(600, 800);
 		mainController.start();
 
+		int countMax = isDebugMode() ? 10 : 0;
 		AnimationTimer timer = new AnimationTimer() {
 			@Override
 			public void handle(long now) {
