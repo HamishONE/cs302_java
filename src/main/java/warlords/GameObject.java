@@ -78,6 +78,10 @@ public abstract class GameObject {
 		return height;
 	}
 
+	public MathVector getPointVector() {
+		return new MathVector(x, y);
+	}
+
 	public Shape getRectangle() {
 		Shape shape = new Rectangle2D.Double(x - width/2, y - height/2, width, height);
 		AffineTransform at = AffineTransform.getRotateInstance(rotationAngle - PI/2, x, y);

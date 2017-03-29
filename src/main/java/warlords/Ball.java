@@ -28,6 +28,17 @@ public class Ball extends GameObject implements IBall {
 		y += dY;
 	}
 
+	public void tick(double magnitude) {
+
+		double multiplier = magnitude/getSpeed();
+		x += dX * multiplier;
+		y += dY * multiplier;
+	}
+
+	public double getSpeed() {
+		return sqrt(pow(dX, 2) + pow(dY, 2));
+	}
+
 	@Override
 	public void setXVelocity(int dX) {
 		this.dX = dX;

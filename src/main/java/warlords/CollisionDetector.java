@@ -80,7 +80,9 @@ public class CollisionDetector {
 				}
 				int nextIndex = (j == 3) ? 0 : j+1;
 				if (intersection.isBetween(objectVertices.get(j), objectVertices.get(nextIndex), ball.getWidth())) {
-					reboundBall(objectPaths.get(j).getRotation());
+					double initialMovement = intersection.distanceTo(ball.getPointVector());
+					double afterMovement = ball.getSpeed() - initialMovement;
+					reboundBall(objectPaths.get(j).getRotation(), initialMovement, afterMovement);
 					destroyObject(gameObject);
 					return;
 				}
@@ -90,8 +92,9 @@ public class CollisionDetector {
 	}
 
 	// Rebound the ball along the provided angle of a surface and complete it's motion
-	private void reboundBall(double surfaceAngle) {
+	private void reboundBall(double surfaceAngle, double movementBeforeRebound, double movementAfterRebound) {
+		ball.tick(movementBeforeRebound);
 		ball.rebound(surfaceAngle);
-		ball.tick();
+		ball.tick(movementAfterRebound);
 	}
 }
