@@ -37,8 +37,8 @@ public class MathVector {
 		return new MathVector(x * factor, y * factor);
 	}
 
-	public MathVector dot(MathVector arg2) {
-		return new MathVector(x * arg2.getX(), y * arg2.getY());
+	public double dot(MathVector arg2) {
+		return x*arg2.getX() + y*arg2.getY();
 	}
 
 	public double cross(MathVector arg2) {
