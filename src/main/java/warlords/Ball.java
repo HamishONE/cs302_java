@@ -21,12 +21,11 @@ public class Ball extends GameObject implements IBall {
 	}
 
 	/**
-	 * Move the ball along it's path
-	 * @param multiplier the fraction of its velocity to move by
+	 * Move the ball along it's path by one unit of velocity
 	 */
-	public void tick(double multiplier) {
-		x += dX * multiplier;
-		y += dY * multiplier;
+	public void tick() {
+		x += dX;
+		y += dY;
 	}
 
 	@Override

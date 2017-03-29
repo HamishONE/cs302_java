@@ -9,8 +9,6 @@ import java.util.Objects;
  */
 public class CollisionDetector {
 
-	private static final double MULTIPLIER = 0.01;
-
 	private Ball ball;
 	private List<Paddle> paddles;
 	private List<Wall> walls;
@@ -60,69 +58,40 @@ public class CollisionDetector {
 	 */
 	public void moveBall() {
 
-		double dX = ball.getXVelocity() * MULTIPLIER;
-		double dY = ball.getYVelocity() * MULTIPLIER;
-
-		double x = ball.getXPos();
-		double y = ball.getYPos();
-
-		int num = (int) Math.round(1/MULTIPLIER);
-		for (int i=0; i<num; i++) {
-
-			x += dX;
-			y += dY;
-
-			ArrayList<GameObject> allObjects = new ArrayList<>(paddles);
-			allObjects.addAll(walls);
-			allObjects.removeIf(Objects::isNull);
-			for (Warlord warlord : warlords) {
-				if (!warlord.isDead()) {
-					allObjects.add(warlord);
-				}
+		ArrayList<GameObject> allObjects = new ArrayList<>(paddles);
+		allObjects.addAll(walls);
+		allObjects.removeIf(Objects::isNull);
+		for (Warlord warlord : warlords) {
+			if (!warlord.isDead()) {
+				allObjects.add(warlord);
 			}
-
-			MathLine ballPath = new MathLine(ball.getXPos(), ball.getYPos(), ball.getXVelocity(), ball.getYVelocity());
-			for (GameObject gameObject : allObjects) {
-				ArrayList<MathLine> objectPaths = gameObject.getSideVectors();
-				ArrayList<MathVector> objectVertices = gameObject.getVertices();
-				for (int j=0; j<4; j++) {
-					MathVector intersection = ballPath.intersectPoint(objectPaths.get(j));
-					if (intersection == null) {
-						continue;
-					}
-					int nextIndex = (j == 3) ? 0 : j+1;
-					if (intersection.isBetween(objectVertices.get(j), objectVertices.get(nextIndex), ball.getWidth())) {
-						reboundBall(num - i, objectPaths.get(j).getRotation());
-						destroyObject(gameObject);
-						return;
-					}
-				}
-			}
-
-			if (x + ball.getWidth()/2 >= game.getWidth()) {
-				reboundBall(num - i, Math.PI/2);
-				return;
-			}
-			else if (x <= ball.getWidth()/2) {
-				reboundBall(num - i, Math.PI/2);
-				return;
-			}
-			else if (y + ball.getHeight()/2 >= game.getHeight()) {
-				reboundBall(num - i, 0);
-				return;
-			}
-			else if (y <= ball.getHeight()/2) {
-				reboundBall(num - i, 0);
-				return;
-			}
-
-			ball.tick(MULTIPLIER);
 		}
+		allObjects.add(new Boundary(game));
+
+		MathLine ballPath = new MathLine(ball.getXPos(), ball.getYPos(), ball.getXVelocity(), ball.getYVelocity());
+		for (GameObject gameObject : allObjects) {
+			ArrayList<MathLine> objectPaths = gameObject.getSideVectors();
+			ArrayList<MathVector> objectVertices = gameObject.getVertices();
+
+			for (int j=0; j<4; j++) {
+				MathVector intersection = ballPath.intersectPoint(objectPaths.get(j));
+				if (intersection == null) {
+					continue;
+				}
+				int nextIndex = (j == 3) ? 0 : j+1;
+				if (intersection.isBetween(objectVertices.get(j), objectVertices.get(nextIndex), ball.getWidth())) {
+					reboundBall(objectPaths.get(j).getRotation());
+					destroyObject(gameObject);
+					return;
+				}
+			}
+		}
+		ball.tick();
 	}
 
 	// Rebound the ball along the provided angle of a surface and complete it's motion
-	private void reboundBall(int remaining, double surfaceAngle) {
+	private void reboundBall(double surfaceAngle) {
 		ball.rebound(surfaceAngle);
-		ball.tick(MULTIPLIER*remaining);
+		ball.tick();
 	}
 }

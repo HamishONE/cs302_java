@@ -106,11 +106,6 @@ public abstract class GameObject {
 
 		ArrayList<MathVector> points = getVertices();
 
-		Point2D.Double P1 = new Point2D.Double(x - width/2, y - height/2);
-		Point2D.Double P2 = new Point2D.Double(x + width/2, y - height/2);
-		Point2D.Double P3 = new Point2D.Double(x + width/2, y + height/2);
-		Point2D.Double P4 = new Point2D.Double(x - width/2, y + height/2);
-
 		ArrayList<MathLine> vectors = new ArrayList<>();
 		vectors.add(new MathLine(points.get(0), points.get(1)));
 		vectors.add(new MathLine(points.get(1), points.get(2)));
