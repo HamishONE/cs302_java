@@ -70,7 +70,7 @@ public class GameController implements IGame {
 				double x = radius * Math.cos(angle);
 				double y = radius * Math.sin(angle);
 
-				Wall wall = new Wall((int)x + xOffset, (int)y + yOffset, angle, owner);
+				Wall wall = new Wall((int)x + xOffset, (int)y + yOffset, angle+PI, owner);
 				walls.add(wall);
 
 				angle += (wallWidth / 2) / radius;
