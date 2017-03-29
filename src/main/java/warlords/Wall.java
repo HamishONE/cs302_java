@@ -13,8 +13,8 @@ public class Wall extends GameObject implements IWall {
 
 	public Wall(int x, int y, double theta, int owner) {
 		super(x, y, "/wal.png", theta);
-		width = 50;
-		height = 50;
+		width = 44.6;
+		height = 20.9;
 		this.owner = owner;
 	}
 
