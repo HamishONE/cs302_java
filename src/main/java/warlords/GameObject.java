@@ -2,7 +2,10 @@ package warlords;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import static java.lang.Math.PI;
 
 public abstract class GameObject {
@@ -80,5 +83,40 @@ public abstract class GameObject {
 		AffineTransform at = AffineTransform.getRotateInstance(rotationAngle - PI/2, x, y);
 		shape = at.createTransformedShape(shape);
 		return shape;
+	}
+
+	public ArrayList<MathVector> getVertices() {
+
+		ArrayList<MathVector> points = new ArrayList<>();
+
+		Shape shape = new Rectangle2D.Double(x - width/2, y - height/2, width, height);
+		AffineTransform at = AffineTransform.getRotateInstance(rotationAngle - PI/2, x, y);
+		PathIterator pathIterator = shape.getPathIterator(at);
+		for (int i=0; i<4; i++) {
+			double[] coordinates = new double[2];
+			pathIterator.currentSegment(coordinates);
+			points.add(new MathVector(coordinates[0], coordinates[1]));
+			pathIterator.next();
+		}
+
+		return points;
+	}
+
+	public ArrayList<MathLine> getSideVectors() {
+
+		ArrayList<MathVector> points = getVertices();
+
+		Point2D.Double P1 = new Point2D.Double(x - width/2, y - height/2);
+		Point2D.Double P2 = new Point2D.Double(x + width/2, y - height/2);
+		Point2D.Double P3 = new Point2D.Double(x + width/2, y + height/2);
+		Point2D.Double P4 = new Point2D.Double(x - width/2, y + height/2);
+
+		ArrayList<MathLine> vectors = new ArrayList<>();
+		vectors.add(new MathLine(points.get(0), points.get(1)));
+		vectors.add(new MathLine(points.get(1), points.get(2)));
+		vectors.add(new MathLine(points.get(2), points.get(3)));
+		vectors.add(new MathLine(points.get(3), points.get(0)));
+
+		return vectors;
 	}
 }

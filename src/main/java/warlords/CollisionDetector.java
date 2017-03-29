@@ -80,12 +80,22 @@ public class CollisionDetector {
 					allObjects.add(warlord);
 				}
 			}
+
+			MathLine ballPath = new MathLine(ball.getXPos(), ball.getYPos(), ball.getXVelocity(), ball.getYVelocity());
 			for (GameObject gameObject : allObjects) {
-				if (gameObject.getRectangle().intersects(x-ball.getWidth()/2, y-ball.getHeight()/2, ball.getWidth(),
-						ball.getHeight())) {
-					reboundBall(num - i, gameObject.getRotation());
-					destroyObject(gameObject);
-					return;
+				ArrayList<MathLine> objectPaths = gameObject.getSideVectors();
+				ArrayList<MathVector> objectVertices = gameObject.getVertices();
+				for (int j=0; j<4; j++) {
+					MathVector intersection = ballPath.intersectPoint(objectPaths.get(j));
+					if (intersection == null) {
+						continue;
+					}
+					int nextIndex = (j == 3) ? 0 : j+1;
+					if (intersection.isBetween(objectVertices.get(j), objectVertices.get(nextIndex), ball.getWidth())) {
+						reboundBall(num - i, objectPaths.get(j).getRotation());
+						destroyObject(gameObject);
+						return;
+					}
 				}
 			}
 
