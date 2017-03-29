@@ -15,6 +15,9 @@ import javafx.scene.transform.Rotate;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Create a canvas and draws various game elements onto it.
+ */
 public class GameView {
 
 	private Scene scene;
@@ -23,6 +26,11 @@ public class GameView {
 	private double width;
 	private double height;
 
+	/**
+	 * Create a new
+	 * @param widthhuiuokyeg
+	 * @param height
+	 */
 	public GameView(double width, double height) {
 
 		this.width = width;
