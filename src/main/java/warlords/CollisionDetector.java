@@ -31,7 +31,10 @@ public class CollisionDetector {
 		this.game = game;
 	}
 
-	// Performs any extra processing needed for the type of game object
+	/**
+	 * Performs any extra processing needed for the type of game object
+	 * @param gameObject The game object to process.
+	 */
 	private void destroyObject(GameObject gameObject) {
 
 		// If it is a wall cause one damage and if it is destroyed remove the wall from the list
@@ -58,6 +61,7 @@ public class CollisionDetector {
 	 */
 	public void moveBall() {
 
+		// Create a list of all objects (excluding dead warlords and null paddles) including the game window boundary
 		ArrayList<GameObject> allObjects = new ArrayList<>(paddles);
 		allObjects.addAll(walls);
 		allObjects.removeIf(Objects::isNull);
@@ -68,11 +72,17 @@ public class CollisionDetector {
 		}
 		allObjects.add(new Boundary(game));
 
+		// Get the path of the ball as a line
 		MathLine ballPath = new MathLine(ball.getXPosReal(), ball.getYPosReal(), ball.getXVelocityReal(), ball.getYVelocityReal());
+
+		// Loop through each game object to find the side with the closest point intersecting the balls velocity vector
 		MathLine closestPath = null;
 		GameObject closestObject = null;
 		double shortestDistance = Double.MAX_VALUE;
 		for (GameObject gameObject : allObjects) {
+
+			// Get the bounding box of the object expanded by the radius of the ball as lines representing the sides
+			// In the case of the game boundary we instead contract the bounding box as we expect the ball to be inside it
 			ArrayList<MathLine> objectPaths;
 			if (gameObject instanceof Boundary) {
 				objectPaths = gameObject.getSideVectors(-ball.getWidth()/2);
@@ -80,9 +90,14 @@ public class CollisionDetector {
 				objectPaths = gameObject.getSideVectors(ball.getWidth()/2);
 			}
 
+			// Loop through all four sides of the bounding box
 			for (int j=0; j<4; j++) {
 				MathLine objectPath = objectPaths.get(j);
+
+				// Find the point of intersection between the side of the bounding box and the balls velocity vector
 				MathVector intersection = ballPath.intersectPoint(objectPath);
+
+				// If the intersection exists is closer than previous ones found store the side path and the game object
 				if (intersection != null) {
 					double distanceAway = intersection.distanceTo(ballPath.getPointVector());
 					if (distanceAway < shortestDistance) {
@@ -93,18 +108,27 @@ public class CollisionDetector {
 				}
 			}
 		}
+
+		// If an intersection has been found move the ball up to the object then rebound it for the remainder of it's velocity
 		if (closestPath != null) {
 			MathVector intersection = ballPath.intersectPoint(closestPath);
 			double initialMovement = intersection.distanceTo(ball.getPointVector());
 			double afterMovement = ball.getSpeed() - initialMovement;
 			reboundBall(closestPath.getRotation(), initialMovement, afterMovement);
 			destroyObject(closestObject);
-		} else {
+		}
+		// Otherwise ball the ball forward one unit of it's velocity
+		else {
 			ball.tick();
 		}
 	}
 
-	// Rebound the ball along the provided angle of a surface and complete it's motion
+	/**
+	 * Move the ball forward for some distance, rebound it, then move it some more distance.
+	 * @param surfaceAngle The angle of the surface to rebound on.
+	 * @param movementBeforeRebound The distance to move the ball before it rebounds.
+	 * @param movementAfterRebound The distance to move the ball after it rebounds.
+	 */
 	private void reboundBall(double surfaceAngle, double movementBeforeRebound, double movementAfterRebound) {
 		ball.tick(movementBeforeRebound);
 		ball.rebound(surfaceAngle);

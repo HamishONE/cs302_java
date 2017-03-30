@@ -3,7 +3,6 @@ package warlords;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import static java.lang.Math.PI;
@@ -137,6 +136,11 @@ public abstract class GameObject {
 		return shape;
 	}
 
+	/**
+	 * Get the four verities of the objects bounding box expanded by some amount.
+	 * @param expansionWidth The amount to expand the bounding box by.
+	 * @return A list of the four vertices as vectors.
+	 */
 	private ArrayList<MathVector> getVertices(double expansionWidth) {
 
 		ArrayList<MathVector> points = new ArrayList<>();
@@ -155,6 +159,11 @@ public abstract class GameObject {
 		return points;
 	}
 
+	/**
+	 * Get the 4 sides of the objects bounding box expanded by some amount.
+	 * @param expansionWidth The amount to expand the bounding box by.
+	 * @return A list of the four sides as lines.
+	 */
 	public ArrayList<MathLine> getSideVectors(double expansionWidth) {
 
 		ArrayList<MathVector> points = getVertices(expansionWidth);

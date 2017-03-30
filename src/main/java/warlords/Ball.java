@@ -28,6 +28,10 @@ public class Ball extends GameObject implements IBall {
 		y += dY;
 	}
 
+	/**
+	 * Move the ball along it's path by a specified amount
+	 * @param magnitude the amount to move the ball by
+	 */
 	public void tick(double magnitude) {
 
 		double multiplier = magnitude/getSpeed();
@@ -35,6 +39,9 @@ public class Ball extends GameObject implements IBall {
 		y += dY * multiplier;
 	}
 
+	/**
+	 * @return The speed of the ball.
+	 */
 	public double getSpeed() {
 		return sqrt(pow(dX, 2) + pow(dY, 2));
 	}
@@ -59,10 +66,16 @@ public class Ball extends GameObject implements IBall {
 		return (int) round(dY);
 	}
 
+	/**
+	 * @return the balls velocity in the x direction as a floating point
+	 */
 	public double getXVelocityReal() {
 		return dX;
 	}
 
+	/**
+	 * @return the balls velocity in the y direction as a floating point
+	 */
 	public double getYVelocityReal() {
 		return dY;
 	}
