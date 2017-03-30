@@ -68,18 +68,20 @@ public class CollisionDetector {
 		}
 		allObjects.add(new Boundary(game));
 
-		MathLine ballPath = new MathLine(ball.getXPos(), ball.getYPos(), ball.getXVelocity(), ball.getYVelocity());
-		ballPath.extendEnd(ball.getWidth()/2);
+		MathLine ballPath = new MathLine(ball.getXPosReal(), ball.getYPosReal(), ball.getXVelocityReal(), ball.getYVelocityReal());
 		MathLine closestPath = null;
 		GameObject closestObject = null;
 		double shortestDistance = Double.MAX_VALUE;
 		for (GameObject gameObject : allObjects) {
-			ArrayList<MathLine> objectPaths = gameObject.getSideVectors();
-			ArrayList<MathVector> objectVertices = gameObject.getVertices();
+			ArrayList<MathLine> objectPaths;
+			if (gameObject instanceof Boundary) {
+				objectPaths = gameObject.getSideVectors(-ball.getWidth()/2);
+			} else {
+				objectPaths = gameObject.getSideVectors(ball.getWidth()/2);
+			}
 
 			for (int j=0; j<4; j++) {
 				MathLine objectPath = objectPaths.get(j);
-				objectPath.extendBothEnds(ball.getWidth()/2);
 				MathVector intersection = ballPath.intersectPoint(objectPath);
 				if (intersection != null) {
 					double distanceAway = intersection.distanceTo(ballPath.getPointVector());
@@ -93,7 +95,7 @@ public class CollisionDetector {
 		}
 		if (closestPath != null) {
 			MathVector intersection = ballPath.intersectPoint(closestPath);
-			double initialMovement = intersection.distanceTo(ball.getPointVector()) - ball.getWidth()/2;
+			double initialMovement = intersection.distanceTo(ball.getPointVector());
 			double afterMovement = ball.getSpeed() - initialMovement;
 			reboundBall(closestPath.getRotation(), initialMovement, afterMovement);
 			destroyObject(closestObject);

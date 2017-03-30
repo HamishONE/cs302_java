@@ -62,6 +62,20 @@ public abstract class GameObject {
 		return (int)y;
 	}
 
+	/***
+	 * @return the horizontal position of the ball.
+	 */
+	public double getXPosReal() {
+		return x;
+	}
+
+	/***
+	 * @return the vertical position of the ball.
+	 */
+	public double getYPosReal() {
+		return y;
+	}
+
 	public String getSpritePath() {
 		return spritePath;
 	}
@@ -89,11 +103,12 @@ public abstract class GameObject {
 		return shape;
 	}
 
-	public ArrayList<MathVector> getVertices() {
+	private ArrayList<MathVector> getVertices(double expansionWidth) {
 
 		ArrayList<MathVector> points = new ArrayList<>();
 
-		Shape shape = new Rectangle2D.Double(x - width/2, y - height/2, width, height);
+		Shape shape = new Rectangle2D.Double(x - width/2-expansionWidth, y - height/2-expansionWidth,
+				width+2*expansionWidth, height+2*expansionWidth);
 		AffineTransform at = AffineTransform.getRotateInstance(rotationAngle - PI/2, x, y);
 		PathIterator pathIterator = shape.getPathIterator(at);
 		for (int i=0; i<4; i++) {
@@ -106,9 +121,9 @@ public abstract class GameObject {
 		return points;
 	}
 
-	public ArrayList<MathLine> getSideVectors() {
+	public ArrayList<MathLine> getSideVectors(double expansionWidth) {
 
-		ArrayList<MathVector> points = getVertices();
+		ArrayList<MathVector> points = getVertices(expansionWidth);
 
 		ArrayList<MathLine> vectors = new ArrayList<>();
 		vectors.add(new MathLine(points.get(0), points.get(1)));

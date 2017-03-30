@@ -58,4 +58,8 @@ public class MathVector {
 
 		return (xInBetween1 || xInBetween2) && (yInBetween1 || yInBetween2);
 	}
+
+	public double getLength() {
+		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+	}
 }

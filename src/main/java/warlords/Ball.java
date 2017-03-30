@@ -59,6 +59,14 @@ public class Ball extends GameObject implements IBall {
 		return (int) round(dY);
 	}
 
+	public double getXVelocityReal() {
+		return dX;
+	}
+
+	public double getYVelocityReal() {
+		return dY;
+	}
+
 	/**
 	 * Generate movement in a random direction that is not directly vertical or horizontal.
 	 * @param speed the magnitude of the velocity
