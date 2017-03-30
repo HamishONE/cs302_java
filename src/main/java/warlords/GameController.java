@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.Objects;
 import static java.lang.Math.PI;
 
+/**
+ * Controller class for the game instance, creates all of the {@link GameObject} and passes them to the
+ * {@link GameView} to be rendered when required.
+ * <br>
+ * Also co-ordinates all of the collision and winner checking for the main game loop
+ */
 public class GameController implements IGame {
 
 	private boolean loopRunning = false;

@@ -5,6 +5,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import static java.lang.Math.PI;
 
+/**
+ * Abstract class which dictates the core functionality for all of the objects in the game
+ */
 public abstract class GameObject {
 
 	protected double x;

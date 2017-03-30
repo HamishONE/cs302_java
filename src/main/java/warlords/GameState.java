@@ -1,6 +1,8 @@
 package warlords;
 
-
+/**
+ * Class to hold enum and handle tracking of the current state of the game
+ */
 public class GameState {
 
 	/**
