@@ -3,6 +3,9 @@ package warlords;
 import javafx.application.Platform;
 import java.util.ArrayList;
 
+/**
+ * Manages the displaying the menu screen and responds to user selections.
+ */
 public class MenuController {
 
 	private int width;
@@ -13,6 +16,13 @@ public class MenuController {
 	private int selectedItem = -1;
 	private boolean doStartGame = false;
 
+	/**
+	 * Create a new instance of the menu screen
+	 * @param userInputs the {@link IUserInput} for each player with control of the menu
+	 * @param width the width of the game window
+	 * @param height the height of the game window
+	 * @param gameView the view class used to draw the menu
+	 */
 	public MenuController(ArrayList<IUserInput> userInputs, int width, int height, GameView gameView) {
 
 		this.userInputs = userInputs;
@@ -26,31 +36,49 @@ public class MenuController {
 		changeSelection(1);
 	}
 
+	/**
+	 * Check and respond to any user inputs and redraw the menu items.
+	 */
 	public void runLoop() {
 		checkUserInput();
 		gameView.drawMenuItems(menuItems);
 	}
 
+	/**
+	 * Checks if the game should be started
+	 * @return whether the game shoudl be started
+	 */
 	public boolean doStartGame() {
 		return doStartGame;
 	}
 
+	/**
+	 * Resets the menu controller to it's initial state
+	 */
 	public void reset() {
 		doStartGame = false;
 	}
 
+	/**
+	 * Checks if any players have inputted a command and changes the menu selection or executes a menu item
+	 * depending on the input.
+	 */
 	private void checkUserInput() {
 
+		// Loop through each player's user input
 		for (IUserInput userInput : userInputs) {
 			InputType input = userInput.getInputType();
+			// If the user has made an input check which type it is
 			if (input != null) {
 				switch (input) {
+					// If the input is to move the menu up or down change the selection
 					case MENU_UP:
 						changeSelection(-1);
 						break;
 					case MENU_DOWN:
 						changeSelection(1);
 						break;
+					// If the input is to select a menu item run it's callback method
 					case MENU_SELECT:
 						menuItems.get(selectedItem).runCallback();
 						break;
@@ -59,19 +87,29 @@ public class MenuController {
 		}
 	}
 
+	/**
+	 * Change which menu item is currently selected
+	 * @param direction if -1 move it to the previous item, if 1 move it to the next item
+	 */
 	private void changeSelection(int direction) {
 
-		int newSelection = selectedItem + direction;
-		if (newSelection < 0) {
-			newSelection = menuItems.size() - 1;
+		// Add the input to the current selected item index
+		selectedItem += direction;
+
+		// If this new index is out of bounds wrap it around
+		if (selectedItem < 0) {
+			selectedItem = menuItems.size() - 1;
 		}
-		if (newSelection >= menuItems.size()) {
-			newSelection = 0;
+		if (selectedItem >= menuItems.size()) {
+			selectedItem = 0;
 		}
-		selectedItem = newSelection;
+
+		// Set all the menu items to not selected
 		for (MenuItem menuItem : menuItems) {
 			menuItem.setSelected(false);
 		}
+
+		// Set the menu item at the new index as selected
 		menuItems.get(selectedItem).setSelected(true);
 	}
 }
