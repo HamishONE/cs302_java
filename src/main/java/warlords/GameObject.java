@@ -14,6 +14,14 @@ public abstract class GameObject {
 	protected String spritePath;
 	protected double rotationAngle = 0;
 
+	/**
+	 * Called only from child classes, basic constructor
+	 *
+	 * @param x			x location
+	 * @param y			y location
+	 * @param imgPath	Path to image file
+	 * @param theta		Angle object should be rotated by
+	 */
 	protected GameObject(int x, int y, String imgPath, double theta) {
 
 		this.x = x;
