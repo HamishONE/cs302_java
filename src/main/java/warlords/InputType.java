@@ -1,5 +1,8 @@
 package warlords;
 
+/**
+ * Enum representing all the inputs operations users should be able to make.
+ */
 public enum InputType {
 	LEFT,
 	RIGHT,
