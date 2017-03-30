@@ -70,22 +70,46 @@ public abstract class GameObject {
 		return (int)y;
 	}
 
+	/**
+	 * Getter for the path to the location of the object's sprite
+	 * @return string of path ot image
+	 */
 	public String getSpritePath() {
 		return spritePath;
 	}
 
+	/**
+	 * Getter for the rotation value of the object
+	 *
+	 * @return double of rotation value
+	 */
 	public Double getRotation() {
 		return rotationAngle - Math.PI/2;
 	}
 
+	/**
+	 * Getter for the width of the object
+	 *
+	 * @return double of width of the object
+	 */
 	public double getWidth() {
 		return width;
 	}
 
+	/**
+	 * Getter for the height of the object
+	 *
+	 * @return double of height of the object
+	 */
 	public double getHeight() {
 		return height;
 	}
 
+	/**
+	 * Getter for a rotated rectangle to represent the bounds of the sprite
+	 *
+	 * @return Shape of rectangle bounds
+	 */
 	public Shape getRectangle() {
 		Shape shape = new Rectangle2D.Double(x - width/2, y - height/2, width, height);
 		AffineTransform at = AffineTransform.getRotateInstance(rotationAngle - PI/2, x, y);
