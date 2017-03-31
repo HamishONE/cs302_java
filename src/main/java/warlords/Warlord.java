@@ -19,8 +19,8 @@ public class Warlord extends GameObject implements IWarlord {
 	 */
 	public Warlord(int x, int y, String imgPath) {
 		super(x, y, imgPath, Math.PI/2);
-		this.width = 100;
-		this.height = 100;
+		this.width = 60;
+		this.height = 85;
 	}
 
 	@Override
