@@ -60,6 +60,14 @@ public class CollisionDetector {
 	 * Move the ball by one unit of it's velocity taking account of rebounds from collisions.
 	 */
 	public void moveBall() {
+		moveBall(ball.getSpeed());
+	}
+
+	/**
+	 * Move the ball by a certain ammount taking account of rebounds from collisions.
+	 * @param movement The amount to move the ball by.
+	 */
+	private void moveBall(double movement) {
 
 		// Create a list of all objects (excluding dead warlords and null paddles) including the game window boundary
 		ArrayList<GameObject> allObjects = new ArrayList<>(paddles);
@@ -73,7 +81,9 @@ public class CollisionDetector {
 		allObjects.add(new Boundary(game));
 
 		// Get the path of the ball as a line
-		MathLine ballPath = new MathLine(ball.getXPosReal(), ball.getYPosReal(), ball.getXVelocityReal(), ball.getYVelocityReal());
+		double xMovement = ball.getXVelocityReal() * movement/ball.getSpeed();
+		double yMovement = ball.getYVelocityReal() * movement/ball.getSpeed();
+		MathLine ballPath = new MathLine(ball.getXPosReal(), ball.getYPosReal(), xMovement, yMovement);
 
 		// Loop through each game object to find the side with the closest point intersecting the balls velocity vector
 		MathLine closestPath = null;
@@ -113,13 +123,13 @@ public class CollisionDetector {
 		if (closestPath != null) {
 			MathVector intersection = ballPath.intersectPoint(closestPath);
 			double initialMovement = intersection.distanceTo(ball.getPointVector());
-			double afterMovement = ball.getSpeed() - initialMovement;
-			reboundBall(closestPath.getRotation(), initialMovement, afterMovement);
+			double afterMovement = movement - initialMovement;
 			destroyObject(closestObject);
+			reboundBall(closestPath.getRotation(), initialMovement, afterMovement);
 		}
 		// Otherwise ball the ball forward one unit of it's velocity
 		else {
-			ball.tick();
+			ball.tick(movement);
 		}
 	}
 
@@ -130,8 +140,14 @@ public class CollisionDetector {
 	 * @param movementAfterRebound The distance to move the ball after it rebounds.
 	 */
 	private void reboundBall(double surfaceAngle, double movementBeforeRebound, double movementAfterRebound) {
+
+		// Move the ball forward up to the object then rebound it
 		ball.tick(movementBeforeRebound);
 		ball.rebound(surfaceAngle);
-		ball.tick(movementAfterRebound);
+
+		// Move the ball forward by a small initial increment then let the collision detector move it the rest of the way
+		final double initialIncrement = 0.001;
+		ball.tick(initialIncrement);
+		moveBall(movementAfterRebound - initialIncrement);
 	}
 }
