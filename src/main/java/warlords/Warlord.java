@@ -18,7 +18,7 @@ public class Warlord extends GameObject implements IWarlord {
 	 * @param imgPath the path to the sprite image file
 	 */
 	public Warlord(int x, int y, String imgPath) {
-		super(x, y, imgPath, Math.PI/2);
+		super(x, y, imgPath, "build/resources/main/CatScream.mp3", Math.PI/2);
 		this.width = 60;
 		this.height = 85;
 	}

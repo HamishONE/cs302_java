@@ -22,7 +22,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 * @param game the game model used to get the dimensions of the game screen
 	 */
 	public Paddle(int x, int y, Double theta, Game game) {
-		super(x, y, "/paddle.png", theta + PI/4);
+		super(x, y, "/paddle.png", null, theta + PI/4);
 		this.width = 100;
 		this.height = 20;
 		x_init = x;

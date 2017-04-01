@@ -36,6 +36,7 @@ public class MainController {
 	private GameController gameController;
 	private ArrayList<IUserInput> userInputs = new ArrayList<>();
 	private GameView gameView;
+	private SoundView soundView;
 	private Game game;
 
 	/**
@@ -50,6 +51,7 @@ public class MainController {
 	/**
 	 * Instantiate all the objects and gives control to the menu.
 	 * Sets up instances of {@link KeyboardInput} and the {@link GameView} with a {@link KeyListener}
+	 * Also sets up the {@link SoundView}
 	 * linking the scene from the GameView to the KeyboardInputs.
 	 */
 	public void start() {
@@ -62,8 +64,9 @@ public class MainController {
 		keyboardInputs.add(new KeyboardInput(P4Map));
 		userInputs.addAll(keyboardInputs);
 
-		// Create the game view
+		// Create the game and sound views
 		gameView = new GameView(game.getWidth(), game.getHeight());
+		soundView = new SoundView();
 
 		// Create a key listener linking the scene to the keyboard inputs
 		KeyListener listener = new KeyListener(gameView.getScene(), keyboardInputs);
@@ -86,7 +89,7 @@ public class MainController {
 				// If the menu is ready for the game to be launched create a new game controller instance and start it
 				if (menuController.doStartGame()) {
 					game.setState(Game.State.GAME);
-					gameController = new GameController(userInputs, game, gameView);
+					gameController = new GameController(userInputs, game, gameView, soundView);
 					gameController.beginGame();
 				}
 				break;

@@ -17,6 +17,7 @@ public class GameController implements IGame {
 	private Game game;
 	private Ball ball;
 	private GameView gameView;
+	private SoundView soundView;
 	private ArrayList<Paddle> paddles = new ArrayList<>(4);
 	private ArrayList<IUserInput> players = new ArrayList<>(4);
 	private ArrayList<Wall> walls = new ArrayList<>();
@@ -31,14 +32,16 @@ public class GameController implements IGame {
 	 * Create a new instance of a controller
 	 *
 	 * @param userInputs	An arrayList of "players" to control the paddles, order is important
-	 * @param game fjhpfphghpoegihpogioJVJIOEWIOIOE
+	 * @param game 			Instance of the game model which stores information about the game
 	 * @param gameView		Instance of main view of the game
+	 * @param soundView		Instance of sound player view for the game to use
 	 */
-	public GameController(ArrayList<IUserInput> userInputs, Game game, GameView gameView) {
+	public GameController(ArrayList<IUserInput> userInputs, Game game, GameView gameView, SoundView soundView) {
 		//Initialize all parameters passed in through the constructor
 		this.userInputs = userInputs;
 		this.game = game;
 		this.gameView = gameView;
+		this.soundView = soundView;
 
 		//Set up a standard game
 		setupStandardGameObjects();
@@ -243,7 +246,7 @@ public class GameController implements IGame {
 	 * @see CollisionDetector
 	 */
 	private void checkCollisions() {
-		CollisionDetector collisionDetector = new CollisionDetector(ball, paddles, walls, warlords, game);
+		CollisionDetector collisionDetector = new CollisionDetector(ball, paddles, walls, warlords, game, soundView);
 		collisionDetector.moveBall();
 	}
 

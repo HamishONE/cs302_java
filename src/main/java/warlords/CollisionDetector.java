@@ -14,6 +14,7 @@ public class CollisionDetector {
 	private List<Wall> walls;
 	private List<Warlord> warlords;
 	private Game game;
+	private SoundView soundView;
 
 	/**
 	 * Create a new collision detector instance
@@ -22,13 +23,15 @@ public class CollisionDetector {
 	 * @param walls the list of walls to check collisions with
 	 * @param warlords the list of warlords to check collisions with
 	 * @param game the game model used to get the game boundary dimensions
+	 * @param soundView the view used to play sounds through
 	 */
-	public CollisionDetector(Ball ball, List<Paddle> paddles, List<Wall> walls, List<Warlord> warlords, Game game) {
+	public CollisionDetector(Ball ball, List<Paddle> paddles, List<Wall> walls, List<Warlord> warlords, Game game, SoundView soundView) {
 		this.ball = ball;
 		this.paddles = paddles;
 		this.walls = walls;
 		this.warlords = warlords;
 		this.game = game;
+		this.soundView = soundView;
 	}
 
 	/**
@@ -41,6 +44,8 @@ public class CollisionDetector {
 		if (gameObject instanceof Wall) {
 			Wall wall = (Wall) gameObject;
 			wall.causeDamage(1);
+			//Play the noise a wall makes
+			soundView.playSound(wall.getSoundPath());
 			if (wall.isDestroyed()) {
 				walls.remove(wall);
 			}
@@ -49,6 +54,8 @@ public class CollisionDetector {
 		else if (gameObject instanceof Warlord) {
 			Warlord warlord = (Warlord) gameObject;
 			warlord.causeDamage(1);
+			//Play the noise a warlord makes
+			soundView.playSound(warlord.getSoundPath());
 			if (warlord.isDead()) {
 				int index = warlords.indexOf(warlord);
 				paddles.set(index, null);

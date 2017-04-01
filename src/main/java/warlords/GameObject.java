@@ -17,6 +17,7 @@ public abstract class GameObject {
 	protected double width;
 	protected double height;
 	protected String spritePath;
+	protected String soundPath;
 	protected double rotationAngle = 0;
 
 	/**
@@ -25,9 +26,10 @@ public abstract class GameObject {
 	 * @param x			x location
 	 * @param y			y location
 	 * @param imgPath	Path to image file
+	 * @param soundPath	Path to sound file
 	 * @param theta		Angle object should be rotated by
 	 */
-	protected GameObject(int x, int y, String imgPath, double theta) {
+	protected GameObject(int x, int y, String imgPath, String soundPath, double theta) {
 
 		this.x = x;
 		this.y = y;
@@ -35,10 +37,17 @@ public abstract class GameObject {
 
 		width = 24;
 		height = 24;
+
 		if (imgPath != null) {
 			spritePath = imgPath;
 		} else {
 			spritePath = "/test_sprite.png";
+		}
+
+		if (soundPath != null) {
+			this.soundPath = soundPath;
+		} else {
+			this.soundPath = "build/resources/main/Sad-cat.mp3";
 		}
 	}
 
@@ -86,8 +95,15 @@ public abstract class GameObject {
 		return y;
 	}
 
+	/** Getter for the path to the location of the object's sound
+	 * @return string of path to sound
+	 */
+	public String getSoundPath() {
+		return soundPath;
+	}
+
 	/** Getter for the path to the location of the object's sprite
-	 * @return string of path ot image
+	 * @return string of path to image
 	 */
 	public String getSpritePath() {
 		return spritePath;

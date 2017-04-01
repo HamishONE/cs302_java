@@ -17,7 +17,7 @@ public class Ball extends GameObject implements IBall {
 	 * @param y the y position of the ball
 	 */
 	public Ball(int x, int y) {
-		super(x, y, "/cannonBall.png", 0);
+		super(x, y, "/cannonBall.png", null, 0);
 	}
 
 	/**
