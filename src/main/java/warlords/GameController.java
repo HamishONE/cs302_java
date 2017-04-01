@@ -13,6 +13,9 @@ import static java.lang.Math.PI;
  */
 public class GameController implements IGame {
 
+	private final static int GAME_TIME = 120000;
+	private final static int COUNTDOWN_TIME = 3000;
+
 	private boolean loopRunning = false;
 	private Game game;
 	private Ball ball;
@@ -25,7 +28,7 @@ public class GameController implements IGame {
 	private ArrayList<IUserInput> userInputs;
 	private boolean doExitGame = false;
 	private boolean isPaused = false;
-	private int timeRemaining = 120000;
+	private int timeRemaining = GAME_TIME + COUNTDOWN_TIME;
 	private long lastTimestamp;
 
 	/**
@@ -182,11 +185,27 @@ public class GameController implements IGame {
 	}
 
 	/**
+	 * Updates the time remaining based on the system clock.
+	 */
+	private void updateTimer() {
+		timeRemaining -= (System.nanoTime() - lastTimestamp) / 1e6;
+		lastTimestamp = System.nanoTime();
+	}
+
+	/**
 	 * Has to be done so that tick can be used in testing, isolating it from the graphics engine
 	 */
 	public void runLoop() {
-		drawFrame();
-		tick();
+		updateTimer();
+		if (loopRunning) {
+			if (timeRemaining > GAME_TIME) {
+				drawFrame(false);
+				gameView.drawCountdown((timeRemaining - GAME_TIME)/1000 + 1);
+			} else {
+				drawFrame(true);
+				tick();
+			}
+		}
 	}
 
 	@Override
@@ -200,8 +219,7 @@ public class GameController implements IGame {
 		if (!isPaused) {
 			checkCollisions();
 			checkWinner();
-			timeRemaining -= (System.nanoTime() - lastTimestamp) / 1e6;
-			lastTimestamp = System.nanoTime();
+			updateTimer();
 		}
 	}
 
@@ -252,20 +270,27 @@ public class GameController implements IGame {
 
 	/**
 	 * Draws a frame by creating a list of all the objects on the screen and passes them to the view to be rendered
-	 *
 	 * Also passes the time remaining and the pause text when applicable.
+	 * @param showBalls Whether to show the balls or not.
 	 */
-	private void drawFrame() {
-		//Add all objects to an ArrayList
+	private void drawFrame(boolean showBalls) {
+
+		//Add all game objects to a list
 		ArrayList<GameObject> gameObjects = new ArrayList<>(walls);
 		gameObjects.addAll(warlords);
 		gameObjects.addAll(paddles);
-		gameObjects.add(ball);
+		if (showBalls) {
+			gameObjects.add(ball);
+		}
 		gameObjects.removeIf(Objects::isNull);
 
-		//pass all objects from the ArrayList to the gameView to be rendered
+		// Pass the list of objects to the game view to be rendered
 		gameView.drawObjects(gameObjects);
-		gameView.drawTimer(timeRemaining/1000);
+
+		// If the game has started show how long is remaining, otherwise show the game time limit
+		gameView.drawTimer(timeRemaining <= GAME_TIME ? timeRemaining/1000 + 1 : GAME_TIME/1000);
+
+		// If the game is paused show the paused indicator
 		if (isPaused) {
 			gameView.drawPauseIndicator();
 		}

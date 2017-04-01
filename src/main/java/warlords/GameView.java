@@ -167,6 +167,16 @@ public class GameView {
 	}
 
 	/**
+	 * Draws the seconds remaining in the  countdown timer to the screen.
+	 * @param secsRemaining input of number of seconds remaining in countdown
+	 */
+	public void drawCountdown(int secsRemaining) {
+		gc.setFill(Color.WHITE);
+		gc.setFont(new Font("Cambria", 70));
+		gc.fillText(String.valueOf(secsRemaining), width/2, height/2);
+	}
+
+	/**
 	 * Helper function to get an image, this gets the image path from a cached Image instance, or if it does not already exist, creates it.
 	 *
 	 * @param path		Path to image location
