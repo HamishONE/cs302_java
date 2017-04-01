@@ -11,10 +11,11 @@ import java.util.HashMap;
  */
 public class MainController {
 
-	// Set up three sets of key mappings with control keys attached to the first set.
+	// Set up 4 sets of key mappings with control keys attached to the first set.
 	private HashMap<KeyCode, InputType> P1Map = new HashMap<>();
 	private HashMap<KeyCode, InputType> P2Map = new HashMap<>();
 	private HashMap<KeyCode, InputType> P3Map = new HashMap<>();
+	private HashMap<KeyCode, InputType> P4Map = new HashMap<>();
 	{
 		P1Map.put(KeyCode.LEFT, InputType.LEFT);
 		P1Map.put(KeyCode.RIGHT, InputType.RIGHT);
@@ -27,15 +28,15 @@ public class MainController {
 		P2Map.put(KeyCode.D, InputType.RIGHT);
 		P3Map.put(KeyCode.DIGIT4, InputType.LEFT);
 		P3Map.put(KeyCode.DIGIT6, InputType.RIGHT);
+		P4Map.put(KeyCode.NUMPAD4, InputType.LEFT);
+		P4Map.put(KeyCode.NUMPAD6, InputType.RIGHT);
 	}
 
 	private MenuController menuController;
 	private GameController gameController;
 	private ArrayList<IUserInput> userInputs = new ArrayList<>();
 	private GameView gameView;
-	private int height;
-	private int width;
-	private GameState state = new GameState();
+	private Game game;
 
 	/**
 	 * Create a new instance with the given game window dimensions
@@ -43,8 +44,7 @@ public class MainController {
 	 * @param width the width of the game window
 	 */
 	public MainController(int height, int width) {
-		this.height = height;
-		this.width = width;
+		game = new Game(width, height);
 	}
 
 	/**
@@ -54,23 +54,24 @@ public class MainController {
 	 */
 	public void start() {
 
-		// Setup the 3 keyboard inputs using the 3 key mappings and add them to list of all inputs
+		// Setup the 4 keyboard inputs using the 4 key mappings and add them to list of all inputs
 		ArrayList<KeyboardInput> keyboardInputs = new ArrayList<>();
 		keyboardInputs.add(new KeyboardInput(P1Map));
 		keyboardInputs.add(new KeyboardInput(P2Map));
 		keyboardInputs.add(new KeyboardInput(P3Map));
+		keyboardInputs.add(new KeyboardInput(P4Map));
 		userInputs.addAll(keyboardInputs);
 
 		// Create the game view
-		gameView = new GameView(width, height);
+		gameView = new GameView(game.getWidth(), game.getHeight());
 
 		// Create a key listener linking the scene to the keyboard inputs
 		KeyListener listener = new KeyListener(gameView.getScene(), keyboardInputs);
 		listener.startListening();
 
-		// Create a new MenuController and link it
-		menuController = new MenuController(userInputs, width, height, gameView);
-		state.setState(GameState.State.MENU);
+		// Create a new MenuController and link it to the game view and state
+		menuController = new MenuController(userInputs, gameView, game);
+		game.setState(Game.State.MENU);
 	}
 
 	/**
@@ -79,13 +80,13 @@ public class MainController {
 	 */
 	public void runLoop() {
 		// Check the state and run the loop of the appropriate controller
-		switch (state.getState()) {
+		switch (game.getState()) {
 			case MENU:
 				menuController.runLoop();
 				// If the menu is ready for the game to be launched create a new game controller instance and start it
 				if (menuController.doStartGame()) {
-					state.setState(GameState.State.GAME);
-					gameController = new GameController(userInputs, width, height, gameView, state);
+					game.setState(Game.State.GAME);
+					gameController = new GameController(userInputs, game, gameView);
 					gameController.beginGame();
 				}
 				break;
@@ -93,7 +94,7 @@ public class MainController {
 				gameController.runLoop();
 				// If the game has finished discard the game controller and reset the menu ready for display
 				if (gameController.doExitGame()) {
-					state.setState(GameState.State.MENU);
+					game.setState(Game.State.MENU);
 					gameController = null;
 					menuController.reset();
 				}

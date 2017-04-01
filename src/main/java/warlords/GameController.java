@@ -14,7 +14,6 @@ import static java.lang.Math.PI;
 public class GameController implements IGame {
 
 	private boolean loopRunning = false;
-	private GameState state;
 	private Game game;
 	private Ball ball;
 	private GameView gameView;
@@ -32,17 +31,14 @@ public class GameController implements IGame {
 	 * Create a new instance of a controller
 	 *
 	 * @param userInputs	An arrayList of "players" to control the paddles, order is important
-	 * @param width			Height of the game canvas
-	 * @param height		Width of the game canvas
+	 * @param game fjhpfphghpoegihpogioJVJIOEWIOIOE
 	 * @param gameView		Instance of main view of the game
-	 * @param state			Current/starting state for the game
 	 */
-	public GameController(ArrayList<IUserInput> userInputs, int width, int height, GameView gameView, GameState state) {
+	public GameController(ArrayList<IUserInput> userInputs, Game game, GameView gameView) {
 		//Initialize all parameters passed in through the constructor
 		this.userInputs = userInputs;
-		game = new Game(width, height);
+		this.game = game;
 		this.gameView = gameView;
-		this.state = state;
 
 		//Set up a standard game
 		setupStandardGameObjects();
@@ -69,7 +65,6 @@ public class GameController implements IGame {
 		this.walls = walls;
 		this.warlords = warlords;
 		this.ball = ball;
-		state = new GameState();
 	}
 
 	/**
@@ -153,9 +148,17 @@ public class GameController implements IGame {
 		warlords.add(new Warlord(WARLORD_MARGIN, game.getHeight() - WARLORD_MARGIN, "/knightRed.png"));
 		warlords.add(new Warlord(game.getWidth() - WARLORD_MARGIN, game.getHeight() - WARLORD_MARGIN, "/knightGreen.png"));
 
-		//Add all of the players
-		players.addAll(userInputs);
-		for (int i=players.size(); i<4; i++) {
+		// Add the user inputs for the number of human players
+		if (game.getNumHumanPlayers() > userInputs.size()) {
+			throw new RuntimeException("Only " + userInputs.size() + " player inputs are set up, but a " +
+					game.getNumHumanPlayers() + " player mode has been selected.");
+		}
+		for (int i = 0; i<game.getNumHumanPlayers(); i++) {
+			players.add(userInputs.get(i));
+		}
+
+		// Add AI players suc that all 4 paddles are controlled
+		for (int i=game.getNumHumanPlayers(); i<4; i++) {
 			players.add(new ArtificialUser(ball, paddles.get(i)));
 		}
 
@@ -267,7 +270,7 @@ public class GameController implements IGame {
 
 	@Override
 	public boolean isFinished() {
-		return state.getState() == GameState.State.FINISHED;
+		return game.getState() == Game.State.FINISHED;
 	}
 
 	/**
@@ -302,7 +305,7 @@ public class GameController implements IGame {
 				//If someone has won, end the game and set them as the winner
 				if (hasWon) {
 					warlords.get(i).setAsWinner();
-					state.setState(GameState.State.FINISHED);
+					game.setState(Game.State.FINISHED);
 					return;
 				}
 			}
@@ -320,7 +323,7 @@ public class GameController implements IGame {
 			//If someone has won, end the game and set them as the winner
 			if (hasWon) {
 				warlords.get(i).setAsWinner();
-				state.setState(GameState.State.FINISHED);
+				game.setState(Game.State.FINISHED);
 				return;
 			}
 		}

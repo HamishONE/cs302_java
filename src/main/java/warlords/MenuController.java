@@ -2,38 +2,54 @@ package warlords;
 
 import javafx.application.Platform;
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * Manages the displaying the menu screen and responds to user selections.
  */
 public class MenuController {
 
-	private int width;
-	private int height;
 	private GameView gameView;
 	private ArrayList<MenuItem> menuItems = new ArrayList<>();
 	private ArrayList<IUserInput> userInputs;
 	private int selectedItem = -1;
 	private boolean doStartGame = false;
+	private Stack<ArrayList<MenuItem>> previousMenus = new Stack<>();
+	private Game game;
 
 	/**
 	 * Create a new instance of the menu screen
 	 * @param userInputs the {@link IUserInput} for each player with control of the menu
-	 * @param width the width of the game window
-	 * @param height the height of the game window
 	 * @param gameView the view class used to draw the menu
+	 * @param game the game model for menu selections to update
 	 */
-	public MenuController(ArrayList<IUserInput> userInputs, int width, int height, GameView gameView) {
+	public MenuController(ArrayList<IUserInput> userInputs, GameView gameView, Game game) {
 
 		this.userInputs = userInputs;
-		this.width = width;
-		this.height = height;
 		this.gameView = gameView;
+		this.game = game;
 
-		menuItems.add(new MenuItem("Start the game", () -> doStartGame = true));
+		// Setup a submenu with items for selecting the number of players
+		ArrayList<MenuItem> startGameMenu = new ArrayList<>();
+		startGameMenu.add(new MenuItem("One player", () -> startGame(1)));
+		startGameMenu.add(new MenuItem("Two players", () -> startGame(2)));
+		startGameMenu.add(new MenuItem("Three players", () -> startGame(3)));
+		startGameMenu.add(new MenuItem("Four players", () -> startGame(4)));
+
+		// Setup the main menu items
+		menuItems.add(new MenuItem("Start the game", startGameMenu));
 		menuItems.add(new MenuItem("Do nothing", () -> System.out.println("Nothing has been done!")));
 		menuItems.add(new MenuItem("Quit", Platform::exit));
 		changeSelection(1);
+	}
+
+	/**
+	 * Sets the number of players in the game model and tells the main controller to start the game.
+	 * @param numHumanPlayers The number of human players.
+	 */
+	private void startGame(int numHumanPlayers) {
+		game.setNumHumanPlayers(numHumanPlayers);
+		doStartGame = true;
 	}
 
 	/**
@@ -78,10 +94,26 @@ public class MenuController {
 					case MENU_DOWN:
 						changeSelection(1);
 						break;
-					// If the input is to select a menu item run it's callback method
+					// If the input is to select a menu item open it's submenu or run it's callback method if it is an end node
 					case MENU_SELECT:
-						menuItems.get(selectedItem).runCallback();
+						MenuItem menuItem = menuItems.get(selectedItem);
+						if (menuItem.hasSubmenu()) {
+							// Store the current menu in a stack
+							previousMenus.push(menuItems);
+							menuItems = menuItem.getSubmenu();
+							selectedItem = 0;
+							menuItems.get(selectedItem).setSelected(true);
+						} else {
+							menuItem.runCallback();
+						}
 						break;
+					// If the input to exit restore the previous menu from the stack
+					case EXIT:
+						if (!previousMenus.empty()) {
+							menuItems = previousMenus.pop();
+							selectedItem = 0;
+							menuItems.get(selectedItem).setSelected(true);
+						}
 				}
 			}
 		}
