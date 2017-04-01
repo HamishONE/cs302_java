@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 
-
+@Ignore
 public class BallBounceTest extends TestSuite {
 
 	private IGame game;
