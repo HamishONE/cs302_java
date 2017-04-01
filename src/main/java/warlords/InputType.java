@@ -10,5 +10,7 @@ public enum InputType {
 	EXIT,
 	MENU_DOWN,
 	MENU_UP,
-	MENU_SELECT
+	MENU_SELECT,
+	PG_UP,
+	PG_DOWN
 }

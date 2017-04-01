@@ -245,6 +245,16 @@ public class GameController implements IGame {
 					case PAUSE:
 						isPaused = true;
 						break;
+					case PG_UP:
+						//DELETE ALL WALLS
+						walls.removeAll(walls);
+						break;
+					case PG_DOWN:
+						//SKIP TO END OF TIME
+						timeRemaining = 0;
+						checkWinner();
+						game.setState(Game.State.FINISHED);
+						break;
 				}
 			}
 			//Check if pause or exit keys have been pressed, and action regardless of player
