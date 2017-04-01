@@ -19,7 +19,7 @@ public class SoundView {
 	 * @param path		Path to sound location
 	 * @return			instance of Media with the requested sound within
 	 */
-	private Media getSound(String path) {
+	private synchronized Media getSound(String path) {
 		return soundCache.computeIfAbsent(path, p -> new Media(new File(path).toURI().toString()));
 	}
 
@@ -29,7 +29,10 @@ public class SoundView {
 	 * @param path path to the location of the sound to be played
 	 */
 	public void playSound(String path) {
-		MediaPlayer mediaPlayer = new MediaPlayer(getSound(path));
-		mediaPlayer.play();
+		Runnable runnable = () -> {
+			MediaPlayer mediaPlayer = new MediaPlayer(getSound(path));
+			mediaPlayer.play();
+		};
+		new Thread(runnable).start();
 	}
 }
