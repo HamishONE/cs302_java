@@ -17,6 +17,7 @@ public class GameState {
 	}
 
 	private State state;
+	private int numHumanPlayers = 1;
 
 	/**
 	 * Constructor which initializes state to IDLE
@@ -52,4 +53,11 @@ public class GameState {
 		this.state = state;
 	}
 
+	public int getNumHumanPlayers() {
+		return numHumanPlayers;
+	}
+
+	public void setNumHumanPlayers(int numHumanPlayers) {
+		this.numHumanPlayers = numHumanPlayers;
+	}
 }

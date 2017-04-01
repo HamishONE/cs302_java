@@ -153,9 +153,17 @@ public class GameController implements IGame {
 		warlords.add(new Warlord(WARLORD_MARGIN, game.getHeight() - WARLORD_MARGIN, "/knightRed.png"));
 		warlords.add(new Warlord(game.getWidth() - WARLORD_MARGIN, game.getHeight() - WARLORD_MARGIN, "/knightGreen.png"));
 
-		//Add all of the players
-		players.addAll(userInputs);
-		for (int i=players.size(); i<4; i++) {
+		// Add the user inputs for the number of human players
+		if (state.getNumHumanPlayers() > userInputs.size()) {
+			throw new RuntimeException("Only " + userInputs.size() + " player inputs are set up, but a " +
+					state.getNumHumanPlayers() + " player mode has been selected.");
+		}
+		for (int i = 0; i<state.getNumHumanPlayers(); i++) {
+			players.add(userInputs.get(i));
+		}
+
+		// Add AI players suc that all 4 paddles are controlled
+		for (int i=state.getNumHumanPlayers(); i<4; i++) {
 			players.add(new ArtificialUser(ball, paddles.get(i)));
 		}
 

@@ -11,10 +11,11 @@ import java.util.HashMap;
  */
 public class MainController {
 
-	// Set up three sets of key mappings with control keys attached to the first set.
+	// Set up 4 sets of key mappings with control keys attached to the first set.
 	private HashMap<KeyCode, InputType> P1Map = new HashMap<>();
 	private HashMap<KeyCode, InputType> P2Map = new HashMap<>();
 	private HashMap<KeyCode, InputType> P3Map = new HashMap<>();
+	private HashMap<KeyCode, InputType> P4Map = new HashMap<>();
 	{
 		P1Map.put(KeyCode.LEFT, InputType.LEFT);
 		P1Map.put(KeyCode.RIGHT, InputType.RIGHT);
@@ -27,6 +28,8 @@ public class MainController {
 		P2Map.put(KeyCode.D, InputType.RIGHT);
 		P3Map.put(KeyCode.DIGIT4, InputType.LEFT);
 		P3Map.put(KeyCode.DIGIT6, InputType.RIGHT);
+		P4Map.put(KeyCode.NUMPAD4, InputType.LEFT);
+		P4Map.put(KeyCode.NUMPAD6, InputType.RIGHT);
 	}
 
 	private MenuController menuController;
@@ -54,11 +57,12 @@ public class MainController {
 	 */
 	public void start() {
 
-		// Setup the 3 keyboard inputs using the 3 key mappings and add them to list of all inputs
+		// Setup the 4 keyboard inputs using the 4 key mappings and add them to list of all inputs
 		ArrayList<KeyboardInput> keyboardInputs = new ArrayList<>();
 		keyboardInputs.add(new KeyboardInput(P1Map));
 		keyboardInputs.add(new KeyboardInput(P2Map));
 		keyboardInputs.add(new KeyboardInput(P3Map));
+		keyboardInputs.add(new KeyboardInput(P4Map));
 		userInputs.addAll(keyboardInputs);
 
 		// Create the game view
@@ -68,8 +72,8 @@ public class MainController {
 		KeyListener listener = new KeyListener(gameView.getScene(), keyboardInputs);
 		listener.startListening();
 
-		// Create a new MenuController and link it
-		menuController = new MenuController(userInputs, width, height, gameView);
+		// Create a new MenuController and link it to the game view and state
+		menuController = new MenuController(userInputs, width, height, gameView, state);
 		state.setState(GameState.State.MENU);
 	}
 
