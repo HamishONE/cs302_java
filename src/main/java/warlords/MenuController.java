@@ -9,31 +9,25 @@ import java.util.Stack;
  */
 public class MenuController {
 
-	private int width;
-	private int height;
 	private GameView gameView;
 	private ArrayList<MenuItem> menuItems = new ArrayList<>();
 	private ArrayList<IUserInput> userInputs;
 	private int selectedItem = -1;
 	private boolean doStartGame = false;
 	private Stack<ArrayList<MenuItem>> previousMenus = new Stack<>();
-	private GameState gameState;
+	private Game game;
 
 	/**
 	 * Create a new instance of the menu screen
 	 * @param userInputs the {@link IUserInput} for each player with control of the menu
-	 * @param width the width of the game window
-	 * @param height the height of the game window
 	 * @param gameView the view class used to draw the menu
-	 * @param gameState the game state model for menu selections to update
+	 * @param game the game model for menu selections to update
 	 */
-	public MenuController(ArrayList<IUserInput> userInputs, int width, int height, GameView gameView, GameState gameState) {
+	public MenuController(ArrayList<IUserInput> userInputs, GameView gameView, Game game) {
 
 		this.userInputs = userInputs;
-		this.width = width;
-		this.height = height;
 		this.gameView = gameView;
-		this.gameState = gameState;
+		this.game = game;
 
 		// Setup a submenu with items for selecting the number of players
 		ArrayList<MenuItem> startGameMenu = new ArrayList<>();
@@ -54,7 +48,7 @@ public class MenuController {
 	 * @param numHumanPlayers The number of human players.
 	 */
 	private void startGame(int numHumanPlayers) {
-		gameState.setNumHumanPlayers(numHumanPlayers);
+		game.setNumHumanPlayers(numHumanPlayers);
 		doStartGame = true;
 	}
 
