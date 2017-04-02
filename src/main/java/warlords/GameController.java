@@ -188,16 +188,18 @@ public class GameController implements IGame {
 	 * Updates the time remaining based on the system clock.
 	 */
 	private void updateTimer() {
-		timeRemaining -= (System.nanoTime() - lastTimestamp) / 1e6;
-		lastTimestamp = System.nanoTime();
+		if (!isPaused) {
+			timeRemaining -= (System.nanoTime() - lastTimestamp) / 1e6;
+			lastTimestamp = System.nanoTime();
+		}
 	}
 
 	/**
 	 * Has to be done so that tick can be used in testing, isolating it from the graphics engine
 	 */
 	public void runLoop() {
-		updateTimer();
 		if (loopRunning) {
+			updateTimer();
 			if (timeRemaining > GAME_TIME) {
 				drawFrame(false);
 				gameView.drawCountdown((timeRemaining - GAME_TIME)/1000 + 1);
@@ -210,10 +212,6 @@ public class GameController implements IGame {
 
 	@Override
 	public void tick() {
-
-		if (!loopRunning) {
-			return;
-		}
 		//Check for inputs, if running, do loop functions to find collisions and see if game has been won
 		processInput();
 		if (!isPaused) {
