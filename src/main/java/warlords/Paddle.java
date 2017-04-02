@@ -33,6 +33,13 @@ public class Paddle extends GameObject implements IPaddle {
 	}
 
 	/**
+	 * @return The initial angle provided in the paddle constructor.
+	 */
+	public double getStartingRotation() {
+		return theta_init;
+	}
+
+	/**
 	 * Set the rotation of the paddle
 	 * @param theta the rotation in radians
 	 */

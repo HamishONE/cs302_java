@@ -37,6 +37,19 @@ public class MathLine {
 	}
 
 	/**
+	 * Create a new line from it's starting position as a vectors, it's length and it's angle.
+	 * @param point The starting point of the line.
+	 * @param length The length of the line.
+	 * @param angle The angle of the line in radians.
+	 */
+	public MathLine(MathVector point, double length, double angle) {
+		this.x = point.getX();
+		this.y = point.getY();
+		this.dX = length * Math.cos(angle);
+		this.dY = length * Math.sin(angle);
+	}
+
+	/**
 	 * @return The starting x position of the line.
 	 */
 	public double getX() {
