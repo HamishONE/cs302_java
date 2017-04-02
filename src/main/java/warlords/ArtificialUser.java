@@ -5,6 +5,8 @@ package warlords;
  */
 public class ArtificialUser implements IUserInput {
 
+	private final static double MOVEMENT_TOLERANCE = Math.PI/50;
+
 	private Ball ball;
 	private Paddle paddle;
 
@@ -18,39 +20,49 @@ public class ArtificialUser implements IUserInput {
 		this.paddle = paddle;
 	}
 
+	/**
+	 * Use the paddles angle to determine if it needs to be moved left or right to achieve clockwise rotation.
+	 * @param paddleAngle The angle the paddle is rotated by.
+	 * @return The input to make (left or right).
+	 */
+	private InputType moveCW(double paddleAngle) {
+		if (Math.sin(paddleAngle) > 0) {
+			return InputType.RIGHT;
+		} else {
+			return InputType.LEFT;
+		}
+	}
+
+	/**
+	 * Use the paddles angle to determine if it needs to be moved left or right to achieve counterclockwise rotation.
+	 * @param paddleAngle The angle the paddle is rotated by.
+	 * @return The input to make (left or right).
+	 */
+	private InputType moveCCW(double paddleAngle) {
+		if (Math.sin(paddleAngle) > 0) {
+			return InputType.LEFT;
+		} else {
+			return InputType.RIGHT;
+		}
+	}
+
 	@Override
 	public InputType getInputType() {
 
-		// Get a line representing the balls motion, continuing forward outside the game boundaries
-		MathLine ballPath = new MathLine(ball.getXPosReal(), ball.getYPosReal(), ball.getXVelocityReal(), ball.getYVelocityReal());
-		ballPath.extendEnd(1e5);
+		// Get the angle from the paddle to the ball and the angle of the paddle.
+		double angleToBall = Math.atan2(ball.getYPos() - paddle.getYPos(), ball.getXPos() - paddle.getXPos());
+		if (angleToBall < 0) {
+			// Normalise the angle to be in the range 0 to 2pi
+			angleToBall += 2*Math.PI;
+		}
+		double paddleAngle = paddle.getRotation() + Math.PI/2;
 
-		// Get a line intersecting the paddles current location with an angle tangent to the centre point of the paddle motion
-		MathLine tangentLine = new MathLine(new MathVector(paddle.getXPosReal(), paddle.getYPosReal()), 1,
-				paddle.getStartingRotation() - Math.PI/4);
-		tangentLine.extendBothEnds(1e5);
-
-		// Find any intersection between these two lines
-		MathVector intersection = ballPath.intersectPoint(tangentLine);
-		if (intersection != null) {
-
-			// Find the distance between the intersection and the paddle location in the x and y directions
-			double xDiff = intersection.getX() - paddle.getXPosReal();
-			double yDiff = intersection.getY() - paddle.getYPosReal();
-
-			// Use the paddles angle to normalise the sign of the distance in the y direction to have the same meaning as the
-			// x direction, as only left and right inputs are available
-			if (Math.tan(paddle.getStartingRotation()) < 0) {
-				yDiff = -yDiff;
-			}
-
-			// Use the greater of the x and y differences to choose whether to move left or right
-			double maxDiff = Math.abs(yDiff) > Math.abs(xDiff) ? yDiff : xDiff;
-			if (maxDiff < 0) {
-				return InputType.LEFT;
-			} else {
-				return InputType.RIGHT;
-			}
+		// Move the paddle to make the two angles closer
+		double difference = paddleAngle - angleToBall;
+		if (difference < -MOVEMENT_TOLERANCE) {
+			return moveCCW(paddleAngle);
+		} else if (difference > MOVEMENT_TOLERANCE) {
+			return moveCW(paddleAngle);
 		}
 		return null;
 	}
