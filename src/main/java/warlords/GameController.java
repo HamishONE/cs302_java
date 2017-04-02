@@ -245,15 +245,12 @@ public class GameController implements IGame {
 					case PAUSE:
 						isPaused = true;
 						break;
-					case PG_UP:
-						//DELETE ALL WALLS
+					case DELETE_WALLS:
 						walls.removeAll(walls);
 						break;
-					case PG_DOWN:
-						//SKIP TO END OF TIME
-						timeRemaining = 0;
-						checkWinner();
-						game.setState(Game.State.FINISHED);
+					case END_TIME:
+						timeRemaining = 3000;
+						lastTimestamp = System.nanoTime();
 						break;
 				}
 			}
@@ -347,6 +344,7 @@ public class GameController implements IGame {
 					return;
 				}
 			}
+			game.setState(Game.State.FINISHED);
 		}
 
 		//Nested loop to check if there is only one player standing

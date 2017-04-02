@@ -24,8 +24,8 @@ public class MainController {
 		P1Map.put(KeyCode.UP, InputType.MENU_UP);
 		P1Map.put(KeyCode.DOWN, InputType.MENU_DOWN);
 		P1Map.put(KeyCode.ENTER, InputType.MENU_SELECT);
-		P1Map.put(KeyCode.PAGE_DOWN, InputType.PG_DOWN);
-		P1Map.put(KeyCode.PAGE_UP, InputType.PG_UP);
+		P1Map.put(KeyCode.PAGE_DOWN, InputType.END_TIME);
+		P1Map.put(KeyCode.PAGE_UP, InputType.DELETE_WALLS);
 		P2Map.put(KeyCode.A, InputType.LEFT);
 		P2Map.put(KeyCode.D, InputType.RIGHT);
 		P3Map.put(KeyCode.DIGIT4, InputType.LEFT);
