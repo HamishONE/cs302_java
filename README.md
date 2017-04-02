@@ -30,3 +30,7 @@ This is an offline Java game based on the 1980s Atari Warlords game.
 * Player 2 (top right): 'A' and 'D' keys.
 * Player 3 (bottom left): '4' and '6' keys in the main part of the keyboard.
 * Player 4 (bottom right): '4' and '6' keys in the number pad.
+
+#### Class diagram
+
+To see how our classes fit into an MVC model see `ClassDiagram.pdf`.
