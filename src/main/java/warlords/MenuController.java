@@ -35,6 +35,7 @@ public class MenuController {
 		startGameMenu.add(new MenuItem("Two players", () -> startGame(2)));
 		startGameMenu.add(new MenuItem("Three players", () -> startGame(3)));
 		startGameMenu.add(new MenuItem("Four players", () -> startGame(4)));
+		startGameMenu.add(new MenuItem("AI only demo", () -> startGame(0)));
 
 		// Setup the main menu items
 		menuItems.add(new MenuItem("Start the game", startGameMenu));
