@@ -40,12 +40,13 @@ public class CollisionDetector {
 	 */
 	private void destroyObject(GameObject gameObject) {
 
+		//Play the noise assigned to the object
+		soundView.playSound(gameObject.getSoundPath());
+
 		// If it is a wall cause one damage and if it is destroyed remove the wall from the list
 		if (gameObject instanceof Wall) {
 			Wall wall = (Wall) gameObject;
 			wall.causeDamage(1);
-			//Play the noise a wall makes
-			soundView.playSound(wall.getSoundPath());
 			if (wall.isDestroyed()) {
 				walls.remove(wall);
 			}
@@ -54,8 +55,6 @@ public class CollisionDetector {
 		else if (gameObject instanceof Warlord) {
 			Warlord warlord = (Warlord) gameObject;
 			warlord.causeDamage(1);
-			//Play the noise a warlord makes
-			soundView.playSound(warlord.getSoundPath());
 			if (warlord.isDead()) {
 				int index = warlords.indexOf(warlord);
 				paddles.set(index, null);
