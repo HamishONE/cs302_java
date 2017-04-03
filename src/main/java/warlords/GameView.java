@@ -25,6 +25,7 @@ public class GameView {
 	private HashMap<String, Image> imageCache = new HashMap<>();
 	private double width;
 	private double height;
+	private double scalingFactor;
 
 	/**
 	 * Create a new canvas of the specified dimensions
@@ -35,6 +36,8 @@ public class GameView {
 
 		this.width = width;
 		this.height = height;
+
+		scalingFactor = width/800.0;
 
 		//Creates alignment grid and creates canvas within, also creates master graphics context
 		GridPane grid = new GridPane();
@@ -79,14 +82,14 @@ public class GameView {
 			}
 
 			//Rotate entire canvas to adjust for object rotation
-			Rotate r = new Rotate(gameObject.getRotation()*(180/Math.PI), gameObject.getXPos(), gameObject.getYPos());
+			Rotate r = new Rotate(gameObject.getRotation()*(180/Math.PI), gameObject.getXPos()*scalingFactor, gameObject.getYPos()*scalingFactor);
 			gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
 
 			//Place objects source image at specified location on the canvas
-			Image image = getImage(gameObject.getSpritePath(), gameObject.getWidth(), gameObject.getHeight());
+			Image image = getImage(gameObject.getSpritePath(), gameObject.getWidth()*scalingFactor, gameObject.getHeight()*scalingFactor);
 			double x = gameObject.getXPos() - gameObject.getWidth()/2;
 			double y = gameObject.getYPos() - gameObject.getHeight()/2;
-			gc.drawImage(image, x, y);
+			gc.drawImage(image, x*scalingFactor, y*scalingFactor);
 
 			if (Main.isDebugMode()) {
 				gc.setStroke(Color.RED);
@@ -147,10 +150,10 @@ public class GameView {
 	public void drawPauseIndicator() {
 		//Sets font to white and draws "Pause", centered at the top of the screen
 		gc.setFill(Color.WHITE);
-		gc.setFont(new Font("Corbel", 50));
+		gc.setFont(new Font("Corbel", 50*scalingFactor));
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.setTextBaseline(VPos.CENTER);
-		gc.fillText("Paused", width/2, 50, width - 100);
+		gc.fillText("Paused", (Game.backendWidth/2)*scalingFactor, 50, Game.backendWidth - 100);
 	}
 
 	/**
@@ -162,8 +165,8 @@ public class GameView {
 		//Make text from seconds to show mins and seconds, write at top of screen
 		String text = String.format("%d:%02d", secsRemaining/60, secsRemaining%60);
 		gc.setFill(Color.WHITE);
-		gc.setFont(new Font("Cambria", 30));
-		gc.fillText(text, width - 250, 30);
+		gc.setFont(new Font("Cambria", 30*scalingFactor));
+		gc.fillText(text, (Game.backendWidth - 250)*scalingFactor, 30);
 	}
 
 	/**
@@ -172,8 +175,8 @@ public class GameView {
 	 */
 	public void drawCountdown(int secsRemaining) {
 		gc.setFill(Color.WHITE);
-		gc.setFont(new Font("Cambria", 70));
-		gc.fillText(String.valueOf(secsRemaining), width/2, height/2);
+		gc.setFont(new Font("Cambria", 70*scalingFactor));
+		gc.fillText(String.valueOf(secsRemaining), (Game.backendWidth/2)*scalingFactor, (Game.backendHeight/2)*scalingFactor);
 	}
 
 	/**

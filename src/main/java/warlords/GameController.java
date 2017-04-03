@@ -138,21 +138,21 @@ public class GameController implements IGame {
 	 */
 	private void setupStandardGameObjects() {
 		//Add ball in center and set it on its way
-		ball = new Ball(game.getWidth()/2, game.getHeight()/2);
+		ball = new Ball(Game.backendWidth/2, Game.backendHeight/2);
 		ball.generateRandomMovement(10);
 
 		//Add paddles in each corner
 		paddles.add(new Paddle(0, 0, 0.0, game));
-		paddles.add(new Paddle(game.getWidth(), 0, PI/2, game));
-		paddles.add(new Paddle(0, game.getHeight(), 3*PI/2, game));
-		paddles.add(new Paddle(game.getWidth(), game.getHeight(), PI, game));
+		paddles.add(new Paddle(Game.backendWidth, 0, PI/2, game));
+		paddles.add(new Paddle(0, Game.backendHeight, 3*PI/2, game));
+		paddles.add(new Paddle(Game.backendWidth, Game.backendHeight, PI, game));
 
 		//Add warlords in each corner
 		int WARLORD_MARGIN = 50;
 		warlords.add(new Warlord(WARLORD_MARGIN, WARLORD_MARGIN, "/knightBlue.png"));
-		warlords.add(new Warlord(game.getWidth() - WARLORD_MARGIN, WARLORD_MARGIN, "/knightYellow.png"));
-		warlords.add(new Warlord(WARLORD_MARGIN, game.getHeight() - WARLORD_MARGIN, "/knightRed.png"));
-		warlords.add(new Warlord(game.getWidth() - WARLORD_MARGIN, game.getHeight() - WARLORD_MARGIN, "/knightGreen.png"));
+		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, WARLORD_MARGIN, "/knightYellow.png"));
+		warlords.add(new Warlord(WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, "/knightRed.png"));
+		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, "/knightGreen.png"));
 
 		// Add the user inputs for the number of human players
 		if (game.getNumHumanPlayers() > userInputs.size()) {
@@ -170,9 +170,9 @@ public class GameController implements IGame {
 
 		//Add walls to each corner
 		addWalls(0, 0, 0, 0);
-		addWalls(game.getWidth(), 0, PI/2, 1);
-		addWalls(game.getWidth(), game.getHeight(), PI, 2);
-		addWalls(0, game.getHeight(), 3*PI/2, 3);
+		addWalls(Game.backendWidth, 0, PI/2, 1);
+		addWalls(Game.backendWidth, Game.backendHeight, PI, 2);
+		addWalls(0, Game.backendHeight, 3*PI/2, 3);
 	}
 
 	/**

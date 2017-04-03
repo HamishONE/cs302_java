@@ -20,6 +20,8 @@ public class Game {
 	private int numHumanPlayers = 1;
 	private int width;
 	private int height;
+	public static int backendHeight = 600;
+	public static int backendWidth = 800;
 
 	/**
 	 * Create a new instance of and initialize state to IDLE

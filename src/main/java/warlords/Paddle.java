@@ -51,7 +51,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 * Move the paddle in a arc to the left (from the user's perspective).
 	 */
 	public void moveLeft() {
-		if (y_init < game.getWidth()/2) {
+		if (y_init < Game.backendWidth/2) {
 			moveCW();
 		} else {
 			moveCCW();
@@ -62,7 +62,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 * Move the paddle in a arc to the right (from the user's perspective).
 	 */
 	public void moveRight() {
-		if (y_init > game.getWidth()/2) {
+		if (y_init > Game.backendWidth/2) {
 			moveCW();
 		} else {
 			moveCCW();
@@ -94,7 +94,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 * Generates the circular arc based on fixed ratios of the game window dimensions.
 	 */
 	private void setPosition() {
-		x = (5.0/18.0)*game.getWidth()*cos(rotationAngle) + x_init;
-		y = (5.0/12.0)*game.getHeight()*sin(rotationAngle) + y_init;
+		x = (5.0/18.0)*Game.backendWidth*cos(rotationAngle) + x_init;
+		y = (5.0/12.0)*Game.backendHeight*sin(rotationAngle) + y_init;
 	}
 }

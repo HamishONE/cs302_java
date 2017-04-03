@@ -46,14 +46,13 @@ public class Main extends Application {
 		int gameHeight;
 
 		//If screen is larger than a certain threshold, have a bigger game screen
-		//TODO remove once scaling has been fixed
-		if (screenSize.getHeight() < 800 || true) {
+		if (screenSize.getHeight() < 800) {
 			gameWidth = 800;
 			gameHeight = 600;
 		}
 		else {
-			gameWidth = (int)(800*1.3333);
-			gameHeight = (int)(600*1.3333);
+			gameWidth = 1024;
+			gameHeight = 768;
 		}
 
 		// Show the primary window with a simple title

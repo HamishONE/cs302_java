@@ -10,8 +10,8 @@ public class Boundary extends GameObject {
 	 * @param game The game model to get the window dimensions from.
 	 */
 	protected Boundary(Game game) {
-		super(game.getWidth()/2, game.getHeight()/2, null, null, Math.PI/2);
-		this.width = game.getWidth();
-		this.height = game.getHeight();
+		super(Game.backendWidth/2, Game.backendHeight/2, null, null, Math.PI/2);
+		this.width = Game.backendWidth;
+		this.height = Game.backendHeight;
 	}
 }
