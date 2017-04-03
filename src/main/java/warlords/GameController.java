@@ -198,6 +198,7 @@ public class GameController implements IGame {
 	 * Has to be done so that tick can be used in testing, isolating it from the graphics engine
 	 */
 	public void runLoop() {
+		processControlInput();
 		if (loopRunning) {
 			updateTimer();
 			if (timeRemaining > GAME_TIME) {
@@ -213,52 +214,62 @@ public class GameController implements IGame {
 	@Override
 	public void tick() {
 		//Check for inputs, if running, do loop functions to find collisions and see if game has been won
-		processInput();
 		if (!isPaused) {
+			processGameInput();
 			checkCollisions();
 			checkWinner();
-			updateTimer();
 		}
 	}
 
 	/**
-	 * Processes the inputs returned from each of the players (keyboard and AI)
+	 * Processes the inputs returned from each of the players relating to game play (keyboard and AI)
 	 */
-	private void processInput() {
+	private void processGameInput() {
 		//Loop through each player, checking what they have "pressed", handle accordingly
 		for (int i=0; i<players.size(); i++) {
 			InputType input = players.get(i).getInputType();
-			if (input != null && !isPaused) {
+			if (input != null && !warlords.get(i).isDead()) {
+				if (input == InputType.LEFT) {
+					paddles.get(i).moveLeft();
+				} else if (input == InputType.RIGHT) {
+					paddles.get(i).moveRight();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Processes the inputs returned from each of the users attached relating to system control(keyboard)
+	 */
+	private void processControlInput() {
+		//Loop through each user, checking what they have "pressed", handle accordingly
+		for (IUserInput userInput : userInputs) {
+			InputType input = userInput.getInputType();
+			if (input != null) {
 				switch (input) {
-					case LEFT:
-						if (!warlords.get(i).isDead()) {
-							paddles.get(i).moveLeft();
-						}
-						break;
-					case RIGHT:
-						if (!warlords.get(i).isDead()) {
-							paddles.get(i).moveRight();
-						}
-						break;
 					case PAUSE:
-						isPaused = true;
+						if (isPaused) {
+							isPaused = false;
+							lastTimestamp = System.nanoTime();
+						} else {
+							isPaused = true;
+						}
 						break;
 					case DELETE_WALLS:
-						walls.removeAll(walls);
+						walls.clear();
 						break;
 					case END_TIME:
 						timeRemaining = 3000;
-						lastTimestamp = System.nanoTime();
+						break;
+					case EXIT:
+						doExitGame = true;
+						break;
+					case MENU_SELECT:
+						if (timeRemaining > GAME_TIME) {
+							timeRemaining = GAME_TIME;
+						}
 						break;
 				}
-			}
-			//Check if pause or exit keys have been pressed, and action regardless of player
-			else if (input == InputType.PAUSE) {
-				isPaused = false;
-				lastTimestamp = System.nanoTime();
-			}
-			if (input == InputType.EXIT) {
-				doExitGame = true;
 			}
 		}
 	}
