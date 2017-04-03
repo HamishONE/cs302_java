@@ -2,6 +2,7 @@ package warlords;
 
 import warlordstest.IGame;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 import static java.lang.Math.PI;
 
@@ -13,10 +14,13 @@ import static java.lang.Math.PI;
  */
 public class GameController implements IGame {
 
+	private enum InternalState {
+		IDLE, PAUSED, RUNNING, ENDED, EXITING
+	}
+
 	private final static int GAME_TIME = 120000;
 	private final static int COUNTDOWN_TIME = 3000;
 
-	private boolean loopRunning = false;
 	private Game game;
 	private Ball ball;
 	private GameView gameView;
@@ -26,8 +30,7 @@ public class GameController implements IGame {
 	private ArrayList<Wall> walls = new ArrayList<>();
 	private ArrayList<Warlord> warlords = new ArrayList<>(4);
 	private ArrayList<IUserInput> userInputs;
-	private boolean doExitGame = false;
-	private boolean isPaused = false;
+	private InternalState internalState = InternalState.IDLE;
 	private int timeRemaining = GAME_TIME + COUNTDOWN_TIME;
 	private long lastTimestamp;
 
@@ -180,7 +183,7 @@ public class GameController implements IGame {
 	 * Initializes the clock time to begin the countdown timer
 	 */
 	public void beginGame() {
-		loopRunning = true;
+		internalState = InternalState.RUNNING;
 		lastTimestamp = System.nanoTime();
 	}
 
@@ -188,7 +191,7 @@ public class GameController implements IGame {
 	 * Updates the time remaining based on the system clock.
 	 */
 	private void updateTimer() {
-		if (!isPaused) {
+		if (internalState == InternalState.RUNNING) {
 			timeRemaining -= (System.nanoTime() - lastTimestamp) / 1e6;
 			lastTimestamp = System.nanoTime();
 		}
@@ -199,7 +202,7 @@ public class GameController implements IGame {
 	 */
 	public void runLoop() {
 		processControlInput();
-		if (loopRunning) {
+		if (internalState == InternalState.RUNNING || internalState == InternalState.PAUSED) {
 			updateTimer();
 			if (timeRemaining > GAME_TIME) {
 				drawFrame(false);
@@ -214,7 +217,7 @@ public class GameController implements IGame {
 	@Override
 	public void tick() {
 		//Check for inputs, if running, do loop functions to find collisions and see if game has been won
-		if (!isPaused) {
+		if (internalState != InternalState.PAUSED) {
 			processGameInput();
 			checkCollisions();
 			checkWinner();
@@ -248,11 +251,11 @@ public class GameController implements IGame {
 			if (input != null) {
 				switch (input) {
 					case PAUSE:
-						if (isPaused) {
-							isPaused = false;
+						if (internalState == InternalState.PAUSED) {
+							internalState = InternalState.RUNNING;
 							lastTimestamp = System.nanoTime();
-						} else {
-							isPaused = true;
+						} else if (internalState == InternalState.RUNNING) {
+							internalState = InternalState.PAUSED;
 						}
 						break;
 					case DELETE_WALLS:
@@ -262,11 +265,14 @@ public class GameController implements IGame {
 						timeRemaining = 3000;
 						break;
 					case EXIT:
-						doExitGame = true;
+						internalState = InternalState.EXITING;
 						break;
 					case MENU_SELECT:
 						if (timeRemaining > GAME_TIME) {
 							timeRemaining = GAME_TIME;
+						}
+						if (internalState == InternalState.ENDED) {
+							internalState = InternalState.EXITING;
 						}
 						break;
 				}
@@ -301,13 +307,14 @@ public class GameController implements IGame {
 		gameObjects.removeIf(Objects::isNull);
 
 		// Pass the list of objects to the game view to be rendered
+		gameView.clearCanvas();
 		gameView.drawObjects(gameObjects);
 
 		// If the game has started show how long is remaining, otherwise show the game time limit
 		gameView.drawTimer(timeRemaining <= GAME_TIME ? timeRemaining/1000 + 1 : GAME_TIME/1000);
 
 		// If the game is paused show the paused indicator
-		if (isPaused) {
+		if (internalState == InternalState.PAUSED) {
 			gameView.drawPauseIndicator();
 		}
 	}
@@ -315,6 +322,25 @@ public class GameController implements IGame {
 	@Override
 	public boolean isFinished() {
 		return game.getState() == Game.State.FINISHED;
+	}
+
+	/**
+	 * Moves the winning warlord to centre and displays a label with their name.
+	 * @param winner the player that has won, or null for a draw
+	 */
+	private void processGameEnd(Warlord winner) {
+		internalState = InternalState.ENDED;
+		gameView.drawOverlay();
+		if (winner != null) {
+			winner.setAsWinner();
+			gameView.drawWinnerLabel("Player " + (warlords.indexOf(winner) + 1));
+			winner.setXPos(Game.backendWidth / 2);
+			winner.setYPos(Game.backendHeight / 2);
+			winner.setDimensions(120, 180);
+			gameView.drawObjects(Collections.singletonList(winner));
+		} else {
+			gameView.drawWinnerLabel(null);
+		}
 	}
 
 	/**
@@ -348,12 +374,11 @@ public class GameController implements IGame {
 				}
 				//If someone has won, end the game and set them as the winner
 				if (hasWon) {
-					warlords.get(i).setAsWinner();
-					game.setState(Game.State.FINISHED);
+					processGameEnd(warlords.get(i));
 					return;
 				}
 			}
-			game.setState(Game.State.FINISHED);
+			processGameEnd(null);
 		}
 
 		//Nested loop to check if there is only one player standing
@@ -367,8 +392,7 @@ public class GameController implements IGame {
 			}
 			//If someone has won, end the game and set them as the winner
 			if (hasWon) {
-				warlords.get(i).setAsWinner();
-				game.setState(Game.State.FINISHED);
+				processGameEnd(warlords.get(i));
 				return;
 			}
 		}
@@ -380,10 +404,10 @@ public class GameController implements IGame {
 	}
 
 	/**
-	 * Used when esc is pushed to return to main menu - to be refactored
+	 * True when the game is finish and we should return to main menu
 	 * @return boolean if game should close
 	 */
 	public boolean doExitGame() {
-		return doExitGame;
+		return internalState == InternalState.EXITING;
 	}
 }

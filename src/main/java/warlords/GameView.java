@@ -55,9 +55,11 @@ public class GameView {
 	/**
 	 * Helper function to make the canvas totally black
 	 */
-	private void clearCanvas() {
-		gc.setFill(Color.BLACK);
-		gc.fillRect(0, 0, width, height);
+	public void clearCanvas() {
+		if (!Main.isDebugMode()) {
+			gc.setFill(Color.BLACK);
+			gc.fillRect(0, 0, width, height);
+		}
 	}
 
 	/**
@@ -66,10 +68,6 @@ public class GameView {
 	 * @param gameObjects ArrayList of all the game objects to be rendered on the screen
 	 */
 	public void drawObjects(List<GameObject> gameObjects) {
-
-		if (!Main.isDebugMode()) {
-			clearCanvas();
-		}
 
 		//Loop through each object, rendering as they go
 		for (GameObject gameObject : gameObjects) {
@@ -180,6 +178,26 @@ public class GameView {
 	}
 
 	/**
+	 * Draw a semi-transparent overlay over the game.
+	 */
+	public void drawOverlay() {
+		gc.setFill(new Color(1, 1, 1, 0.5));
+		gc.fillRect(0 , 0, width, height);
+	}
+
+	/**
+	 * Draw a label for who has won.
+	 * @param playerName the winner, or null if it is a draw
+	 */
+	public void drawWinnerLabel(String playerName) {
+		gc.setFill(Color.WHITE);
+		gc.setFont(new Font("Cambria", 30*scalingFactor));
+
+		String text = playerName == null ? "Draw" : playerName + " has won!";
+		gc.fillText(text, (Game.backendWidth - 200)*scalingFactor, height/2);
+	}
+
+	/**
 	 * Helper function to get an image, this gets the image path from a cached Image instance, or if it does not already exist, creates it.
 	 *
 	 * @param path		Path to image location
@@ -188,7 +206,8 @@ public class GameView {
 	 * @return			instance of Image with the requested image within
 	 */
 	private Image getImage(String path, double width, double height) {
-		return imageCache.computeIfAbsent(path, p -> new Image(getClass().getResource(p).toString(), width, height, false, true, true));
+		return imageCache.computeIfAbsent(path + width + height, p -> new Image(getClass().getResource(path).toString(), width, height,
+				false, true, false));
 	}
 
 	/**

@@ -192,4 +192,14 @@ public abstract class GameObject {
 
 		return vectors;
 	}
+
+	/**
+	 * Set the width and height of the object.
+	 * @param width the new width of the object
+	 * @param height the new height of the object
+	 */
+	public void setDimensions(double width, double height) {
+		this.width = width;
+		this.height = height;
+	}
 }
