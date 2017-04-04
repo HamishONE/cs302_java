@@ -18,21 +18,27 @@ public class GameController implements IGame {
 		IDLE, PAUSED, RUNNING, ENDED, EXITING
 	}
 
+	// Constants
 	private final static int GAME_TIME = 120000;
 	private final static int COUNTDOWN_TIME = 3000;
+	private final static double BALL_SPEED = 10; //TODO: Replace with a range of speeds
 
+	// Instance variables
 	private Game game;
-	private Ball ball;
 	private GameView gameView;
 	private SoundView soundView;
-	private ArrayList<Paddle> paddles = new ArrayList<>(4);
-	private ArrayList<IUserInput> players = new ArrayList<>(4);
-	private ArrayList<Wall> walls = new ArrayList<>();
-	private ArrayList<Warlord> warlords = new ArrayList<>(4);
+	private ArrayList<IUserInput> players = new ArrayList<>();
 	private ArrayList<IUserInput> userInputs;
 	private InternalState internalState = InternalState.IDLE;
 	private int timeRemaining = GAME_TIME + COUNTDOWN_TIME;
 	private long lastTimestamp;
+	private boolean secondBallAdded = false;
+
+	// Game objects
+	private ArrayList<Wall> walls = new ArrayList<>();
+	private ArrayList<Warlord> warlords = new ArrayList<>();
+	private ArrayList<Ball> balls = new ArrayList<>();
+	private ArrayList<Paddle> paddles = new ArrayList<>();
 
 	/**
 	 * Create a new instance of a controller
@@ -73,7 +79,7 @@ public class GameController implements IGame {
 		this.players = players;
 		this.walls = walls;
 		this.warlords = warlords;
-		this.ball = ball;
+		this.balls.add(ball);
 	}
 
 	/**
@@ -141,8 +147,7 @@ public class GameController implements IGame {
 	 */
 	private void setupStandardGameObjects() {
 		//Add ball in center and set it on its way
-		ball = new Ball(Game.backendWidth/2, Game.backendHeight/2);
-		ball.generateRandomMovement(10);
+		addBall(BALL_SPEED);
 
 		//Add paddles in each corner
 		paddles.add(new Paddle(0, 0, 0.0, game));
@@ -168,7 +173,7 @@ public class GameController implements IGame {
 
 		// Add AI players suc that all 4 paddles are controlled
 		for (int i=game.getNumHumanPlayers(); i<4; i++) {
-			players.add(new ArtificialUser(ball, paddles.get(i)));
+			players.add(new ArtificialUser(balls.get(0), paddles.get(i))); //TODO: The AI will use all balls
 		}
 
 		//Add walls to each corner
@@ -176,6 +181,16 @@ public class GameController implements IGame {
 		addWalls(Game.backendWidth, 0, PI/2, 1);
 		addWalls(Game.backendWidth, Game.backendHeight, PI, 2);
 		addWalls(0, Game.backendHeight, 3*PI/2, 3);
+	}
+
+	/**
+	 * Add a ball to the centre of the game with the given speed and a random direction.
+	 * @param speed The speed of the new ball.
+	 */
+	private void addBall(double speed) {
+		Ball ball = new Ball(Game.backendWidth/2, Game.backendHeight/2);
+		ball.generateRandomMovement(speed);
+		balls.add(ball);
 	}
 
 	/**
@@ -221,6 +236,12 @@ public class GameController implements IGame {
 			processGameInput();
 			checkCollisions();
 			checkWinner();
+
+			// At 5s add a second ball to the game
+			if (timeRemaining < (GAME_TIME - 5000) && !secondBallAdded) {
+				addBall(BALL_SPEED);
+				secondBallAdded = true;
+			}
 		}
 	}
 
@@ -281,13 +302,14 @@ public class GameController implements IGame {
 	}
 
 	/**
-	 * Checks for collisions, just uses a CollisionDetector
+	 * Checks for collisions between each ball and other objects, uses a CollisionDetector for each ball.
 	 *
 	 * @see CollisionDetector
 	 */
 	private void checkCollisions() {
-		CollisionDetector collisionDetector = new CollisionDetector(ball, paddles, walls, warlords, game, soundView);
-		collisionDetector.moveBall();
+		for (Ball ball : balls) {
+			new CollisionDetector(ball, paddles, walls, warlords, game, soundView).moveBall();
+		}
 	}
 
 	/**
@@ -302,7 +324,7 @@ public class GameController implements IGame {
 		gameObjects.addAll(warlords);
 		gameObjects.addAll(paddles);
 		if (showBalls) {
-			gameObjects.add(ball);
+			gameObjects.addAll(balls);
 		}
 		gameObjects.removeIf(Objects::isNull);
 
