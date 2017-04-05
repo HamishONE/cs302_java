@@ -78,7 +78,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 * Move the paddle one increment in a clockwise arc.
 	 */
 	private void moveCW() {
-		if (rotationAngle < theta_init + PI/2) {
+		if (rotationAngle <= theta_init + PI/2) {
 			moveAvoidingBall(ANGLE_DIFF);
 		}
 	}
@@ -87,7 +87,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 * Move the paddle one increment in a counterclockwise arc.
 	 */
 	private void moveCCW() {
-		if (rotationAngle > theta_init) {
+		if (rotationAngle >= theta_init) {
 			moveAvoidingBall(-ANGLE_DIFF);
 		}
 	}

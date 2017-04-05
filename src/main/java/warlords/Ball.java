@@ -16,8 +16,8 @@ public class Ball extends GameObject implements IBall {
 	 * @param x the x position of the ball
 	 * @param y the y position of the ball
 	 */
-	public Ball(int x, int y) {
-		super(x, y, "/cannonBall.png", null, 0);
+	public Ball(int x, int y, String path) {
+		super(x, y, path, null, 0);
 	}
 
 	/**
@@ -123,5 +123,10 @@ public class Ball extends GameObject implements IBall {
 		// Transform dU and dV back into absolute coordinates
 		dX = dU*cos(phi) - dV*sin(phi);
 		dY = dU*sin(phi) + dV*cos(phi);
+	}
+
+	@Override
+	public Double getRotation() {
+		return atan2(dY, dX);
 	}
 }

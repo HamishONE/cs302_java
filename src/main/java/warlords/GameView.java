@@ -90,7 +90,7 @@ public class GameView {
 
 			if (Main.isDebugMode()) {
 				gc.setStroke(Color.RED);
-				gc.strokeRect(x, y, gameObject.getWidth(), gameObject.getHeight());
+				gc.strokeRect(x*scalingFactor, y*scalingFactor, gameObject.getWidth()*scalingFactor, gameObject.getHeight()*scalingFactor);
 			}
 
 			gc.restore(); // back to original state (before rotation)

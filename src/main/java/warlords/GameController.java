@@ -91,7 +91,7 @@ public class GameController implements IGame {
 	 * @param angleOffset	Offset to determine which quarter of the circle should be populated
 	 * @param owner			Int to represent which player the walls "belong" to
 	 */
-	private void addWalls(int xOffset, int yOffset, double angleOffset, int owner) {
+	private void addWalls(int xOffset, int yOffset, double angleOffset, int owner, String path) {
 
 		//Initial hard coding of number of rows, space between walls, and radius to render them on
 		double initialRadius = 150;
@@ -124,7 +124,7 @@ public class GameController implements IGame {
 				double x = radius * Math.cos(angle);
 				double y = radius * Math.sin(angle);
 
-				Wall wall = new Wall((int)x + xOffset, (int)y + yOffset, angle+PI, owner);
+				Wall wall = new Wall((int)x + xOffset, (int)y + yOffset, angle+PI, owner, path);
 				walls.add(wall);
 
 				angle += (wallWidth / 2) / radius;
@@ -157,10 +157,10 @@ public class GameController implements IGame {
 
 		//Add warlords in each corner
 		int WARLORD_MARGIN = 50;
-		warlords.add(new Warlord(WARLORD_MARGIN, WARLORD_MARGIN, "/knightBlue.png"));
-		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, WARLORD_MARGIN, "/knightYellow.png"));
-		warlords.add(new Warlord(WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, "/knightRed.png"));
-		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, "/knightGreen.png"));
+		warlords.add(new Warlord(WARLORD_MARGIN, WARLORD_MARGIN, "/cavemanBlue.png"));
+		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, WARLORD_MARGIN, "/cavemanYellow.png"));
+		warlords.add(new Warlord(WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, "/cavemanRed.png"));
+		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, "/cavemanGreen.png"));
 
 		// Add the user inputs for the number of human players
 		if (game.getNumHumanPlayers() > userInputs.size()) {
@@ -177,10 +177,10 @@ public class GameController implements IGame {
 		}
 
 		//Add walls to each corner
-		addWalls(0, 0, 0, 0);
-		addWalls(Game.backendWidth, 0, PI/2, 1);
-		addWalls(Game.backendWidth, Game.backendHeight, PI, 2);
-		addWalls(0, Game.backendHeight, 3*PI/2, 3);
+		addWalls(0, 0, 0, 0,"/cavemanWall.png");
+		addWalls(Game.backendWidth, 0, PI/2, 1, "/cavemanWall.png");
+		addWalls(Game.backendWidth, Game.backendHeight, PI, 2, "/cavemanWall.png");
+		addWalls(0, Game.backendHeight, 3*PI/2, 3, "/cavemanWall.png");
 	}
 
 	/**
@@ -188,7 +188,7 @@ public class GameController implements IGame {
 	 * @param speed The speed of the new ball.
 	 */
 	private void addBall(double speed) {
-		Ball ball = new Ball(Game.backendWidth/2, Game.backendHeight/2);
+		Ball ball = new Ball(Game.backendWidth/2, Game.backendHeight/2, "/meatBall.png");
 		ball.generateRandomMovement(speed);
 		balls.add(ball);
 	}
