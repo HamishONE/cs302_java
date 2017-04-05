@@ -4,20 +4,12 @@ import junit.framework.TestSuite;
 import org.junit.Test;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import static org.junit.Assert.*;
 
 public class PaddleBallTest extends TestSuite {
 
 	private boolean isBallInPaddle(Ball ball, Paddle paddle) {
-
-		/*
-		System.out.println("Paddle bottom = " + (paddle.getYPosReal() + paddle.getWidth()/2));
-		System.out.println("Ball top = " + (ball.getYPosReal() - ball.getHeight()/2));
-		System.out.println("Paddle x = " + (paddle.getXPosReal()));
-		System.out.println("Ball x = " + (ball.getXPosReal()));
-		System.out.println();
-		*/
-
 		Rectangle2D ballRect = new Rectangle2D.Double(ball.getXPosReal() - ball.getWidth()/2,
 				ball.getYPosReal() - ball.getHeight()/2, ball.getWidth(), ball.getHeight());
 		return paddle.getRectangle().intersects(ballRect) || paddle.getRectangle().contains(ballRect);
@@ -29,7 +21,7 @@ public class PaddleBallTest extends TestSuite {
 		// Create a game with a ball, a paddle and two warlords
 		Game game = new Game(500, 500);
 		Ball ball = new Ball(100, 100);
-		Paddle paddle = new Paddle(0, 0, 0D, game);
+		Paddle paddle = new Paddle(0, 0, 0D, game, Collections.singletonList(ball));
 		Warlord player1 = new Warlord(500, 500, "fake_img");
 		Warlord player2 = new Warlord(500, 500, "fake_img");
 

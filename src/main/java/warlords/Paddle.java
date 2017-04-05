@@ -1,6 +1,8 @@
 package warlords;
 
 import warlordstest.IPaddle;
+import java.awt.geom.Rectangle2D;
+import java.util.List;
 import static java.lang.Math.*;
 
 /**
@@ -9,6 +11,7 @@ import static java.lang.Math.*;
 public class Paddle extends GameObject implements IPaddle {
 
 	private Game game;
+	private List<Ball> balls;
 	private Double theta_init;
 	private int x_init;
 	private int y_init;
@@ -20,8 +23,9 @@ public class Paddle extends GameObject implements IPaddle {
 	 * @param y the y position of the paddle
 	 * @param theta the lower bound for the rotation of the paddle
 	 * @param game the game model used to get the dimensions of the game screen
+	 * @param balls a list of balls to ensure never end up inside the paddle
 	 */
-	public Paddle(int x, int y, Double theta, Game game) {
+	public Paddle(int x, int y, Double theta, Game game, List<Ball> balls) {
 		super(x, y, "/paddle.png", null, theta + PI/4);
 		this.width = 100;
 		this.height = 20;
@@ -29,6 +33,7 @@ public class Paddle extends GameObject implements IPaddle {
 		y_init = y;
 		theta_init = theta;
 		this.game = game;
+		this.balls = balls;
 		setPosition();
 	}
 
@@ -73,9 +78,8 @@ public class Paddle extends GameObject implements IPaddle {
 	 * Move the paddle one increment in a clockwise arc.
 	 */
 	private void moveCW() {
-		if (rotationAngle < theta_init+ PI/2) {
-			rotationAngle += ANGLE_DIFF;
-			setPosition();
+		if (rotationAngle < theta_init + PI/2) {
+			moveAvoidingBall(ANGLE_DIFF);
 		}
 	}
 
@@ -84,8 +88,33 @@ public class Paddle extends GameObject implements IPaddle {
 	 */
 	private void moveCCW() {
 		if (rotationAngle > theta_init) {
-			rotationAngle -= ANGLE_DIFF;
-			setPosition();
+			moveAvoidingBall(-ANGLE_DIFF);
+		}
+	}
+
+	/**
+	 * @param ball The ball to be checked.
+	 * @return True if the rectangle around the ball intersects or is contained in the paddles rectangle.
+	 */
+	private boolean isBallInPaddle(Ball ball) {
+		Rectangle2D ballRect = new Rectangle2D.Double(ball.getXPosReal() - ball.getWidth()/2,
+				ball.getYPosReal() - ball.getHeight()/2, ball.getWidth(), ball.getHeight());
+		return getRectangle().intersects(ballRect) || getRectangle().contains(ballRect);
+	}
+
+	/**
+	 * Move the ball by the angle given only if this will not cause the ball to be inside the paddle.
+	 * @param angle The angle to move in radians with a positive sign meaning clockwise.
+	 */
+	private void moveAvoidingBall(double angle) {
+		rotationAngle += angle;
+		setPosition();
+		for (Ball ball : balls) {
+			if (isBallInPaddle(ball)) {
+				rotationAngle -= angle;
+				setPosition();
+				break;
+			}
 		}
 	}
 

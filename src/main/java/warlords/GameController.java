@@ -150,10 +150,10 @@ public class GameController implements IGame {
 		addBall(BALL_SPEED);
 
 		//Add paddles in each corner
-		paddles.add(new Paddle(0, 0, 0.0, game));
-		paddles.add(new Paddle(Game.backendWidth, 0, PI/2, game));
-		paddles.add(new Paddle(0, Game.backendHeight, 3*PI/2, game));
-		paddles.add(new Paddle(Game.backendWidth, Game.backendHeight, PI, game));
+		paddles.add(new Paddle(0, 0, 0.0, game, balls));
+		paddles.add(new Paddle(Game.backendWidth, 0, PI/2, game, balls));
+		paddles.add(new Paddle(0, Game.backendHeight, 3*PI/2, game, balls));
+		paddles.add(new Paddle(Game.backendWidth, Game.backendHeight, PI, game, balls));
 
 		//Add warlords in each corner
 		int WARLORD_MARGIN = 50;
