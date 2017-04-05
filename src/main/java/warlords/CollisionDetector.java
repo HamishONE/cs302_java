@@ -41,7 +41,9 @@ public class CollisionDetector {
 	private void destroyObject(GameObject gameObject) {
 
 		//Play the noise assigned to the object
-		soundView.playSound(gameObject.getSoundPath());
+		if (soundView != null) {
+			soundView.playSound(gameObject.getSoundPath());
+		}
 
 		// If it is a wall cause one damage and if it is destroyed remove the wall from the list
 		if (gameObject instanceof Wall) {
