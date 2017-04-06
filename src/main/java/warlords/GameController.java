@@ -15,7 +15,7 @@ import static java.lang.Math.PI;
 public class GameController implements IGame {
 
 	private enum InternalState {
-		IDLE, PAUSED, RUNNING, ENDED, EXITING
+		IDLE, PAUSED, RUNNING, ENDED, EXITING, CONFIRM_EXIT
 	}
 
 	// Constants
@@ -217,7 +217,7 @@ public class GameController implements IGame {
 	 */
 	public void runLoop() {
 		processControlInput();
-		if (internalState == InternalState.RUNNING || internalState == InternalState.PAUSED) {
+		if (internalState == InternalState.RUNNING || internalState == InternalState.PAUSED || internalState == InternalState.CONFIRM_EXIT) {
 			updateTimer();
 			if (timeRemaining > GAME_TIME) {
 				drawFrame(false);
@@ -232,7 +232,7 @@ public class GameController implements IGame {
 	@Override
 	public void tick() {
 		//Check for inputs, if running, do loop functions to find collisions and see if game has been won
-		if (internalState != InternalState.PAUSED) {
+		if (internalState != InternalState.PAUSED && internalState != InternalState.CONFIRM_EXIT) {
 			processGameInput();
 			checkCollisions();
 			checkWinner();
@@ -286,14 +286,23 @@ public class GameController implements IGame {
 						timeRemaining = 3000;
 						break;
 					case EXIT:
-						internalState = InternalState.EXITING;
+						if(internalState == InternalState.CONFIRM_EXIT) {
+							internalState = InternalState.EXITING;
+						}
+						else {
+							internalState = InternalState.CONFIRM_EXIT;
+						}
 						break;
 					case MENU_SELECT:
-						if (timeRemaining > GAME_TIME) {
-							timeRemaining = GAME_TIME;
-						}
 						if (internalState == InternalState.ENDED) {
 							internalState = InternalState.EXITING;
+						}
+						else if(internalState == InternalState.CONFIRM_EXIT) {
+							internalState = InternalState.RUNNING;
+							lastTimestamp = System.nanoTime();
+						}
+						else if (timeRemaining > GAME_TIME) {
+							timeRemaining = GAME_TIME;
 						}
 						break;
 				}
@@ -338,6 +347,9 @@ public class GameController implements IGame {
 		// If the game is paused show the paused indicator
 		if (internalState == InternalState.PAUSED) {
 			gameView.drawPauseIndicator();
+		}
+		else if (internalState == InternalState.CONFIRM_EXIT) {
+			gameView.drawExitConfirm();
 		}
 	}
 

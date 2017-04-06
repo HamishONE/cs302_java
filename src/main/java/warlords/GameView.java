@@ -153,6 +153,16 @@ public class GameView {
 		gc.fillText("Paused", (Game.backendWidth/2)*scalingFactor, 50, Game.backendWidth - 100);
 	}
 
+	public void drawExitConfirm() {
+		drawOverlay();
+		//Sets font to white and draws "Pause", centered at the top of the screen
+		gc.setFill(Color.BLACK);
+		gc.setFont(new Font("Corbel", 50*scalingFactor));
+		gc.setTextAlign(TextAlignment.CENTER);
+		gc.setTextBaseline(VPos.CENTER);
+		gc.fillText("PRESS ESC TO QUIT OR ENTER TO RESUME", (Game.backendWidth/2)*scalingFactor, (Game.backendWidth/2)*scalingFactor, Game.backendWidth - 100);
+	}
+
 	/**
 	 * Draws the time remaining to the screen
 	 *
