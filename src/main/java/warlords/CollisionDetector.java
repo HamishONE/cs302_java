@@ -137,6 +137,7 @@ public class CollisionDetector {
 		}
 		// Otherwise ball the ball forward one unit of it's velocity
 		else {
+			safetyNet(allObjects);
 			ball.tick(movement);
 		}
 	}
@@ -157,5 +158,22 @@ public class CollisionDetector {
 		final double initialIncrement = 0.001;
 		ball.tick(initialIncrement);
 		moveBall(movementAfterRebound - initialIncrement);
+	}
+
+	private void safetyNet(ArrayList<GameObject> allObjects) {
+
+		for(GameObject object : allObjects) {
+			if(object instanceof Boundary) {
+				if ((!object.getRectangle().intersects(ball.getXPosReal(), ball.getYPosReal(), ball.getWidth(), ball.getHeight()))) {
+					ball.setXPos(Game.backendWidth/2);
+					ball.setYPos(Game.backendHeight/2);
+				}
+			}
+			else if(object instanceof Paddle) {
+				if ((object.getRectangle().intersects(ball.getXPosReal(), ball.getYPosReal(), ball.getWidth()/2, ball.getHeight()/2))) {
+					ball.tick();
+				}
+			}
+		}
 	}
 }
