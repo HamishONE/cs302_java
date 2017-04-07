@@ -28,7 +28,7 @@ public abstract class GameObject {
 	 *
 	 * @param x			x location
 	 * @param y			y location
-	 * @param imgPath	Path to image file
+	 * @param age		age the object needs to represent
 	 * @param soundPath	Path to sound file
 	 * @param theta		Angle object should be rotated by
 	 */
