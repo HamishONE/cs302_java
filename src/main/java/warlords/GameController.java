@@ -494,8 +494,4 @@ public class GameController implements IGame {
 	public boolean doExitGame() {
 		return internalState == InternalState.EXITING;
 	}
-
-	public void getFuchOff() {
-
-	}
 }
