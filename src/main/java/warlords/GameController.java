@@ -33,12 +33,14 @@ public class GameController implements IGame {
 	private int timeRemaining = GAME_TIME + COUNTDOWN_TIME;
 	private long lastTimestamp;
 	private boolean secondBallAdded = false;
+	private Ages age;
 
 	// Game objects
 	private ArrayList<Wall> walls = new ArrayList<>();
 	private ArrayList<Warlord> warlords = new ArrayList<>();
 	private ArrayList<Ball> balls = new ArrayList<>();
 	private ArrayList<Paddle> paddles = new ArrayList<>();
+	private Boundary boundary;
 
 	/**
 	 * Create a new instance of a controller
@@ -48,12 +50,13 @@ public class GameController implements IGame {
 	 * @param gameView		Instance of main view of the game
 	 * @param soundView		Instance of sound player view for the game to use
 	 */
-	public GameController(ArrayList<IUserInput> userInputs, Game game, GameView gameView, SoundView soundView) {
+	public GameController(ArrayList<IUserInput> userInputs, Game game, GameView gameView, SoundView soundView, Ages age) {
 		//Initialize all parameters passed in through the constructor
 		this.userInputs = userInputs;
 		this.game = game;
 		this.gameView = gameView;
 		this.soundView = soundView;
+		this.age = age;
 
 		//Set up a standard game
 		setupStandardGameObjects();
@@ -91,7 +94,7 @@ public class GameController implements IGame {
 	 * @param angleOffset	Offset to determine which quarter of the circle should be populated
 	 * @param owner			Int to represent which player the walls "belong" to
 	 */
-	private void addWalls(int xOffset, int yOffset, double angleOffset, int owner, String path) {
+	private void addWalls(int xOffset, int yOffset, double angleOffset, int owner, Ages age) {
 
 		//Initial hard coding of number of rows, space between walls, and radius to render them on
 		double initialRadius = 150;
@@ -124,7 +127,7 @@ public class GameController implements IGame {
 				double x = radius * Math.cos(angle);
 				double y = radius * Math.sin(angle);
 
-				Wall wall = new Wall((int)x + xOffset, (int)y + yOffset, angle+PI, owner, path);
+				Wall wall = new Wall((int)x + xOffset, (int)y + yOffset, angle+PI, owner, age);
 				walls.add(wall);
 
 				angle += (wallWidth / 2) / radius;
@@ -146,21 +149,24 @@ public class GameController implements IGame {
 	 * </ul>
 	 */
 	private void setupStandardGameObjects() {
+		//Add boundary, and therefore background
+		boundary = new Boundary(age);
+
 		//Add ball in center and set it on its way
 		addBall(BALL_SPEED);
 
 		//Add paddles in each corner
-		paddles.add(new Paddle(0, 0, 0.0, game, balls));
-		paddles.add(new Paddle(Game.backendWidth, 0, PI/2, game, balls));
-		paddles.add(new Paddle(0, Game.backendHeight, 3*PI/2, game, balls));
-		paddles.add(new Paddle(Game.backendWidth, Game.backendHeight, PI, game, balls));
+		paddles.add(new Paddle(0, 0, age, 0.0, game, balls));
+		paddles.add(new Paddle(Game.backendWidth, 0, age, PI/2, game, balls));
+		paddles.add(new Paddle(0, Game.backendHeight, age, 3*PI/2, game, balls));
+		paddles.add(new Paddle(Game.backendWidth, Game.backendHeight, age, PI, game, balls));
 
 		//Add warlords in each corner
 		int WARLORD_MARGIN = 50;
-		warlords.add(new Warlord(WARLORD_MARGIN, WARLORD_MARGIN, "/cavemanBlue.png"));
-		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, WARLORD_MARGIN, "/cavemanYellow.png"));
-		warlords.add(new Warlord(WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, "/cavemanRed.png"));
-		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, "/cavemanGreen.png"));
+		warlords.add(new Warlord(WARLORD_MARGIN, WARLORD_MARGIN, age));
+		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, WARLORD_MARGIN, age));
+		warlords.add(new Warlord(WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, age));
+		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, age));
 
 		// Add the user inputs for the number of human players
 		if (game.getNumHumanPlayers() > userInputs.size()) {
@@ -177,10 +183,10 @@ public class GameController implements IGame {
 		}
 
 		//Add walls to each corner
-		addWalls(0, 0, 0, 0,"/cavemanWall.png");
-		addWalls(Game.backendWidth, 0, PI/2, 1, "/cavemanWall.png");
-		addWalls(Game.backendWidth, Game.backendHeight, PI, 2, "/cavemanWall.png");
-		addWalls(0, Game.backendHeight, 3*PI/2, 3, "/cavemanWall.png");
+		addWalls(0, 0, 0, 0, age);
+		addWalls(Game.backendWidth, 0, PI/2, 1, age);
+		addWalls(Game.backendWidth, Game.backendHeight, PI, 2, age);
+		addWalls(0, Game.backendHeight, 3*PI/2, 3, age);
 	}
 
 	/**
@@ -188,7 +194,7 @@ public class GameController implements IGame {
 	 * @param speed The speed of the new ball.
 	 */
 	private void addBall(double speed) {
-		Ball ball = new Ball(Game.backendWidth/2, Game.backendHeight/2, "/meatBall.png");
+		Ball ball = new Ball(Game.backendWidth/2, Game.backendHeight/2, age);
 		ball.generateRandomMovement(speed);
 		balls.add(ball);
 	}
@@ -317,7 +323,7 @@ public class GameController implements IGame {
 	 */
 	private void checkCollisions() {
 		for (Ball ball : balls) {
-			new CollisionDetector(ball, paddles, walls, warlords, game, soundView).moveBall();
+			new CollisionDetector(ball, paddles, walls, warlords, boundary, game, soundView).moveBall();
 		}
 	}
 
@@ -443,5 +449,9 @@ public class GameController implements IGame {
 	 */
 	public boolean doExitGame() {
 		return internalState == InternalState.EXITING;
+	}
+
+	public void getFuchOff() {
+
 	}
 }

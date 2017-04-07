@@ -7,11 +7,15 @@ public class Boundary extends GameObject {
 
 	/**
 	 * Creates a new instance of the game boundary.
-	 * @param game The game model to get the window dimensions from.
 	 */
-	protected Boundary(Game game) {
-		super(Game.backendWidth/2, Game.backendHeight/2, null, null, Math.PI/2);
+	protected Boundary(Ages age) {
+		super(Game.backendWidth/2, Game.backendHeight/2, age, null, Math.PI/2);
 		this.width = Game.backendWidth;
 		this.height = Game.backendHeight;
+
+		spritePaths.put(Ages.NEOLITHIC, null);
+		spritePaths.put(Ages.MEDIEVAL, null);
+		spritePaths.put(Ages.INDUSTRIAL, null);
+		spritePaths.put(Ages.SPACE, null);
 	}
 }

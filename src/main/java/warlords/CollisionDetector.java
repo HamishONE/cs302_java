@@ -13,6 +13,7 @@ public class CollisionDetector {
 	private List<Paddle> paddles;
 	private List<Wall> walls;
 	private List<Warlord> warlords;
+	private Boundary boundary;
 	private Game game;
 	private SoundView soundView;
 
@@ -25,11 +26,12 @@ public class CollisionDetector {
 	 * @param game the game model used to get the game boundary dimensions
 	 * @param soundView the view used to play sounds through
 	 */
-	public CollisionDetector(Ball ball, List<Paddle> paddles, List<Wall> walls, List<Warlord> warlords, Game game, SoundView soundView) {
+	public CollisionDetector(Ball ball, List<Paddle> paddles, List<Wall> walls, List<Warlord> warlords, Boundary boundary, Game game, SoundView soundView) {
 		this.ball = ball;
 		this.paddles = paddles;
 		this.walls = walls;
 		this.warlords = warlords;
+		this.boundary = boundary;
 		this.game = game;
 		this.soundView = soundView;
 	}
@@ -86,7 +88,7 @@ public class CollisionDetector {
 				allObjects.add(warlord);
 			}
 		}
-		allObjects.add(new Boundary(game));
+		allObjects.add(boundary);
 
 		// Get the path of the ball as a line
 		double xMovement = ball.getXVelocityReal() * movement/ball.getSpeed();

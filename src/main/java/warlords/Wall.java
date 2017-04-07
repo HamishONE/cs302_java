@@ -18,12 +18,16 @@ public class Wall extends GameObject implements IWall {
 	 * @param theta the rotation of the wall
 	 * @param owner the index number of the player who's wall this is
 	 */
-	public Wall(int x, int y, double theta, int owner, String path) {
-		super(x, y, path, null, theta);
+	public Wall(int x, int y, double theta, int owner, Ages age) {
+		super(x, y, age, null, theta);
 		width = 44.6;
 		height = 20.9;
 		this.owner = owner;
 
+		spritePaths.put(Ages.NEOLITHIC, "/cavemanWall.png");
+		spritePaths.put(Ages.MEDIEVAL, "/wal.png");
+		spritePaths.put(Ages.INDUSTRIAL, null);
+		spritePaths.put(Ages.SPACE, null);
 	}
 
 	@Override

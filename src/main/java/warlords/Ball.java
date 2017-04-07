@@ -16,8 +16,13 @@ public class Ball extends GameObject implements IBall {
 	 * @param x the x position of the ball
 	 * @param y the y position of the ball
 	 */
-	public Ball(int x, int y, String path) {
-		super(x, y, path, null, 0);
+	public Ball(int x, int y, Ages age) {
+		super(x, y, age, null, 0);
+
+		spritePaths.put(Ages.NEOLITHIC, "/meatBall.png");
+		spritePaths.put(Ages.MEDIEVAL, "/cannonBall.png");
+		spritePaths.put(Ages.INDUSTRIAL, null);
+		spritePaths.put(Ages.SPACE, null);
 	}
 
 	/**

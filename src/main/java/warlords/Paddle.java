@@ -25,8 +25,8 @@ public class Paddle extends GameObject implements IPaddle {
 	 * @param game the game model used to get the dimensions of the game screen
 	 * @param balls a list of balls to ensure never end up inside the paddle
 	 */
-	public Paddle(int x, int y, Double theta, Game game, List<Ball> balls) {
-		super(x, y, "/paddle.png", null, theta + PI/4);
+	public Paddle(int x, int y, Ages age, Double theta, Game game, List<Ball> balls) {
+		super(x, y, age, null, theta + PI/4);
 		this.width = 100;
 		this.height = 20;
 		x_init = x;
@@ -35,6 +35,11 @@ public class Paddle extends GameObject implements IPaddle {
 		this.game = game;
 		this.balls = balls;
 		setPosition();
+
+		spritePaths.put(Ages.NEOLITHIC, "/paddle.png");
+		spritePaths.put(Ages.MEDIEVAL, "/paddle.png");
+		spritePaths.put(Ages.INDUSTRIAL, "/paddle.png");
+		spritePaths.put(Ages.SPACE, "/paddle.png");
 	}
 
 	/**

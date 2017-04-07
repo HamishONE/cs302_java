@@ -5,6 +5,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import static java.lang.Math.PI;
 
 /**
@@ -16,7 +18,8 @@ public abstract class GameObject {
 	protected double y;
 	protected double width;
 	protected double height;
-	protected String spritePath;
+	protected Ages age;
+	protected HashMap<Ages, String> spritePaths = new HashMap<>();
 	protected String soundPath;
 	protected double rotationAngle = 0;
 
@@ -29,7 +32,7 @@ public abstract class GameObject {
 	 * @param soundPath	Path to sound file
 	 * @param theta		Angle object should be rotated by
 	 */
-	protected GameObject(int x, int y, String imgPath, String soundPath, double theta) {
+	protected GameObject(int x, int y, Ages age, String soundPath, double theta) {
 
 		this.x = x;
 		this.y = y;
@@ -38,11 +41,7 @@ public abstract class GameObject {
 		width = 24;
 		height = 24;
 
-		if (imgPath != null) {
-			spritePath = imgPath;
-		} else {
-			spritePath = "/test_sprite.png";
-		}
+		this.age = age;
 
 		if (soundPath != null) {
 			this.soundPath = soundPath;
@@ -106,7 +105,7 @@ public abstract class GameObject {
 	 * @return string of path to image
 	 */
 	public String getSpritePath() {
-		return spritePath;
+		return spritePaths.get(age);
 	}
 
 	/**

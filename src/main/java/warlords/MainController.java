@@ -91,7 +91,7 @@ public class MainController {
 				// If the menu is ready for the game to be launched create a new game controller instance and start it
 				if (menuController.doStartGame()) {
 					game.setState(Game.State.GAME);
-					gameController = new GameController(userInputs, game, gameView, soundView);
+					gameController = new GameController(userInputs, game, gameView, soundView, Ages.NEOLITHIC);
 					gameController.beginGame();
 				}
 				break;
