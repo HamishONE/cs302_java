@@ -74,7 +74,7 @@ public class GameController implements IGame {
 	 * @param ball		Instance of the ball to be in the game
 	 */
 	public GameController(GameView gameView, ArrayList<Paddle> paddles, ArrayList<IUserInput> players, ArrayList<Wall> walls,
-						  ArrayList<Warlord> warlords, Game game, Ball ball) {
+						  ArrayList<Warlord> warlords, Game game, Ball ball, Boundary boundary) {
 		//Set local variables specifically to only include the items included in the constructors
 		this.game = game;
 		this.gameView = gameView;
@@ -83,6 +83,7 @@ public class GameController implements IGame {
 		this.walls = walls;
 		this.warlords = warlords;
 		this.balls.add(ball);
+		this.boundary = boundary;
 	}
 
 	/**
@@ -378,16 +379,23 @@ public class GameController implements IGame {
 	 */
 	private void processGameEnd(Warlord winner) {
 		internalState = InternalState.ENDED;
-		gameView.drawOverlay();
-		if (winner != null) {
-			winner.setAsWinner();
-			gameView.drawWinnerLabel("Player " + (warlords.indexOf(winner) + 1));
-			winner.setXPos(Game.backendWidth / 2);
-			winner.setYPos(Game.backendHeight / 2);
-			winner.setDimensions(120, 180);
-			gameView.drawObjects(Collections.singletonList(winner));
+		//Check if not null for testing purposes
+		if (gameView == null) {
+			if (winner != null) {
+				winner.setAsWinner();
+			}
 		} else {
-			gameView.drawWinnerLabel(null);
+			gameView.drawOverlay();
+			if (winner != null) {
+				winner.setAsWinner();
+				gameView.drawWinnerLabel("Player " + (warlords.indexOf(winner) + 1));
+				winner.setXPos(Game.backendWidth / 2);
+				winner.setYPos(Game.backendHeight / 2);
+				winner.setDimensions(120, 180);
+				gameView.drawObjects(Collections.singletonList(winner));
+			} else {
+				gameView.drawWinnerLabel(null);
+			}
 		}
 	}
 

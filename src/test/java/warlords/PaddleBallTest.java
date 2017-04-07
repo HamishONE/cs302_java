@@ -17,13 +17,14 @@ public class PaddleBallTest extends TestSuite {
 
 	@Test
 	public void test() {
-
+		Ages age = Ages.MEDIEVAL;
 		// Create a game with a ball, a paddle and two warlords
 		Game game = new Game(500, 500);
-		Ball ball = new Ball(100, 100);
-		Paddle paddle = new Paddle(0, 0, 0D, game, Collections.singletonList(ball));
-		Warlord player1 = new Warlord(500, 500, "fake_img");
-		Warlord player2 = new Warlord(500, 500, "fake_img");
+		Ball ball = new Ball(100, 100, age);
+		Paddle paddle = new Paddle(0, 0, age, 0D, game, Collections.singletonList(ball));
+		Warlord player1 = new Warlord(500, 500, age);
+		Warlord player2 = new Warlord(500, 500, age);
+		Boundary boundary = new Boundary(age);
 
 		// Create lists for the paddles, walls and warlords
 		ArrayList<Paddle> paddles = new ArrayList<>();
@@ -40,7 +41,7 @@ public class PaddleBallTest extends TestSuite {
 		players.add(mockInput);
 
 		// Begin the game
-		GameController gameController = new GameController(null, paddles, players, walls, warlords, game, ball);
+		GameController gameController = new GameController(null, paddles, players, walls, warlords, game, ball, boundary);
 		gameController.beginGame();
 
 		// Rotate the paddle to be vertical

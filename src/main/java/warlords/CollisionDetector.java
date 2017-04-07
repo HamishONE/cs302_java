@@ -82,13 +82,14 @@ public class CollisionDetector {
 		// Create a list of all objects (excluding dead warlords and null paddles) including the game window boundary
 		ArrayList<GameObject> allObjects = new ArrayList<>(paddles);
 		allObjects.addAll(walls);
-		allObjects.removeIf(Objects::isNull);
 		for (Warlord warlord : warlords) {
 			if (!warlord.isDead()) {
 				allObjects.add(warlord);
 			}
 		}
 		allObjects.add(boundary);
+
+		allObjects.removeIf(Objects::isNull);
 
 		// Get the path of the ball as a line
 		double xMovement = ball.getXVelocityReal() * movement/ball.getSpeed();

@@ -20,14 +20,15 @@ public class WarlordsTest extends TestSuite {
 
 	@Before
 	public void setUp(){
-
+		Ages age = Ages.MEDIEVAL;
 		Game game = new Game(1024, 768);
-		Ball ball = new Ball(100, 100);
-		Paddle paddle = new Paddle(0, 0, 0D, game, Collections.singletonList(ball));
+		Ball ball = new Ball(100, 100, age);
+		Paddle paddle = new Paddle(0, 0, age, 0D, game, Collections.singletonList(ball));
 		paddle.setRotation(Math.PI/2);
-		Wall wall = new Wall(0, 0, Math.PI/2, 0);
-		Warlord player1 = new Warlord(0, 0, "fake_img");
-		Warlord player2 = new Warlord(0, 0, "fake_img");
+		Wall wall = new Wall(0, 0, Math.PI/2, 0, age);
+		Warlord player1 = new Warlord(0, 0, age);
+		Warlord player2 = new Warlord(0, 0, age);
+		Boundary boundary = new Boundary(age);
 
 		ArrayList<Paddle> paddles = new ArrayList<>();
 		paddles.add(paddle);
@@ -37,7 +38,7 @@ public class WarlordsTest extends TestSuite {
 		warlords.add(player1);
 		warlords.add(player2);
 
-		GameController gameController = new GameController(null, paddles, new ArrayList<>(), walls, warlords, game, ball);
+		GameController gameController = new GameController(null, paddles, new ArrayList<>(), walls, warlords, game, ball, boundary);
 		gameController.beginGame();
 
 		this.game = gameController;

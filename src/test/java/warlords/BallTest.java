@@ -3,14 +3,18 @@ package warlords;
 import junit.framework.TestSuite;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import static java.lang.Math.atan2;
 import static org.junit.Assert.*;
 
 public class BallTest extends TestSuite {
 
+	private Ages age = Ages.MEDIEVAL;
+
 	@Test
 	public void testBasicInit() {
 
-		Ball ball = new Ball(100, 150);
+		Ball ball = new Ball(100, 150, age);
 		ball.setXVelocity(-1);
 		ball.setYVelocity(5);
 
@@ -18,13 +22,13 @@ public class BallTest extends TestSuite {
 		assertTrue("x velocity is as given", ball.getXVelocity() == -1);
 		assertTrue("x position is as given", ball.getXPos() == 100);
 		assertTrue("y position is as given", ball.getYPos() == 150);
-		assertTrue("sprite should be rotated to stand upwards", ball.getRotation() == -Math.PI/2);
+		assertTrue("sprite should be rotated to stand upwards", ball.getRotation() == atan2(5, -1));
 	}
 
 	@Test
 	public void testBallReboundOne() {
 
-		Ball ball = new Ball(100, 100);
+		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(-1);
 		ball.setYVelocity(0);
 		ball.rebound(3*Math.PI/4);
@@ -36,7 +40,7 @@ public class BallTest extends TestSuite {
 	@Test
 	public void testBallReboundTwo() {
 
-		Ball ball = new Ball(100, 100);
+		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(0);
 		ball.setYVelocity(-1);
 		ball.rebound(3*Math.PI/4);
@@ -48,7 +52,7 @@ public class BallTest extends TestSuite {
 	@Test
 	public void testBallReboundThree() {
 
-		Ball ball = new Ball(100, 100);
+		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(0);
 		ball.setYVelocity(1);
 		ball.rebound(Math.PI/4);
@@ -60,7 +64,7 @@ public class BallTest extends TestSuite {
 	@Test
 	public void testBallReboundFour() {
 
-		Ball ball = new Ball(100, 100);
+		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(1);
 		ball.setYVelocity(0);
 		ball.rebound(3*Math.PI/4);
@@ -72,7 +76,7 @@ public class BallTest extends TestSuite {
 	@Test
 	public void testBallReboundFive() {
 
-		Ball ball = new Ball(100, 100);
+		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(0);
 		ball.setYVelocity(1);
 		ball.rebound(3*Math.PI/4);
@@ -84,7 +88,7 @@ public class BallTest extends TestSuite {
 	@Test
 	public void testBallReboundSix() {
 
-		Ball ball = new Ball(100, 100);
+		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(-1);
 		ball.setYVelocity(-1);
 		ball.rebound(3*Math.PI/4);
@@ -96,7 +100,7 @@ public class BallTest extends TestSuite {
 	@Test
 	public void testBallReboundSeven() {
 
-		Ball ball = new Ball(100, 100);
+		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(1);
 		ball.setYVelocity(4);
 		ball.rebound(Math.PI/8);
@@ -108,7 +112,7 @@ public class BallTest extends TestSuite {
 	@Test
 	public void testBallReboundLeftBoundaryOne() {
 
-		Ball ball = new Ball(100, 100);
+		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(-1);
 		ball.setYVelocity(0);
 		ball.rebound(Math.PI/2);
@@ -120,7 +124,7 @@ public class BallTest extends TestSuite {
 	@Test
 	public void testBallReboundLeftBoundaryTwo() {
 
-		Ball ball = new Ball(100, 100);
+		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(-1);
 		ball.setYVelocity(5);
 		ball.rebound(Math.PI/2);
@@ -132,7 +136,7 @@ public class BallTest extends TestSuite {
 	@Test
 	public void testBallReboundBottomBoundary() {
 
-		Ball ball = new Ball(100, 100);
+		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(0);
 		ball.setYVelocity(1);
 		ball.rebound(0);

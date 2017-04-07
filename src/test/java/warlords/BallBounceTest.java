@@ -23,16 +23,18 @@ public class BallBounceTest extends TestSuite {
 
 	@Before
 	public void setUp(){
+		Ages age = Ages.MEDIEVAL;
 		Game game = new Game(200, 200);
-		Ball ball = new Ball(100, 100);
-		Warlord player1 = new Warlord(0, 0, "fake_img");
+		Ball ball = new Ball(100, 100, age);
+		Warlord player1 = new Warlord(0, 0, age);
+		Boundary boundary = new Boundary(age);
 
 		ArrayList<Paddle> paddles = new ArrayList<>();
 		ArrayList<Wall> walls = new ArrayList<>();
 		ArrayList<Warlord> warlords = new ArrayList<>();
 		warlords.add(player1);
 
-		GameController gameController = new GameController(null, paddles, new ArrayList<>(), walls, warlords, game, ball);
+		GameController gameController = new GameController(null, paddles, new ArrayList<>(), walls, warlords, game, ball, boundary);
 		gameController.beginGame();
 
 		this.game = gameController;
@@ -63,17 +65,17 @@ public class BallBounceTest extends TestSuite {
 	@Test
 	public void TestLeftWallBounce() {
 
-		ball.setXPos(5);
+		ball.setXPos(50);
 		ball.setYPos(100);
 
-		ball.setXVelocity(-10);
+		ball.setXVelocity(-100);
 		ball.setYVelocity(0);
 
 		game.tick();
 
-		assertTrue("x velocity is as given", ball.getXVelocity() == 10);
+		assertTrue("x velocity is as given", ball.getXVelocity() == 100);
 		assertTrue("y velocity is as given", ball.getYVelocity() == 0);
-		assertTrue("x position is as given", ball.getXPos() == 5);
+		assertTrue("x position is as given", ball.getXPos() == 50);
 		assertTrue("y position is as given", ball.getYPos() == 100);
 	}
 

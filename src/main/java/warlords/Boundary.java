@@ -8,7 +8,7 @@ public class Boundary extends GameObject {
 	/**
 	 * Creates a new instance of the game boundary.
 	 */
-	protected Boundary(Ages age) {
+	public Boundary(Ages age) {
 		super(Game.backendWidth/2, Game.backendHeight/2, age, null, Math.PI/2);
 		this.width = Game.backendWidth;
 		this.height = Game.backendHeight;
