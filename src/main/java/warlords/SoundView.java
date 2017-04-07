@@ -4,6 +4,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -19,7 +20,7 @@ public class SoundView {
 	 * @param path		Path to sound location
 	 * @return			instance of Media with the requested sound within
 	 */
-	private synchronized Media getSound(String path) {
+	private Media getSound(String path) {
 		return soundCache.computeIfAbsent(path, p -> new Media(new File(path).toURI().toString()));
 	}
 
@@ -29,10 +30,19 @@ public class SoundView {
 	 * @param path path to the location of the sound to be played
 	 */
 	public void playSound(String path) {
-		Runnable runnable = () -> {
 			MediaPlayer mediaPlayer = new MediaPlayer(getSound(path));
 			mediaPlayer.play();
-		};
-		new Thread(runnable).start();
+	}
+
+	/**
+	 * When called loads all the provided media paths to Media objects to reduce delay at first playback
+	 *
+	 * @param paths ArrayList of strings to the path of the sounds
+	 */
+	public void loadSounds(ArrayList<String> paths) {
+		//Preload all pro
+		for(String path : paths) {
+			soundCache.putIfAbsent(path, new Media(new File(path).toURI().toString()));
+		}
 	}
 }

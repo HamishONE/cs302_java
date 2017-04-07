@@ -187,6 +187,14 @@ public class GameController implements IGame {
 		addWalls(Game.backendWidth, 0, PI/2, 1, age);
 		addWalls(Game.backendWidth, Game.backendHeight, PI, 2, age);
 		addWalls(0, Game.backendHeight, 3*PI/2, 3, age);
+
+		//Preload all the game sounds
+		ArrayList<String> soundPaths = new ArrayList<String>() {{
+			add(boundary.getSoundPath());
+			add(balls.get(0).getSoundPath());
+			add(warlords.get(0).getSoundPath());
+		}};
+		soundView.loadSounds(soundPaths);
 	}
 
 	/**
