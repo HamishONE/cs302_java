@@ -151,7 +151,7 @@ public class Ball extends GameObject implements IBall {
 				setPowerUp(null);
 			}
 		}
-		else { //Get any powerups from object being broken
+		else if( object != null) { //Get any powerups from object being broken
 			if(object.getPowerUp() != null) {
 				switch (object.getPowerUp()) {
 					case BALL_FASTER:

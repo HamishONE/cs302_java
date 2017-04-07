@@ -31,7 +31,7 @@ public class BallTest extends TestSuite {
 		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(-1);
 		ball.setYVelocity(0);
-		ball.rebound(3*Math.PI/4);
+		ball.rebound(3*Math.PI/4, null);
 
 		assertTrue("The ball is now travelling straight down", ball.getYVelocity() == 1);
 		assertTrue("The ball is no longer moving in the x direction", ball.getXVelocity() == 0);
@@ -43,7 +43,7 @@ public class BallTest extends TestSuite {
 		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(0);
 		ball.setYVelocity(-1);
-		ball.rebound(3*Math.PI/4);
+		ball.rebound(3*Math.PI/4, null);
 
 		assertTrue("The ball is now travelling to the right", ball.getXVelocity() == 1);
 		assertTrue("The ball is no longer moving in the y direction", ball.getYVelocity() == 0);
@@ -55,7 +55,7 @@ public class BallTest extends TestSuite {
 		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(0);
 		ball.setYVelocity(1);
-		ball.rebound(Math.PI/4);
+		ball.rebound(Math.PI/4, null);
 
 		assertTrue("The ball is now travelling to the right", ball.getXVelocity() == 1);
 		assertTrue("The ball is no longer moving in the y direction", ball.getYVelocity() == 0);
@@ -67,7 +67,7 @@ public class BallTest extends TestSuite {
 		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(1);
 		ball.setYVelocity(0);
-		ball.rebound(3*Math.PI/4);
+		ball.rebound(3*Math.PI/4, null);
 
 		assertTrue("The ball is now travelling upwards", ball.getYVelocity() == -1);
 		assertTrue("The ball is no longer moving in the x direction", ball.getXVelocity() == 0);
@@ -79,7 +79,7 @@ public class BallTest extends TestSuite {
 		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(0);
 		ball.setYVelocity(1);
-		ball.rebound(3*Math.PI/4);
+		ball.rebound(3*Math.PI/4, null);
 
 		assertTrue("The ball is now travelling to the left", ball.getXVelocity() == -1);
 		assertTrue("The ball is no longer moving in the y direction", ball.getYVelocity() == 0);
@@ -91,7 +91,7 @@ public class BallTest extends TestSuite {
 		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(-1);
 		ball.setYVelocity(-1);
-		ball.rebound(3*Math.PI/4);
+		ball.rebound(3*Math.PI/4, null);
 
 		assertTrue("The ball is now travelling to the right", ball.getXVelocity() == 1);
 		assertTrue("The ball is now travelling downwards", ball.getYVelocity() == 1);
@@ -103,7 +103,7 @@ public class BallTest extends TestSuite {
 		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(1);
 		ball.setYVelocity(4);
-		ball.rebound(Math.PI/8);
+		ball.rebound(Math.PI/8, null);
 
 		assertTrue("The ball is now travelling more to the right", ball.getXVelocity() > 3);
 		assertTrue("The ball is now travelling upwards", ball.getYVelocity() < -1);
@@ -115,7 +115,7 @@ public class BallTest extends TestSuite {
 		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(-1);
 		ball.setYVelocity(0);
-		ball.rebound(Math.PI/2);
+		ball.rebound(Math.PI/2, null);
 
 		assertTrue("The ball is now travelling to the right", ball.getXVelocity() == 1);
 		assertTrue("The ball is still not moving in the y direction", ball.getYVelocity() == 0);
@@ -127,7 +127,7 @@ public class BallTest extends TestSuite {
 		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(-1);
 		ball.setYVelocity(5);
-		ball.rebound(Math.PI/2);
+		ball.rebound(Math.PI/2, null);
 
 		assertTrue("The ball is now travelling to the right", ball.getXVelocity() == 1);
 		assertTrue("The ball is moving at the same rate in the y direction", ball.getYVelocity() == 5);
@@ -139,7 +139,7 @@ public class BallTest extends TestSuite {
 		Ball ball = new Ball(100, 100, age);
 		ball.setXVelocity(0);
 		ball.setYVelocity(1);
-		ball.rebound(0);
+		ball.rebound(0, null);
 
 		assertTrue("The ball is now travelling upwards", ball.getYVelocity() == -1);
 		assertTrue("The ball is still not moving in the x direction", ball.getXVelocity() == 0);
