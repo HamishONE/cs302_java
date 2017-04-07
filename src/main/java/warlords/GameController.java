@@ -33,7 +33,7 @@ public class GameController implements IGame {
 	private InternalState internalState = InternalState.IDLE;
 	private int timeRemaining = GAME_TIME + COUNTDOWN_TIME;
 	private long lastTimestamp;
-	private boolean secondBallAdded = false;
+	private boolean difficultyIncrease1, difficultyIncrease2, difficultyIncrease3, difficultyIncrease4 = false;
 	private Ages age;
 
 	// Game objects
@@ -280,11 +280,38 @@ public class GameController implements IGame {
 			checkCollisions();
 			checkWinner();
 
-			// At 5s add a second ball to the game
-			if (timeRemaining < (GAME_TIME - 5000) && !secondBallAdded) {
+			//Make game harder at a couple of points in the game
+			//Add extra ball somewhere between 5 and 15 seconds
+			if (timeRemaining < (GAME_TIME - (5000+random()*10000)) && !difficultyIncrease1) {
 				addBall(BALL_SPEED);
-				secondBallAdded = true;
+				difficultyIncrease1 = true;
 			}
+
+			//Speed all balls up somewhere from 20 to 30 seconds left
+			if(timeRemaining < (20000+random()*10000) && !difficultyIncrease2) {
+				for(Ball ball : balls) {
+					ball.multiplySpeed(1.2);
+				}
+				difficultyIncrease2 = true;
+			}
+
+			//Shrink all paddles when there is somewhere from 10 to 20 seconds left
+			if(timeRemaining < (10000+random()*10000) && !difficultyIncrease3) {
+				for(Paddle paddle : paddles) {
+					if(paddle != null) {
+						paddle.modifyWidth(-30);
+					}
+				}
+				difficultyIncrease3 = true;
+			}
+
+			//Add another ball when there are 5 to 10 seconds left
+			if(timeRemaining < (5000+random()*5000) && !difficultyIncrease4) {
+				addBall(BALL_SPEED+5);
+				difficultyIncrease4 = true;
+			}
+
+
 		}
 	}
 

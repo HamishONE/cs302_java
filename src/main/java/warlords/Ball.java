@@ -155,12 +155,10 @@ public class Ball extends GameObject implements IBall {
 			if(object.getPowerUp() != null) {
 				switch (object.getPowerUp()) {
 					case BALL_FASTER:
-						dY = dY*1.5;
-						dX = dX*1.5;
+						multiplySpeed(1.5);
 						break;
 					case BALL_SLOWER:
-						dY = dY*0.5;
-						dX = dX*0.5;
+						multiplySpeed(0.5);
 						break;
 					default:
 						setPowerUp(object.getPowerUp());
@@ -173,5 +171,10 @@ public class Ball extends GameObject implements IBall {
 	@Override
 	public Double getRotation() {
 		return atan2(dY, dX);
+	}
+
+	public void multiplySpeed(double multiplyer) {
+		dY = dY*multiplyer;
+		dX = dX*multiplyer;
 	}
 }
