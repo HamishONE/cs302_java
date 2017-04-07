@@ -116,7 +116,8 @@ public class Ball extends GameObject implements IBall {
 	 * Reflects the balls motion against a surface at a given angle in space.
 	 * @param phi the absolute angle of the surface in radians
 	 */
-	public void rebound(double phi) {
+	public void rebound(double phi, GameObject object) {
+
 
 		// Transform the balls motion into a coordinate system where dU is parallel to the surface to rebound off
 		double dU = dX*cos(phi) + dY*sin(phi);
@@ -128,6 +129,45 @@ public class Ball extends GameObject implements IBall {
 		// Transform dU and dV back into absolute coordinates
 		dX = dU*cos(phi) - dV*sin(phi);
 		dY = dU*sin(phi) + dV*cos(phi);
+
+		//If object is a paddle, then apply the ball's powerup to the paddle where appropriate
+		if(object instanceof Paddle) {
+			if(getPowerUp() != null) {
+				switch (getPowerUp()){
+
+					case PADDLE_FASTER:
+						((Paddle) object).modifyPaddleSpeed(PI/300);
+						break;
+					case PADLLE_SLOWER:
+						((Paddle) object).modifyPaddleSpeed(-PI/300);
+						break;
+					case PADDLE_GROW:
+						((Paddle) object).modifyWidth(20);
+						break;
+					case PADDLE_SHRINK:
+						((Paddle) object).modifyWidth(-20);
+						break;
+				}
+				setPowerUp(null);
+			}
+		}
+		else { //Get any powerups from object being broken
+			if(object.getPowerUp() != null) {
+				switch (object.getPowerUp()) {
+					case BALL_FASTER:
+						dY = dY*1.5;
+						dX = dX*1.5;
+						break;
+					case BALL_SLOWER:
+						dY = dY*0.5;
+						dX = dX*0.5;
+						break;
+					default:
+						setPowerUp(object.getPowerUp());
+						break;
+				}
+			}
+		}
 	}
 
 	@Override

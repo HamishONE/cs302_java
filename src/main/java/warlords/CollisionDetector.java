@@ -135,8 +135,8 @@ public class CollisionDetector {
 			MathVector intersection = ballPath.intersectPoint(closestPath);
 			double initialMovement = intersection.distanceTo(ball.getPointVector());
 			double afterMovement = movement - initialMovement;
+			reboundBall(closestPath.getRotation(), initialMovement, afterMovement, closestObject);
 			destroyObject(closestObject);
-			reboundBall(closestPath.getRotation(), initialMovement, afterMovement);
 		}
 		// Otherwise ball the ball forward one unit of it's velocity
 		else {
@@ -151,11 +151,11 @@ public class CollisionDetector {
 	 * @param movementBeforeRebound The distance to move the ball before it rebounds.
 	 * @param movementAfterRebound The distance to move the ball after it rebounds.
 	 */
-	private void reboundBall(double surfaceAngle, double movementBeforeRebound, double movementAfterRebound) {
+	private void reboundBall(double surfaceAngle, double movementBeforeRebound, double movementAfterRebound, GameObject object) {
 
 		// Move the ball forward up to the object then rebound it
 		ball.tick(movementBeforeRebound);
-		ball.rebound(surfaceAngle);
+		ball.rebound(surfaceAngle, object);
 
 		// Move the ball forward by a small initial increment then let the collision detector move it the rest of the way
 		final double initialIncrement = 0.001;

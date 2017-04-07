@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 import static java.lang.Math.PI;
+import static java.lang.Math.random;
 
 /**
  * Controller class for the game instance, creates all of the {@link GameObject} and passes them to the
@@ -128,7 +129,34 @@ public class GameController implements IGame {
 				double x = radius * Math.cos(angle);
 				double y = radius * Math.sin(angle);
 
-				Wall wall = new Wall((int)x + xOffset, (int)y + yOffset, angle+PI, owner, age);
+				//Generate a random powerup for the walls
+				PowerUp powerUp;
+				int seed = (int)(random() *20.0) ;
+				switch (seed) {
+					case 0:
+						powerUp = PowerUp.BALL_FASTER;
+						break;
+					case 1:
+						powerUp = PowerUp.BALL_SLOWER;
+						break;
+					case 2:
+						powerUp = PowerUp.PADDLE_FASTER;
+						break;
+					case 3:
+						powerUp = PowerUp.PADLLE_SLOWER;
+						break;
+					case 4:
+						powerUp = PowerUp.PADDLE_GROW;
+						break;
+					case 5:
+						powerUp = PowerUp.PADDLE_SHRINK;
+						break;
+					default:
+						powerUp = null;
+						break;
+				}
+
+				Wall wall = new Wall((int)x + xOffset, (int)y + yOffset, angle+PI, owner, age, powerUp);
 				walls.add(wall);
 
 				angle += (wallWidth / 2) / radius;

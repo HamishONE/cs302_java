@@ -15,7 +15,7 @@ public class Paddle extends GameObject implements IPaddle {
 	private Double theta_init;
 	private int x_init;
 	private int y_init;
-	private double ANGLE_DIFF = PI/150;
+	private double paddleSpeed;
 
 	/**
 	 * Create a new paddle instance at a given position
@@ -32,6 +32,7 @@ public class Paddle extends GameObject implements IPaddle {
 		x_init = x;
 		y_init = y;
 		theta_init = theta;
+		paddleSpeed = PI/150;
 		this.game = game;
 		this.balls = balls;
 		setPosition();
@@ -84,7 +85,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 */
 	private void moveCW() {
 		if (rotationAngle <= theta_init + PI/2) {
-			moveAvoidingBall(ANGLE_DIFF);
+			moveAvoidingBall(paddleSpeed);
 		}
 	}
 
@@ -93,7 +94,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 */
 	private void moveCCW() {
 		if (rotationAngle >= theta_init) {
-			moveAvoidingBall(-ANGLE_DIFF);
+			moveAvoidingBall(-paddleSpeed);
 		}
 	}
 
@@ -130,5 +131,18 @@ public class Paddle extends GameObject implements IPaddle {
 	private void setPosition() {
 		x = (5.0/18.0)*Game.backendWidth*cos(rotationAngle) + x_init;
 		y = (5.0/12.0)*Game.backendHeight*sin(rotationAngle) + y_init;
+	}
+
+	/**
+	 * Adds the provided value to the rotation portion of the paddle's movement.
+	 *
+	 * @param modifier amount to increase or decrease the rotation by.
+	 */
+	public void modifyPaddleSpeed(double modifier) {
+		paddleSpeed += modifier;
+	}
+
+	public void modifyWidth(double modifier) {
+		width += modifier;
 	}
 }

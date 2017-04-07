@@ -23,7 +23,18 @@ public class Wall extends GameObject implements IWall {
 		width = 44.6;
 		height = 20.9;
 		this.owner = owner;
+		spritePaths.put(Ages.NEOLITHIC, "/cavemanWall.png");
+		spritePaths.put(Ages.MEDIEVAL, "/wal.png");
+		spritePaths.put(Ages.INDUSTRIAL, null);
+		spritePaths.put(Ages.SPACE, null);
+	}
 
+	public Wall(int x, int y, double theta, int owner, Ages age, PowerUp powerUp) {
+		super(x, y, age, null, theta);
+		width = 44.6;
+		height = 20.9;
+		this.owner = owner;
+		this.powerUp = powerUp;
 		spritePaths.put(Ages.NEOLITHIC, "/cavemanWall.png");
 		spritePaths.put(Ages.MEDIEVAL, "/wal.png");
 		spritePaths.put(Ages.INDUSTRIAL, null);

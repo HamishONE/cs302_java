@@ -22,6 +22,7 @@ public abstract class GameObject {
 	protected HashMap<Ages, String> spritePaths = new HashMap<>();
 	protected String soundPath;
 	protected double rotationAngle = 0;
+	protected PowerUp powerUp;
 
 	/**
 	 * Called only from child classes, basic constructor
@@ -37,6 +38,7 @@ public abstract class GameObject {
 		this.x = x;
 		this.y = y;
 		this.rotationAngle = theta;
+		powerUp = null;
 
 		width = 24;
 		height = 24;
@@ -200,5 +202,13 @@ public abstract class GameObject {
 	public void setDimensions(double width, double height) {
 		this.width = width;
 		this.height = height;
+	}
+
+	public void setPowerUp(PowerUp powerUp){
+		this.powerUp = powerUp;
+	}
+
+	public PowerUp getPowerUp() {
+		return powerUp;
 	}
 }
