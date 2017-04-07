@@ -5,6 +5,10 @@ import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.ColorInput;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -86,6 +90,41 @@ public class GameView {
 			Image image = getImage(gameObject.getSpritePath(), gameObject.getWidth()*scalingFactor, gameObject.getHeight()*scalingFactor);
 			double x = gameObject.getXPos() - gameObject.getWidth()/2;
 			double y = gameObject.getYPos() - gameObject.getHeight()/2;
+
+			if(gameObject instanceof Wall || gameObject instanceof Ball) {
+				ColorAdjust colourChange = new ColorAdjust();
+				if(gameObject.getPowerUp() != null) {
+					colourChange.setSaturation(0.3);
+					/*
+						Hue values to get colours
+						0.0 = Red
+						0.5 = Yellow/Green?
+						0.8 = Green
+						1.0 = Blue
+					 */
+					switch (gameObject.getPowerUp()) {
+						case PADDLE_FASTER:
+							colourChange.setHue(0.0);
+							break;
+						case PADLLE_SLOWER:
+							colourChange.setHue(1.0);
+							break;
+						case PADDLE_GROW:
+							colourChange.setHue(0.8);
+							break;
+						case PADDLE_SHRINK:
+							colourChange.setHue(0.0);
+							break;
+						case BALL_FASTER:
+							colourChange.setHue(1.0);
+							break;
+						case BALL_SLOWER:
+							colourChange.setHue(0.5);
+							break;
+					}
+				}
+				gc.setEffect(colourChange);
+			}
 			gc.drawImage(image, x*scalingFactor, y*scalingFactor);
 
 			if (Main.isDebugMode()) {
@@ -93,7 +132,7 @@ public class GameView {
 				gc.strokeRect(x*scalingFactor, y*scalingFactor, gameObject.getWidth()*scalingFactor, gameObject.getHeight()*scalingFactor);
 			}
 
-			gc.restore(); // back to original state (before rotation)
+			gc.restore(); // back to original state (before rotation and hue change)
 
 		}
 	}
