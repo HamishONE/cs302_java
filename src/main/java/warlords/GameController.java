@@ -16,12 +16,20 @@ import static java.lang.Math.random;
 public class GameController implements IGame {
 
 	private enum InternalState {
-		IDLE, PAUSED, RUNNING, ENDED, EXITING, CONFIRM_EXIT
+		IDLE,			// prior to initialisation
+		RUNNING,		// game in progress
+		PAUSED,			// game paused by p key
+		ENDED,			// game has ended (timeout, warlords dead)
+		ADD_SCORE,		// screen to add new high score
+		SCORE_SCREEN,	// screen showing all high scores
+		CONFIRM_EXIT,	// confirmation screen on Esc press
+		EXITING			// return to menu screen next cycle
 	}
 
 	// Constants
 	private final static int GAME_TIME = 120000;
 	private final static int COUNTDOWN_TIME = 3000;
+	private final static int END_TIME = 2000;
 	private final static double BALL_SPEED = 10; //TODO: Replace with a range of speeds
 
 	// Instance variables
@@ -35,6 +43,8 @@ public class GameController implements IGame {
 	private long lastTimestamp;
 	private boolean difficultyIncrease1, difficultyIncrease2, difficultyIncrease3, difficultyIncrease4 = false;
 	private Ages age;
+	private HighScores highScores;
+	private int currentScore = 130;
 
 	// Game objects
 	private ArrayList<Wall> walls = new ArrayList<>();
@@ -42,6 +52,11 @@ public class GameController implements IGame {
 	private ArrayList<Ball> balls = new ArrayList<>();
 	private ArrayList<Paddle> paddles = new ArrayList<>();
 	private Boundary boundary;
+
+	{
+		highScores = new HighScores();
+		highScores.loadData();
+	}
 
 	/**
 	 * Create a new instance of a controller
@@ -249,10 +264,8 @@ public class GameController implements IGame {
 	 * Updates the time remaining based on the system clock.
 	 */
 	private void updateTimer() {
-		if (internalState == InternalState.RUNNING) {
-			timeRemaining -= (System.nanoTime() - lastTimestamp) / 1e6;
-			lastTimestamp = System.nanoTime();
-		}
+		timeRemaining -= (System.nanoTime() - lastTimestamp) / 1e6;
+		lastTimestamp = System.nanoTime();
 	}
 
 	/**
@@ -261,7 +274,9 @@ public class GameController implements IGame {
 	public void runLoop() {
 		processControlInput();
 		if (internalState == InternalState.RUNNING || internalState == InternalState.PAUSED || internalState == InternalState.CONFIRM_EXIT) {
-			updateTimer();
+			if (internalState == InternalState.RUNNING) {
+				updateTimer();
+			}
 			if (timeRemaining > GAME_TIME) {
 				drawFrame(false);
 				gameView.drawCountdown((timeRemaining - GAME_TIME)/1000 + 1);
@@ -270,12 +285,24 @@ public class GameController implements IGame {
 				tick();
 			}
 		}
+		else if (internalState == InternalState.ENDED) {
+			updateTimer();
+			if (timeRemaining < -END_TIME) {
+				internalState = InternalState.ADD_SCORE;
+			}
+		}
+		else if (internalState == InternalState.ADD_SCORE) {
+			gameView.drawAddScore(currentScore, "Hamis");
+		}
+		else if (internalState == InternalState.SCORE_SCREEN) {
+			gameView.drawScoreBoard(highScores.getScores());
+		}
 	}
 
 	@Override
 	public void tick() {
 		//Check for inputs, if running, do loop functions to find collisions and see if game has been won
-		if (internalState != InternalState.PAUSED && internalState != InternalState.CONFIRM_EXIT) {
+		if (internalState == InternalState.RUNNING) {
 			processGameInput();
 			checkCollisions();
 			checkWinner();
@@ -356,23 +383,33 @@ public class GameController implements IGame {
 						timeRemaining = 3000;
 						break;
 					case EXIT:
-						if(internalState == InternalState.CONFIRM_EXIT) {
-							internalState = InternalState.EXITING;
+						if (internalState == InternalState.RUNNING || internalState == InternalState.PAUSED) {
+							internalState = InternalState.CONFIRM_EXIT;
 						}
 						else {
-							internalState = InternalState.CONFIRM_EXIT;
+							internalState = InternalState.EXITING;
 						}
 						break;
 					case MENU_SELECT:
-						if (internalState == InternalState.ENDED) {
-							internalState = InternalState.EXITING;
-						}
-						else if(internalState == InternalState.CONFIRM_EXIT) {
-							internalState = InternalState.RUNNING;
-							lastTimestamp = System.nanoTime();
-						}
-						else if (timeRemaining > GAME_TIME) {
-							timeRemaining = GAME_TIME;
+						switch (internalState) {
+							case RUNNING:
+								if (timeRemaining > GAME_TIME) {
+									timeRemaining = GAME_TIME;
+								}
+								break;
+							case ENDED:
+								internalState = InternalState.ADD_SCORE;
+								break;
+							case CONFIRM_EXIT:
+								internalState = InternalState.RUNNING;
+								lastTimestamp = System.nanoTime();
+								break;
+							case ADD_SCORE:
+								internalState = InternalState.SCORE_SCREEN;
+								break;
+							case SCORE_SCREEN:
+								internalState = InternalState.EXITING;
+								break;
 						}
 						break;
 				}

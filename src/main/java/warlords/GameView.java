@@ -6,9 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.ColorInput;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -265,5 +262,76 @@ public class GameView {
 	 */
 	public Scene getScene() {
 		return scene;
+	}
+
+	/**
+	 * Draw the high score board
+	 * @param scores A list of the scores to display, with their index indicating the rank.
+	 */
+	public void drawScoreBoard(List<Score> scores) {
+
+		// Constants for positioning
+		final double Y_GAP = 40 * scalingFactor;
+		final double RANK_START = 50 * scalingFactor;
+		final double NAME_START = 150 * scalingFactor;
+		final double NAME_MAX = 450 * scalingFactor;
+		final double SCORE_START = 650 * scalingFactor;
+
+		// Clear the screen
+		clearCanvas();
+		gc.setTextBaseline(VPos.CENTER);
+
+		// Draw the heading
+		gc.setFill(Color.GREEN);
+		gc.setFont(new Font("Cambria", 40*scalingFactor));
+		gc.setTextAlign(TextAlignment.CENTER);
+		gc.fillText("High Scores", width/2, Y_GAP);
+
+		// Setup the font for the entries
+		gc.setFill(Color.WHITE);
+		gc.setFont(new Font("Cambria", 30*scalingFactor));
+		gc.setTextAlign(TextAlignment.LEFT);
+
+		int rank = 1;
+		double y = Y_GAP*2 + 30*scalingFactor;
+
+		// Loop through each score
+		for (Score score : scores) {
+
+			// Draw the rank, name and score in a row
+			gc.fillText(String.valueOf(rank), RANK_START, y);
+			gc.fillText(score.getName(), NAME_START, y, NAME_MAX);
+			gc.fillText(String.valueOf(score.getScoreValue()), SCORE_START, y);
+
+			y += Y_GAP;
+			++rank;
+		}
+	}
+
+	/**
+	 * Draw the screen for users to enter their name for the high score board.
+	 * @param scoreValue The numeric value of he players score.
+	 * @param name The name that has been entered so far.
+	 */
+	public void drawAddScore(int scoreValue, String name) {
+
+		// Clear the screen
+		clearCanvas();
+		gc.setTextBaseline(VPos.CENTER);
+
+		// Draw the heading
+		gc.setFill(Color.GREEN);
+		gc.setFont(new Font("Cambria", 60*scalingFactor));
+		gc.setTextAlign(TextAlignment.CENTER);
+		gc.fillText("New High Score! (" + scoreValue + ")", width/2, 150*scalingFactor);
+
+		// Setup the font for the name entry
+		gc.setFill(Color.WHITE);
+		gc.setFont(new Font("Cambria", 30*scalingFactor));
+		gc.setTextAlign(TextAlignment.LEFT);
+
+		// Draw the name label and name
+		gc.fillText("Name:", 50*scalingFactor, 250*scalingFactor);
+		gc.fillText(name, 150*scalingFactor, 250*scalingFactor, 650*scalingFactor);
 	}
 }
