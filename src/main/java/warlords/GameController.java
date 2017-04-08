@@ -44,7 +44,7 @@ public class GameController implements IGame {
 	private boolean difficultyIncrease1, difficultyIncrease2, difficultyIncrease3, difficultyIncrease4 = false;
 	private Ages age;
 	private HighScores highScores;
-	private int currentScore = 130;
+	private Integer winnerScore;
 	private String winnerName = "";
 
 	// Game objects
@@ -272,6 +272,7 @@ public class GameController implements IGame {
 	/**
 	 * Has to be done so that tick can be used in testing, isolating it from the graphics engine
 	 */
+	@SuppressWarnings("StringConcatenationInLoop")
 	public void runLoop() {
 		processControlInput();
 		if (internalState == InternalState.RUNNING || internalState == InternalState.PAUSED || internalState == InternalState.CONFIRM_EXIT) {
@@ -289,7 +290,11 @@ public class GameController implements IGame {
 		else if (internalState == InternalState.ENDED) {
 			updateTimer();
 			if (timeRemaining < -END_TIME) {
-				internalState = InternalState.ADD_SCORE;
+				if (winnerScore != null) {
+					internalState = InternalState.ADD_SCORE;
+				} else {
+					internalState = InternalState.SCORE_SCREEN;
+				}
 			}
 		}
 		else if (internalState == InternalState.ADD_SCORE) {
@@ -299,7 +304,7 @@ public class GameController implements IGame {
 					winnerName += charInput;
 				}
 			}
-			gameView.drawAddScore(currentScore, winnerName);
+			gameView.drawAddScore(winnerScore, winnerName);
 		}
 		else if (internalState == InternalState.SCORE_SCREEN) {
 			gameView.drawScoreBoard(highScores.getScores());
@@ -405,14 +410,18 @@ public class GameController implements IGame {
 								}
 								break;
 							case ENDED:
-								internalState = InternalState.ADD_SCORE;
+								if (winnerScore != null) {
+									internalState = InternalState.ADD_SCORE;
+								} else {
+									internalState = InternalState.SCORE_SCREEN;
+								}
 								break;
 							case CONFIRM_EXIT:
 								internalState = InternalState.RUNNING;
 								lastTimestamp = System.nanoTime();
 								break;
 							case ADD_SCORE:
-								highScores.addScore(winnerName, currentScore);
+								highScores.addScore(winnerName, winnerScore);
 								internalState = InternalState.SCORE_SCREEN;
 								break;
 							case SCORE_SCREEN:
@@ -483,7 +492,10 @@ public class GameController implements IGame {
 	 * @param winner the player that has won, or null for a draw
 	 */
 	private void processGameEnd(Warlord winner) {
+
+		int winnerIndex = warlords.indexOf(winner);
 		internalState = InternalState.ENDED;
+
 		//Check if not null for testing purposes
 		if (gameView == null) {
 			if (winner != null) {
@@ -493,13 +505,30 @@ public class GameController implements IGame {
 			gameView.drawOverlay();
 			if (winner != null) {
 				winner.setAsWinner();
-				gameView.drawWinnerLabel("Player " + (warlords.indexOf(winner) + 1));
+				gameView.drawWinnerLabel("Player " + (winnerIndex + 1));
 				winner.setXPos(Game.backendWidth / 2);
 				winner.setYPos(Game.backendHeight / 2);
 				winner.setDimensions(120, 180);
 				gameView.drawObjects(Collections.singletonList(winner));
 			} else {
 				gameView.drawWinnerLabel(null);
+			}
+		}
+
+		// Only check for high score if winner is not an AI
+		if (winnerIndex < game.getNumHumanPlayers()) {
+
+			// Calculate the users score as the number of walls they have remaining
+			int score = 0;
+			for (Wall wall : walls) {
+				if (wall.getOwner() == winnerIndex) {
+					++score;
+				}
+			}
+
+			// If this is a high score set the instance variable
+			if (highScores.isTopTenScore(score)) {
+				winnerScore = score;
 			}
 		}
 	}

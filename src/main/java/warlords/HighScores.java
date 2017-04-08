@@ -76,4 +76,19 @@ public class HighScores {
 			throw new RuntimeException(e);
 		}
 	}
+
+	/**
+	 * Determine if a score is large enough to be added to the scoreboard.
+	 * @param scoreValue The numeric score value to be tested.
+	 * @return If the score is large enough.
+	 */
+	public boolean isTopTenScore(int scoreValue) {
+		if (scores.size() < 10) {
+			return true;
+		}
+		else {
+			int lowestScore = scores.get(scores.size() - 1).getScoreValue();
+			return scoreValue > lowestScore;
+		}
+	}
 }
