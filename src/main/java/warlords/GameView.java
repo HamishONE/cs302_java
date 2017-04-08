@@ -309,6 +309,16 @@ public class GameView {
 	}
 
 	/**
+	 * Used to determine if a cursor should currently be showing based on the current time to give a blinking effect.
+	 * @return True if a cursor should be shown.
+	 */
+	private boolean showCursor() {
+		long time = System.currentTimeMillis();
+		time = time/500;
+		return time % 2 == 0;
+	}
+
+	/**
 	 * Draw the screen for users to enter their name for the high score board.
 	 * @param scoreValue The numeric value of he players score.
 	 * @param name The name that has been entered so far.
@@ -331,6 +341,7 @@ public class GameView {
 		gc.setTextAlign(TextAlignment.LEFT);
 
 		// Draw the name label and name
+		name = showCursor() ? name + "|" : name;
 		gc.fillText("Name:", 50*scalingFactor, 250*scalingFactor);
 		gc.fillText(name, 150*scalingFactor, 250*scalingFactor, 650*scalingFactor);
 	}
