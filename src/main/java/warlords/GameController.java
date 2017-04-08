@@ -208,10 +208,10 @@ public class GameController implements IGame {
 
 		//Add warlords in each corner
 		int WARLORD_MARGIN = 50;
-		warlords.add(new Warlord(WARLORD_MARGIN, WARLORD_MARGIN, age));
-		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, WARLORD_MARGIN, age));
-		warlords.add(new Warlord(WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, age));
-		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, age));
+		warlords.add(new Warlord(WARLORD_MARGIN, WARLORD_MARGIN, age, 0));
+		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, WARLORD_MARGIN, age, 1));
+		warlords.add(new Warlord(WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, age, 2));
+		warlords.add(new Warlord(Game.backendWidth - WARLORD_MARGIN, Game.backendHeight - WARLORD_MARGIN, age, 3));
 
 		// Add the user inputs for the number of human players
 		if (game.getNumHumanPlayers() > userInputs.size()) {

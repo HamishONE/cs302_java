@@ -16,16 +16,39 @@ public class Warlord extends GameObject implements IWarlord {
 	 * @param x the x position on the screen
 	 * @param y the y position on the screen
 	 * @param age the age to base the sprite on
+	 * @param index the index from 1-3 of the player, used to determine the sprite colour
 	 */
-	public Warlord(int x, int y, Ages age) {
+	public Warlord(int x, int y, Ages age, int index) {
 		super(x, y, age, "build/resources/main/CatScream.mp3", Math.PI/2);
 		this.width = 60;
 		this.height = 85;
 
-		spritePaths.put(Ages.NEOLITHIC, "/cavemanBlue.png");
-		spritePaths.put(Ages.MEDIEVAL, "/knightBlue.png");
-		spritePaths.put(Ages.INDUSTRIAL, null);
-		spritePaths.put(Ages.SPACE, null);
+		switch(index) {
+			case 0:
+				spritePaths.put(Ages.NEOLITHIC, "/cavemanBlue.png");
+				spritePaths.put(Ages.MEDIEVAL, "/knightBlue.png");
+				spritePaths.put(Ages.INDUSTRIAL, null);
+				spritePaths.put(Ages.SPACE, null);
+				break;
+			case 1:
+				spritePaths.put(Ages.NEOLITHIC, "/cavemanGreen.png");
+				spritePaths.put(Ages.MEDIEVAL, "/knightGreen.png");
+				spritePaths.put(Ages.INDUSTRIAL, null);
+				spritePaths.put(Ages.SPACE, null);
+				break;
+			case 2:
+				spritePaths.put(Ages.NEOLITHIC, "/cavemanRed.png");
+				spritePaths.put(Ages.MEDIEVAL, "/knightRed.png");
+				spritePaths.put(Ages.INDUSTRIAL, null);
+				spritePaths.put(Ages.SPACE, null);
+				break;
+			case 3:
+				spritePaths.put(Ages.NEOLITHIC, "/cavemanYellow.png");
+				spritePaths.put(Ages.MEDIEVAL, "/knightYellow.png");
+				spritePaths.put(Ages.INDUSTRIAL, null);
+				spritePaths.put(Ages.SPACE, null);
+				break;
+		}
 	}
 
 	@Override
