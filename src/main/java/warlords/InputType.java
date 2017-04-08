@@ -12,5 +12,6 @@ public enum InputType {
 	MENU_UP,
 	MENU_SELECT,
 	DELETE_WALLS,
-	END_TIME
+	END_TIME,
+	BACKSPACE
 }

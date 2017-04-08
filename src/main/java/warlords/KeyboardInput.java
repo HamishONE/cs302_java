@@ -12,6 +12,7 @@ public class KeyboardInput implements IUserInput {
 
 	private HashMap<KeyCode, InputType> keyMap = new HashMap<>();
 	private InputType lastKeyPress;
+	private String lastCharInput;
 
 	/**
 	 * Create a new instance with a given key map for the player
@@ -43,6 +44,14 @@ public class KeyboardInput implements IUserInput {
 		return keyPress;
 	}
 
+	@Override
+	public String getCharInput() {
+		String character = lastCharInput;
+		lastCharInput = null;
+		lastKeyPress = null;
+		return character;
+	}
+
 	/**
 	 * Register the press of the given key
 	 * @param keyCode the key pressed
@@ -63,5 +72,9 @@ public class KeyboardInput implements IUserInput {
 		if (inputType == lastKeyPress) {
 			lastKeyPress = null;
 		}
+	}
+
+	public void keyTyped(String character) {
+		lastCharInput = character;
 	}
 }

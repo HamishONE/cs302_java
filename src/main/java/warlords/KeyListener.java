@@ -42,6 +42,14 @@ public class KeyListener {
 				currentPlayer.keyRelease(event.getCode());
 			}
 		});
-	}
 
+		//Handling for characters being typed
+		scene.setOnKeyTyped(event -> {
+			//Action on the first KeyboardInput in the list (should not matter)
+			//Do nothing if the key is not a printable character
+			if (event.getCharacter().matches("\\p{Print}*")) {
+				playerList.get(0).keyTyped(event.getCharacter());
+			}
+		});
+	}
 }

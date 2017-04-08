@@ -66,4 +66,9 @@ public class ArtificialUser implements IUserInput {
 		}
 		return null;
 	}
+
+	@Override
+	public String getCharInput() {
+		return null;
+	}
 }

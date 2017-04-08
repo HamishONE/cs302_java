@@ -45,6 +45,7 @@ public class GameController implements IGame {
 	private Ages age;
 	private HighScores highScores;
 	private int currentScore = 130;
+	private String winnerName = "";
 
 	// Game objects
 	private ArrayList<Wall> walls = new ArrayList<>();
@@ -292,7 +293,13 @@ public class GameController implements IGame {
 			}
 		}
 		else if (internalState == InternalState.ADD_SCORE) {
-			gameView.drawAddScore(currentScore, "Hamis");
+			for (IUserInput userInput : userInputs) {
+				String charInput = userInput.getCharInput();
+				if (charInput != null) {
+					winnerName += charInput;
+				}
+			}
+			gameView.drawAddScore(currentScore, winnerName);
 		}
 		else if (internalState == InternalState.SCORE_SCREEN) {
 			gameView.drawScoreBoard(highScores.getScores());
@@ -410,6 +417,11 @@ public class GameController implements IGame {
 							case SCORE_SCREEN:
 								internalState = InternalState.EXITING;
 								break;
+						}
+						break;
+					case BACKSPACE:
+						if (internalState == InternalState.ADD_SCORE && winnerName.length() > 0) {
+							winnerName = winnerName.substring(0, winnerName.length()-1);
 						}
 						break;
 				}
