@@ -387,7 +387,7 @@ public class GameController implements IGame {
 						walls.clear();
 						break;
 					case END_TIME:
-						timeRemaining = 3000;
+						timeRemaining = 1000;
 						break;
 					case EXIT:
 						if (internalState == InternalState.RUNNING || internalState == InternalState.PAUSED) {
@@ -412,6 +412,7 @@ public class GameController implements IGame {
 								lastTimestamp = System.nanoTime();
 								break;
 							case ADD_SCORE:
+								highScores.addScore(winnerName, currentScore);
 								internalState = InternalState.SCORE_SCREEN;
 								break;
 							case SCORE_SCREEN:
