@@ -26,7 +26,7 @@ public class BallBounceTest extends TestSuite {
 		Ages age = Ages.MEDIEVAL;
 		Game game = new Game(200, 200);
 		Ball ball = new Ball(100, 100, age);
-		Warlord player1 = new Warlord(0, 0, age);
+		Warlord player1 = new Warlord(0, 0, age, 0);
 		Boundary boundary = new Boundary(age);
 
 		ArrayList<Paddle> paddles = new ArrayList<>();

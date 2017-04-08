@@ -22,8 +22,8 @@ public class PaddleBallTest extends TestSuite {
 		Game game = new Game(500, 500);
 		Ball ball = new Ball(100, 100, age);
 		Paddle paddle = new Paddle(0, 0, age, 0D, game, Collections.singletonList(ball));
-		Warlord player1 = new Warlord(500, 500, age);
-		Warlord player2 = new Warlord(500, 500, age);
+		Warlord player1 = new Warlord(500, 500, age, 0);
+		Warlord player2 = new Warlord(500, 500, age, 0);
 		Boundary boundary = new Boundary(age);
 
 		// Create lists for the paddles, walls and warlords

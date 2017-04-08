@@ -9,6 +9,11 @@ public class MockInput implements IUserInput {
 		return inputType;
 	}
 
+	@Override
+	public String getCharInput() {
+		return null;
+	}
+
 	public void setInputType(InputType inputType) {
 		this.inputType = inputType;
 	}

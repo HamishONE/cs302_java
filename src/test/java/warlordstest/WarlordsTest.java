@@ -26,8 +26,8 @@ public class WarlordsTest extends TestSuite {
 		Paddle paddle = new Paddle(0, 0, age, 0D, game, Collections.singletonList(ball));
 		paddle.setRotation(Math.PI/2);
 		Wall wall = new Wall(0, 0, Math.PI/2, 0, age);
-		Warlord player1 = new Warlord(0, 0, age);
-		Warlord player2 = new Warlord(0, 0, age);
+		Warlord player1 = new Warlord(0, 0, age, 0);
+		Warlord player2 = new Warlord(0, 0, age, 0);
 		Boundary boundary = new Boundary(age);
 
 		ArrayList<Paddle> paddles = new ArrayList<>();
