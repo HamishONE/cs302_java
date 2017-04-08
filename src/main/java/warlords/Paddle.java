@@ -21,6 +21,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 * Create a new paddle instance at a given position
 	 * @param x the x position of the paddle
 	 * @param y the y position of the paddle
+	 * @param age the age to base the sprite on
 	 * @param theta the lower bound for the rotation of the paddle
 	 * @param game the game model used to get the dimensions of the game screen
 	 * @param balls a list of balls to ensure never end up inside the paddle

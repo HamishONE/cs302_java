@@ -7,6 +7,7 @@ public class Boundary extends GameObject {
 
 	/**
 	 * Creates a new instance of the game boundary.
+	 * @param age the age to base the sprite on
 	 */
 	public Boundary(Ages age) {
 		super(Game.backendWidth/2, Game.backendHeight/2, age, null, Math.PI/2);

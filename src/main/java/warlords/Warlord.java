@@ -15,7 +15,7 @@ public class Warlord extends GameObject implements IWarlord {
 	 * Create a new Warlord at the given position with the given sprite
 	 * @param x the x position on the screen
 	 * @param y the y position on the screen
-	 * @param imgPath the path to the sprite image file
+	 * @param age the age to base the sprite on
 	 */
 	public Warlord(int x, int y, Ages age) {
 		super(x, y, age, "build/resources/main/CatScream.mp3", Math.PI/2);

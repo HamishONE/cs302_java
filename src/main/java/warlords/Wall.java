@@ -17,6 +17,7 @@ public class Wall extends GameObject implements IWall {
 	 * @param y the y position of the wall
 	 * @param theta the rotation of the wall
 	 * @param owner the index number of the player who's wall this is
+	 * @param age the age to base the sprite on
 	 */
 	public Wall(int x, int y, double theta, int owner, Ages age) {
 		super(x, y, age, null, theta);

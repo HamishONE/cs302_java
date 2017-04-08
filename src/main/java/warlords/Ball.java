@@ -15,6 +15,7 @@ public class Ball extends GameObject implements IBall {
 	 * Create a new stationery ball
 	 * @param x the x position of the ball
 	 * @param y the y position of the ball
+	 * @param age the age to base the sprite on
 	 */
 	public Ball(int x, int y, Ages age) {
 		super(x, y, age, null, 0);
