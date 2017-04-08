@@ -1,9 +1,11 @@
 package warlords;
 
+import java.io.Serializable;
+
 /**
  * Data class representing a single name and score value pair for the high score board.
  */
-public class Score implements Comparable<Score> {
+public class Score implements Comparable<Score>, Serializable {
 
 	private String name;
 	private int scoreValue;

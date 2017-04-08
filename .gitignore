@@ -1,5 +1,9 @@
+# Build outputs
 .gradle/*
 build
 
 # IntelliJ
 .idea/*
+
+# Data files
+*.dat
