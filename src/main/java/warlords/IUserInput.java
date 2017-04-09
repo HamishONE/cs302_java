@@ -8,9 +8,10 @@ public interface IUserInput {
 	/**
 	 * Get the last input operation performed by the user.
 	 * Should return null after the input is stopped.
+	 * @param resetInput an override switch to reset the input state immediately even for non-control keys
 	 * @return the input operation
 	 */
-	InputType getInputType();
+	InputType getInputType(boolean resetInput);
 
 	/**
 	 * Get the last input from the user as a string.

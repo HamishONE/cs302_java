@@ -36,9 +36,9 @@ public class KeyboardInput implements IUserInput {
 	}
 
 	@Override
-	public InputType getInputType() {
+	public InputType getInputType(boolean resetInput) {
 		InputType keyPress = lastKeyPress;
-		if (isControlKey(keyPress)) {
+		if (resetInput || isControlKey(keyPress)) {
 			lastKeyPress = null;
 		}
 		return keyPress;

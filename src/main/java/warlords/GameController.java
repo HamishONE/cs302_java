@@ -360,7 +360,7 @@ public class GameController implements IGame {
 	private void processGameInput() {
 		//Loop through each player, checking what they have "pressed", handle accordingly
 		for (int i=0; i<players.size(); i++) {
-			InputType input = players.get(i).getInputType();
+			InputType input = players.get(i).getInputType(false);
 			if (input != null && !warlords.get(i).isDead()) {
 				if (input == InputType.LEFT) {
 					paddles.get(i).moveLeft();
@@ -377,7 +377,7 @@ public class GameController implements IGame {
 	private void processControlInput() {
 		//Loop through each user, checking what they have "pressed", handle accordingly
 		for (IUserInput userInput : userInputs) {
-			InputType input = userInput.getInputType();
+			InputType input = userInput.getInputType(false);
 			if (input != null) {
 				switch (input) {
 					case PAUSE:
