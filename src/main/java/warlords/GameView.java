@@ -139,7 +139,7 @@ public class GameView {
 	 *
 	 * @param menuItems list of menu items to be added
 	 */
-	public void drawMenuItems(List<MenuItem> menuItems) {
+	private void drawMenuItems(List<MenuItem> menuItems) {
 
 		//Constants for placements of menu items
 		int PADDING = 50;
@@ -147,8 +147,6 @@ public class GameView {
 		int BORDER_WIDTH = 4;
 		int CORNER_RADIUS = 15;
 
-
-		clearCanvas();
 		double maxWidth = width - PADDING*2;
 		double y = PADDING + TEXT_HEIGHT/2;
 
@@ -175,6 +173,29 @@ public class GameView {
 
 			y += PADDING*2;
 		}
+	}
+
+	/**
+	 * Draws two menus to the screen translated to give and animation effect.
+	 * @param oldMenu The menu on the left.
+	 * @param newMenu The menu on the right.
+	 * @param newShowing The portion of the right hand menu that is showing (0-1).
+	 */
+	public void drawAnimatedMenu(List<MenuItem> oldMenu, List<MenuItem> newMenu, double newShowing) {
+
+		clearCanvas();
+		gc.save();
+		gc.save();
+
+		// Draw the left hand menu
+		gc.translate(-width*newShowing, 0);
+		drawMenuItems(oldMenu);
+		gc.restore();
+
+		// Draw the right hand menu
+		gc.translate(width*(1-newShowing), 0);
+		drawMenuItems(newMenu);
+		gc.restore();
 	}
 
 	/**

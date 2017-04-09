@@ -2,6 +2,7 @@ package warlords;
 
 import javafx.application.Platform;
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
@@ -9,13 +10,19 @@ import java.util.Stack;
  */
 public class MenuController {
 
+	private static int TRANSITION_TIME = 300; //ms
+
 	private GameView gameView;
 	private ArrayList<MenuItem> menuItems = new ArrayList<>();
+	private ArrayList<MenuItem> previousMenu = new ArrayList<>();
 	private ArrayList<IUserInput> userInputs;
 	private int selectedItem = -1;
 	private boolean doStartGame = false;
 	private Stack<ArrayList<MenuItem>> previousMenus = new Stack<>();
 	private Game game;
+	private int transitionTimeRemaining = 0;
+	private long lastTimestamp;
+	private boolean transitionForward = true;
 
 	/**
 	 * Create a new instance of the menu screen
@@ -58,7 +65,26 @@ public class MenuController {
 	 */
 	public void runLoop() {
 		checkUserInput();
-		gameView.drawMenuItems(menuItems);
+
+		if (transitionTimeRemaining > 0) {
+			transitionTimeRemaining -= (System.currentTimeMillis() - lastTimestamp);
+			lastTimestamp = System.currentTimeMillis();
+			if (transitionTimeRemaining < 0) {
+				transitionTimeRemaining = 0;
+			}
+		}
+
+		if (transitionForward) {
+			ArrayList<MenuItem> oldMenu;
+			try {
+				oldMenu = previousMenus.peek();
+			} catch (EmptyStackException e) {
+				oldMenu = new ArrayList<>(); //blank list
+			}
+			gameView.drawAnimatedMenu(oldMenu, menuItems, 1 - (double) transitionTimeRemaining / TRANSITION_TIME);
+		} else {
+			gameView.drawAnimatedMenu(menuItems, previousMenu, (double) transitionTimeRemaining / TRANSITION_TIME);
+		}
 	}
 
 	/**
@@ -104,6 +130,9 @@ public class MenuController {
 							menuItems = menuItem.getSubmenu();
 							selectedItem = 0;
 							menuItems.get(selectedItem).setSelected(true);
+							transitionTimeRemaining = TRANSITION_TIME;
+							lastTimestamp = System.currentTimeMillis();
+							transitionForward = true;
 						} else {
 							menuItem.runCallback();
 						}
@@ -111,9 +140,13 @@ public class MenuController {
 					// If the input to exit restore the previous menu from the stack
 					case EXIT:
 						if (!previousMenus.empty()) {
+							previousMenu = menuItems;
 							menuItems = previousMenus.pop();
 							selectedItem = 0;
 							menuItems.get(selectedItem).setSelected(true);
+							transitionTimeRemaining = TRANSITION_TIME;
+							lastTimestamp = System.currentTimeMillis();
+							transitionForward = false;
 						}
 				}
 			}
