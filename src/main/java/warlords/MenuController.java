@@ -73,11 +73,13 @@ public class MenuController {
 			}
 		}
 
+		Menu oldMenu = previousMenus.isEmpty() ? new Menu() : previousMenus.peek();
+		Menu newMenu = currentMenu.getSelectedItem().hasSubmenu() ? currentMenu.getSelectedItem().getSubmenu() : new Menu();
+
 		if (transitionForward) {
-			Menu oldMenu = previousMenus.isEmpty() ? new Menu() : previousMenus.peek();
-			gameView.drawAnimatedMenu(oldMenu, currentMenu, 1 - (double) transitionTimeRemaining / TRANSITION_TIME);
+			gameView.drawAnimatedMenu(oldMenu, currentMenu, newMenu, (double) -transitionTimeRemaining / TRANSITION_TIME);
 		} else {
-			gameView.drawAnimatedMenu(currentMenu, previousMenuForward, (double) transitionTimeRemaining / TRANSITION_TIME);
+			gameView.drawAnimatedMenu(oldMenu, currentMenu, newMenu, (double) transitionTimeRemaining / TRANSITION_TIME);
 		}
 	}
 
