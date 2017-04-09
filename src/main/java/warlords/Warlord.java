@@ -27,25 +27,25 @@ public class Warlord extends GameObject implements IWarlord {
 			case 0:
 				spritePaths.put(Ages.NEOLITHIC, "/cavemanBlue.png");
 				spritePaths.put(Ages.MEDIEVAL, "/knightBlue.png");
-				spritePaths.put(Ages.INDUSTRIAL, null);
+				spritePaths.put(Ages.INDUSTRIAL, "/minerBlue.png");
 				spritePaths.put(Ages.SPACE, null);
 				break;
 			case 1:
 				spritePaths.put(Ages.NEOLITHIC, "/cavemanGreen.png");
 				spritePaths.put(Ages.MEDIEVAL, "/knightGreen.png");
-				spritePaths.put(Ages.INDUSTRIAL, null);
+				spritePaths.put(Ages.INDUSTRIAL, "/minerGreen.png");
 				spritePaths.put(Ages.SPACE, null);
 				break;
 			case 2:
 				spritePaths.put(Ages.NEOLITHIC, "/cavemanRed.png");
 				spritePaths.put(Ages.MEDIEVAL, "/knightRed.png");
-				spritePaths.put(Ages.INDUSTRIAL, null);
+				spritePaths.put(Ages.INDUSTRIAL, "/minerRed.png");
 				spritePaths.put(Ages.SPACE, null);
 				break;
 			case 3:
 				spritePaths.put(Ages.NEOLITHIC, "/cavemanYellow.png");
 				spritePaths.put(Ages.MEDIEVAL, "/knightYellow.png");
-				spritePaths.put(Ages.INDUSTRIAL, null);
+				spritePaths.put(Ages.INDUSTRIAL, "/minerYellow.png");
 				spritePaths.put(Ages.SPACE, null);
 				break;
 		}
