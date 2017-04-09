@@ -1,11 +1,11 @@
 package warlords;
 
 /**
- * Created by roman on 08-Apr-17.
+ * Represents all the different power up/downs a paddle can hold.
  */
 public enum PowerUp {
 	PADDLE_FASTER,
-	PADLLE_SLOWER,
+	PADDLE_SLOWER,
 	PADDLE_GROW,
 	PADDLE_SHRINK,
 	BALL_FASTER,

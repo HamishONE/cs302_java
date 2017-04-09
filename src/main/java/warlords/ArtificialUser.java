@@ -47,7 +47,7 @@ public class ArtificialUser implements IUserInput {
 	}
 
 	@Override
-	public InputType getInputType() {
+	public InputType getInputType(boolean resetInput) {
 
 		// Get the angle from the paddle to the ball and the angle of the paddle.
 		double angleToBall = Math.atan2(ball.getYPos() - paddle.getYPos(), ball.getXPos() - paddle.getXPos());

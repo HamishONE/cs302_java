@@ -143,6 +143,10 @@ public class Paddle extends GameObject implements IPaddle {
 		paddleSpeed += modifier;
 	}
 
+	/**
+	 * Increase/decease the paddles width of the paddle by the amount given.
+	 * @param modifier the amount to change the width by.
+	 */
 	public void modifyWidth(double modifier) {
 		width += modifier;
 	}

@@ -2,7 +2,6 @@ package warlords;
 
 import javafx.application.Platform;
 import java.util.ArrayList;
-import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
@@ -14,7 +13,6 @@ public class MenuController {
 
 	private GameView gameView;
 	private Menu currentMenu;
-	private Menu previousMenuForward;
 	private ArrayList<IUserInput> userInputs;
 	private boolean doStartGame = false;
 	private Stack<Menu> previousMenus = new Stack<>();
@@ -73,17 +71,19 @@ public class MenuController {
 			}
 		}
 
+		Menu oldMenu = previousMenus.isEmpty() ? new Menu() : previousMenus.peek();
+		Menu newMenu = currentMenu.getSelectedItem().hasSubmenu() ? currentMenu.getSelectedItem().getSubmenu() : new Menu();
+
 		if (transitionForward) {
-			Menu oldMenu = previousMenus.isEmpty() ? new Menu() : previousMenus.peek();
-			gameView.drawAnimatedMenu(oldMenu, currentMenu, 1 - (double) transitionTimeRemaining / TRANSITION_TIME);
+			gameView.drawAnimatedMenu(oldMenu, currentMenu, newMenu, (double) -transitionTimeRemaining / TRANSITION_TIME);
 		} else {
-			gameView.drawAnimatedMenu(currentMenu, previousMenuForward, (double) transitionTimeRemaining / TRANSITION_TIME);
+			gameView.drawAnimatedMenu(oldMenu, currentMenu, newMenu, (double) transitionTimeRemaining / TRANSITION_TIME);
 		}
 	}
 
 	/**
 	 * Checks if the game should be started
-	 * @return whether the game shoudl be started
+	 * @return whether the game should be started
 	 */
 	public boolean doStartGame() {
 		return doStartGame;
@@ -104,7 +104,7 @@ public class MenuController {
 
 		// Loop through each player's user input
 		for (IUserInput userInput : userInputs) {
-			InputType input = userInput.getInputType();
+			InputType input = userInput.getInputType(true);
 			// If the user has made an input check which type it is
 			if (input != null) {
 				switch (input) {
@@ -116,6 +116,7 @@ public class MenuController {
 						currentMenu.changeSelection(1);
 						break;
 					// If the input is to select a menu item open it's submenu or run it's callback method if it is an end node
+					case RIGHT:
 					case MENU_SELECT:
 						MenuItem menuItem = currentMenu.getSelectedItem();
 						if (menuItem.hasSubmenu()) {
@@ -130,9 +131,9 @@ public class MenuController {
 						}
 						break;
 					// If the input to exit restore the previous menu from the stack
+					case LEFT:
 					case EXIT:
 						if (!previousMenus.empty()) {
-							previousMenuForward = currentMenu;
 							currentMenu = previousMenus.pop();
 							transitionTimeRemaining = TRANSITION_TIME;
 							lastTimestamp = System.currentTimeMillis();

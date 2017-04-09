@@ -103,7 +103,7 @@ public class GameView {
 						case PADDLE_FASTER:
 							colourChange.setHue(0.0);
 							break;
-						case PADLLE_SLOWER:
+						case PADDLE_SLOWER:
 							colourChange.setHue(1.0);
 							break;
 						case PADDLE_GROW:
@@ -146,8 +146,9 @@ public class GameView {
 		int TEXT_HEIGHT = 50;
 		int BORDER_WIDTH = 4;
 		int CORNER_RADIUS = 15;
+		double WIDTH = 600*scalingFactor;
 
-		double maxWidth = width - PADDING*2;
+		double maxWidth = WIDTH - PADDING*2;
 		double y = PADDING + TEXT_HEIGHT/2;
 
 		//loop through all the menu items and render each
@@ -169,7 +170,7 @@ public class GameView {
 			gc.setFont(new Font("Algerian", TEXT_HEIGHT));
 			gc.setTextAlign(TextAlignment.CENTER);
 			gc.setTextBaseline(VPos.CENTER);
-			gc.fillText(menuItem.getText(), width/2, y, maxWidth);
+			gc.fillText(menuItem.getText(), WIDTH/2, y, maxWidth);
 
 			y += PADDING*2;
 		}
@@ -177,24 +178,34 @@ public class GameView {
 
 	/**
 	 * Draws two menus to the screen translated to give and animation effect.
-	 * @param oldMenu The menu on the left.
-	 * @param newMenu The menu on the right.
-	 * @param newShowing The portion of the right hand menu that is showing (0-1).
+	 * @param leftMenu The menu on the left.
+	 * @param mainMenu The menu in the centre.
+	 * @param rightMenu The menu on the right.
+	 * @param rightShowing The portion of the right hand menu that is showing (0-1).
 	 */
-	public void drawAnimatedMenu(Menu oldMenu, Menu newMenu, double newShowing) {
+	public void drawAnimatedMenu(Menu leftMenu, Menu mainMenu, Menu rightMenu, double rightShowing) {
 
 		clearCanvas();
 		gc.save();
 		gc.save();
+		gc.save();
 
 		// Draw the left hand menu
-		gc.translate(-width*newShowing, 0);
-		drawMenuItems(oldMenu.getMenuItems());
+		gc.translate((-500 - rightShowing*600)*scalingFactor, 0);
+		gc.setEffect(new ColorAdjust(0, 0, -0.5 - rightShowing/2, 0));
+		drawMenuItems(leftMenu.getMenuItems());
+		gc.restore();
+
+		// Draw the main menu
+		gc.translate((100 - rightShowing*600)*scalingFactor, 0);
+		gc.setEffect(new ColorAdjust(0, 0, -Math.abs(rightShowing)/2, 0));
+		drawMenuItems(mainMenu.getMenuItems());
 		gc.restore();
 
 		// Draw the right hand menu
-		gc.translate(width*(1-newShowing), 0);
-		drawMenuItems(newMenu.getMenuItems());
+		gc.translate((700 - rightShowing*600)*scalingFactor, 0);
+		gc.setEffect(new ColorAdjust(0, 0, -0.5 + rightShowing/2, 0));
+		drawMenuItems(rightMenu.getMenuItems());
 		gc.restore();
 	}
 
@@ -210,6 +221,9 @@ public class GameView {
 		gc.fillText("Paused", (Game.backendWidth/2)*scalingFactor, 50, Game.backendWidth - 100);
 	}
 
+	/**
+	 * Draw a message to the screen asking the user if they are sure they want to exit the game.
+	 */
 	public void drawExitConfirm() {
 		drawOverlay();
 		//Sets font to white and draws "Pause", centered at the top of the screen
@@ -217,7 +231,8 @@ public class GameView {
 		gc.setFont(new Font("Corbel", 50*scalingFactor));
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.setTextBaseline(VPos.CENTER);
-		gc.fillText("PRESS ESC TO QUIT OR ENTER TO RESUME", (Game.backendWidth/2)*scalingFactor, (Game.backendWidth/2)*scalingFactor, Game.backendWidth - 100);
+		gc.fillText("PRESS ESC TO QUIT OR ENTER TO RESUME", (Game.backendWidth/2)*scalingFactor,
+				(Game.backendWidth/2)*scalingFactor, Game.backendWidth - 100);
 	}
 
 	/**
