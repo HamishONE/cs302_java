@@ -181,7 +181,7 @@ public class GameView {
 	 * @param newMenu The menu on the right.
 	 * @param newShowing The portion of the right hand menu that is showing (0-1).
 	 */
-	public void drawAnimatedMenu(List<MenuItem> oldMenu, List<MenuItem> newMenu, double newShowing) {
+	public void drawAnimatedMenu(Menu oldMenu, Menu newMenu, double newShowing) {
 
 		clearCanvas();
 		gc.save();
@@ -189,12 +189,12 @@ public class GameView {
 
 		// Draw the left hand menu
 		gc.translate(-width*newShowing, 0);
-		drawMenuItems(oldMenu);
+		drawMenuItems(oldMenu.getMenuItems());
 		gc.restore();
 
 		// Draw the right hand menu
 		gc.translate(width*(1-newShowing), 0);
-		drawMenuItems(newMenu);
+		drawMenuItems(newMenu.getMenuItems());
 		gc.restore();
 	}
 

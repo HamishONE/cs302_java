@@ -13,12 +13,11 @@ public class MenuController {
 	private static int TRANSITION_TIME = 300; //ms
 
 	private GameView gameView;
-	private ArrayList<MenuItem> menuItems = new ArrayList<>();
-	private ArrayList<MenuItem> previousMenu = new ArrayList<>();
+	private Menu currentMenu;
+	private Menu previousMenuForward;
 	private ArrayList<IUserInput> userInputs;
-	private int selectedItem = -1;
 	private boolean doStartGame = false;
-	private Stack<ArrayList<MenuItem>> previousMenus = new Stack<>();
+	private Stack<Menu> previousMenus = new Stack<>();
 	private Game game;
 	private int transitionTimeRemaining = 0;
 	private long lastTimestamp;
@@ -37,7 +36,7 @@ public class MenuController {
 		this.game = game;
 
 		// Setup a submenu with items for selecting the number of players
-		ArrayList<MenuItem> startGameMenu = new ArrayList<>();
+		Menu startGameMenu = new Menu();
 		startGameMenu.add(new MenuItem("One player", () -> startGame(1)));
 		startGameMenu.add(new MenuItem("Two players", () -> startGame(2)));
 		startGameMenu.add(new MenuItem("Three players", () -> startGame(3)));
@@ -45,10 +44,10 @@ public class MenuController {
 		startGameMenu.add(new MenuItem("AI only demo", () -> startGame(0)));
 
 		// Setup the main menu items
-		menuItems.add(new MenuItem("Start the game", startGameMenu));
-		menuItems.add(new MenuItem("Do nothing", () -> System.out.println("Nothing has been done!")));
-		menuItems.add(new MenuItem("Quit", Platform::exit));
-		changeSelection(1);
+		currentMenu = new Menu();
+		currentMenu.add(new MenuItem("Start the game", startGameMenu));
+		currentMenu.add(new MenuItem("Do nothing", () -> System.out.println("Nothing has been done!")));
+		currentMenu.add(new MenuItem("Quit", Platform::exit));
 	}
 
 	/**
@@ -75,15 +74,10 @@ public class MenuController {
 		}
 
 		if (transitionForward) {
-			ArrayList<MenuItem> oldMenu;
-			try {
-				oldMenu = previousMenus.peek();
-			} catch (EmptyStackException e) {
-				oldMenu = new ArrayList<>(); //blank list
-			}
-			gameView.drawAnimatedMenu(oldMenu, menuItems, 1 - (double) transitionTimeRemaining / TRANSITION_TIME);
+			Menu oldMenu = previousMenus.isEmpty() ? new Menu() : previousMenus.peek();
+			gameView.drawAnimatedMenu(oldMenu, currentMenu, 1 - (double) transitionTimeRemaining / TRANSITION_TIME);
 		} else {
-			gameView.drawAnimatedMenu(menuItems, previousMenu, (double) transitionTimeRemaining / TRANSITION_TIME);
+			gameView.drawAnimatedMenu(currentMenu, previousMenuForward, (double) transitionTimeRemaining / TRANSITION_TIME);
 		}
 	}
 
@@ -116,20 +110,18 @@ public class MenuController {
 				switch (input) {
 					// If the input is to move the menu up or down change the selection
 					case MENU_UP:
-						changeSelection(-1);
+						currentMenu.changeSelection(-1);
 						break;
 					case MENU_DOWN:
-						changeSelection(1);
+						currentMenu.changeSelection(1);
 						break;
 					// If the input is to select a menu item open it's submenu or run it's callback method if it is an end node
 					case MENU_SELECT:
-						MenuItem menuItem = menuItems.get(selectedItem);
+						MenuItem menuItem = currentMenu.getSelectedItem();
 						if (menuItem.hasSubmenu()) {
 							// Store the current menu in a stack
-							previousMenus.push(menuItems);
-							menuItems = menuItem.getSubmenu();
-							selectedItem = 0;
-							menuItems.get(selectedItem).setSelected(true);
+							previousMenus.push(currentMenu);
+							currentMenu = menuItem.getSubmenu();
 							transitionTimeRemaining = TRANSITION_TIME;
 							lastTimestamp = System.currentTimeMillis();
 							transitionForward = true;
@@ -140,10 +132,8 @@ public class MenuController {
 					// If the input to exit restore the previous menu from the stack
 					case EXIT:
 						if (!previousMenus.empty()) {
-							previousMenu = menuItems;
-							menuItems = previousMenus.pop();
-							selectedItem = 0;
-							menuItems.get(selectedItem).setSelected(true);
+							previousMenuForward = currentMenu;
+							currentMenu = previousMenus.pop();
 							transitionTimeRemaining = TRANSITION_TIME;
 							lastTimestamp = System.currentTimeMillis();
 							transitionForward = false;
@@ -151,31 +141,5 @@ public class MenuController {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Change which menu item is currently selected
-	 * @param direction if -1 move it to the previous item, if 1 move it to the next item
-	 */
-	private void changeSelection(int direction) {
-
-		// Add the input to the current selected item index
-		selectedItem += direction;
-
-		// If this new index is out of bounds wrap it around
-		if (selectedItem < 0) {
-			selectedItem = menuItems.size() - 1;
-		}
-		if (selectedItem >= menuItems.size()) {
-			selectedItem = 0;
-		}
-
-		// Set all the menu items to not selected
-		for (MenuItem menuItem : menuItems) {
-			menuItem.setSelected(false);
-		}
-
-		// Set the menu item at the new index as selected
-		menuItems.get(selectedItem).setSelected(true);
 	}
 }

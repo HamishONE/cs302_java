@@ -1,7 +1,5 @@
 package warlords;
 
-import java.util.ArrayList;
-
 /**
  * Represents a single selectable item on a menu screen.
  */
@@ -10,7 +8,7 @@ public class MenuItem {
 	private String text;
 	private boolean isSelected = false;
 	private IMenuCallback callback;
-	private ArrayList<MenuItem> submenu;
+	private Menu submenu;
 
 	/**
 	 * Creates a new menu item with no submenu that is not currently selected.
@@ -27,7 +25,7 @@ public class MenuItem {
 	 * @param text the text to be displayed to the user
 	 * @param submenu a list of all the menu items in the next menu
 	 */
-	public MenuItem(String text, ArrayList<MenuItem> submenu) {
+	public MenuItem(String text, Menu submenu) {
 		this.text = text;
 		this.submenu = submenu;
 	}
@@ -42,7 +40,7 @@ public class MenuItem {
 	/**
 	 * @return A list of menu items to be displayed when this item is selected.
 	 */
-	public ArrayList<MenuItem> getSubmenu() {
+	public Menu getSubmenu() {
 		return submenu;
 	}
 
