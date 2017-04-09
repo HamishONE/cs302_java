@@ -139,7 +139,7 @@ public class Ball extends GameObject implements IBall {
 					case PADDLE_FASTER:
 						((Paddle) object).modifyPaddleSpeed(PI/300);
 						break;
-					case PADLLE_SLOWER:
+					case PADDLE_SLOWER:
 						((Paddle) object).modifyPaddleSpeed(-PI/300);
 						break;
 					case PADDLE_GROW:
@@ -174,8 +174,8 @@ public class Ball extends GameObject implements IBall {
 		return atan2(dY, dX);
 	}
 
-	public void multiplySpeed(double multiplyer) {
-		dY = dY*multiplyer;
-		dX = dX*multiplyer;
+	public void multiplySpeed(double multiplier) {
+		dY = dY*multiplier;
+		dX = dX*multiplier;
 	}
 }

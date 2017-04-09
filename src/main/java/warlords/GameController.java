@@ -159,7 +159,7 @@ public class GameController implements IGame {
 						powerUp = PowerUp.PADDLE_FASTER;
 						break;
 					case 3:
-						powerUp = PowerUp.PADLLE_SLOWER;
+						powerUp = PowerUp.PADDLE_SLOWER;
 						break;
 					case 4:
 						powerUp = PowerUp.PADDLE_GROW;

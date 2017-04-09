@@ -52,44 +52,44 @@ public abstract class GameObject {
 		}
 	}
 
-	/***
+	/**
 	 *  Set the horizontal position of the ball to the given value.
-	 * @param x
+	 * @param x the new x position
 	 */
 	public void setXPos(int x) {
 		this.x = x;
 	}
 
-	/***
+	/**
 	 * Set the vertical position of the ball to the given value.
-	 * @param y
+	 * @param y the new y position
 	 */
 	public void setYPos(int y) {
 		this.y = y;
 	}
 
-	/***
+	/**
 	 * @return the horizontal position of the ball.
 	 */
 	public int getXPos() {
 		return (int)x;
 	}
 
-	/***
+	/**
 	 * @return the vertical position of the ball.
 	 */
 	public int getYPos() {
 		return (int)y;
 	}
 
-	/***
+	/**
 	 * @return the horizontal position of the ball.
 	 */
 	public double getXPosReal() {
 		return x;
 	}
 
-	/***
+	/**
 	 * @return the vertical position of the ball.
 	 */
 	public double getYPosReal() {
@@ -204,10 +204,17 @@ public abstract class GameObject {
 		this.height = height;
 	}
 
+	/**
+	 * Set the power up attached to the game object.
+	 * @param powerUp the power up to be attached.
+	 */
 	public void setPowerUp(PowerUp powerUp){
 		this.powerUp = powerUp;
 	}
 
+	/**
+	 * @return The power up attached to the game object.
+	 */
 	public PowerUp getPowerUp() {
 		return powerUp;
 	}

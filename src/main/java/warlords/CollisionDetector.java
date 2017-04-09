@@ -74,7 +74,7 @@ public class CollisionDetector {
 	}
 
 	/**
-	 * Move the ball by a certain ammount taking account of rebounds from collisions.
+	 * Move the ball by a certain amount taking account of rebounds from collisions.
 	 * @param movement The amount to move the ball by.
 	 */
 	private void moveBall(double movement) {

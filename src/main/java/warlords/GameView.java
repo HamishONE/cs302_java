@@ -103,7 +103,7 @@ public class GameView {
 						case PADDLE_FASTER:
 							colourChange.setHue(0.0);
 							break;
-						case PADLLE_SLOWER:
+						case PADDLE_SLOWER:
 							colourChange.setHue(1.0);
 							break;
 						case PADDLE_GROW:

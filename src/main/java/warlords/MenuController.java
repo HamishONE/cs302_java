@@ -2,7 +2,6 @@ package warlords;
 
 import javafx.application.Platform;
 import java.util.ArrayList;
-import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
@@ -84,7 +83,7 @@ public class MenuController {
 
 	/**
 	 * Checks if the game should be started
-	 * @return whether the game shoudl be started
+	 * @return whether the game should be started
 	 */
 	public boolean doStartGame() {
 		return doStartGame;
