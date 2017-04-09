@@ -15,6 +15,9 @@ import static java.lang.Math.random;
  */
 public class GameController implements IGame {
 
+	/**
+	 * The state of the game.
+	 */
 	private enum InternalState {
 		IDLE,			// prior to initialisation
 		RUNNING,		// game in progress
@@ -66,6 +69,7 @@ public class GameController implements IGame {
 	 * @param game 			Instance of the game model which stores information about the game
 	 * @param gameView		Instance of main view of the game
 	 * @param soundView		Instance of sound player view for the game to use
+	 * @param age			The age (from enum {@link Ages}) to render the sprites for.
 	 */
 	public GameController(ArrayList<IUserInput> userInputs, Game game, GameView gameView, SoundView soundView, Ages age) {
 		//Initialize all parameters passed in through the constructor
@@ -89,6 +93,7 @@ public class GameController implements IGame {
 	 * @param warlords	ArrayList of the warlords to be in the game
 	 * @param game		Instance of game model for the controller
 	 * @param ball		Instance of the ball to be in the game
+	 * @param boundary	Instance of the game area boundary object.
 	 */
 	public GameController(GameView gameView, ArrayList<Paddle> paddles, ArrayList<IUserInput> players, ArrayList<Wall> walls,
 						  ArrayList<Warlord> warlords, Game game, Ball ball, Boundary boundary) {
@@ -111,6 +116,7 @@ public class GameController implements IGame {
 	 * @param yOffset		Y offset from origin for walls to be moved
 	 * @param angleOffset	Offset to determine which quarter of the circle should be populated
 	 * @param owner			Int to represent which player the walls "belong" to
+	 * @param age			The age (from enum {@link Ages}) to render the sprites for.
 	 */
 	private void addWalls(int xOffset, int yOffset, double angleOffset, int owner, Ages age) {
 

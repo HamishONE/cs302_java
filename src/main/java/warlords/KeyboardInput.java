@@ -22,7 +22,11 @@ public class KeyboardInput implements IUserInput {
 		this.keyMap = keyMap;
 	}
 
-	// Checks if a given input type is a control key that should register only once or not
+	/**
+	 * Checks if a given input type is a control key that should register only once or not
+	 * @param key the key to check
+	 * @return if it is a control key
+	 */
 	private boolean isControlKey(InputType key) {
 
 		List<InputType> controlKeys = Arrays.asList(
@@ -74,6 +78,10 @@ public class KeyboardInput implements IUserInput {
 		}
 	}
 
+	/**
+	 * Register the typing of a printable character.
+	 * @param character the character typed
+	 */
 	public void keyTyped(String character) {
 		lastCharInput = character;
 	}

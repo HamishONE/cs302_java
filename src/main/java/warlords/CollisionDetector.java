@@ -23,6 +23,7 @@ public class CollisionDetector {
 	 * @param paddles a list of paddles the check collisions with
 	 * @param walls the list of walls to check collisions with
 	 * @param warlords the list of warlords to check collisions with
+	 * @param boundary the game area boundary object
 	 * @param game the game model used to get the game boundary dimensions
 	 * @param soundView the view used to play sounds through
 	 */
@@ -150,6 +151,7 @@ public class CollisionDetector {
 	 * @param surfaceAngle The angle of the surface to rebound on.
 	 * @param movementBeforeRebound The distance to move the ball before it rebounds.
 	 * @param movementAfterRebound The distance to move the ball after it rebounds.
+	 * @param object the game object that has been hit
 	 */
 	private void reboundBall(double surfaceAngle, double movementBeforeRebound, double movementAfterRebound, GameObject object) {
 
@@ -163,6 +165,10 @@ public class CollisionDetector {
 		moveBall(movementAfterRebound - initialIncrement);
 	}
 
+	/**
+	 * Check if the ball is in an illegal position and if so move it somewhere safe.
+	 * @param allObjects A list of all game objects.
+	 */
 	private void safetyNet(ArrayList<GameObject> allObjects) {
 
 		for(GameObject object : allObjects) {

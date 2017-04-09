@@ -137,6 +137,9 @@ public abstract class GameObject {
 		return height;
 	}
 
+	/**
+	 * @return The location of the object as a vector point.
+	 */
 	public MathVector getPointVector() {
 		return new MathVector(x, y);
 	}

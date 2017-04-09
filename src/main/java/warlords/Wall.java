@@ -30,6 +30,15 @@ public class Wall extends GameObject implements IWall {
 		spritePaths.put(Ages.SPACE, null);
 	}
 
+	/**
+	 * Create a new wall at a given position with a given owner
+	 * @param x the x position of the wall
+	 * @param y the y position of the wall
+	 * @param theta the rotation of the wall
+	 * @param owner the index number of the player who's wall this is
+	 * @param age the age to base the sprite on
+	 * @param powerUp the power up to be attached to the wall
+	 */
 	public Wall(int x, int y, double theta, int owner, Ages age, PowerUp powerUp) {
 		super(x, y, age, null, theta);
 		width = 44.6;

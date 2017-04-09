@@ -116,9 +116,9 @@ public class Ball extends GameObject implements IBall {
 	/**
 	 * Reflects the balls motion against a surface at a given angle in space.
 	 * @param phi the absolute angle of the surface in radians
+	 * @param object the game object that has been hit
 	 */
 	public void rebound(double phi, GameObject object) {
-
 
 		// Transform the balls motion into a coordinate system where dU is parallel to the surface to rebound off
 		double dU = dX*cos(phi) + dY*sin(phi);
@@ -174,6 +174,10 @@ public class Ball extends GameObject implements IBall {
 		return atan2(dY, dX);
 	}
 
+	/**
+	 * Change the speed of the ball by a linear factor.
+	 * @param multiplier the factor to change the ball speed by
+	 */
 	public void multiplySpeed(double multiplier) {
 		dY = dY*multiplier;
 		dX = dX*multiplier;

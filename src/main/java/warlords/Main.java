@@ -17,6 +17,9 @@ public class Main extends Application {
 	private MainController mainController;
 	private int counter = 0;
 
+	/**
+	 * @return If our debug mode has been enabled by the VM property.
+	 */
 	public static boolean isDebugMode() {
 		return System.getProperty("debug") != null && System.getProperty("debug").equalsIgnoreCase("true");
 	}
