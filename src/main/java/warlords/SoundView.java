@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class SoundView {
 
-	private HashMap<String, Media> soundCache = new HashMap<>();
+	private HashMap<String, AudioClip> soundCache = new HashMap<>();
 
 	/**
 	 * Helper function to get an image, this gets the image path from a cached Image instance, or if it does not already exist, creates it.
@@ -21,11 +21,12 @@ public class SoundView {
 	 * @param path		Path to sound location
 	 * @return			instance of Media with the requested sound within
 	 */
-	private Media getSound(String path) {
-		return soundCache.computeIfAbsent(path, p -> new Media(new File(path).toURI().toString()));
+	private AudioClip getSound(String path) {
+		//return soundCache.computeIfAbsent(path, p -> new Media(new File(path).toURI().toString()));
+		return soundCache.computeIfAbsent(path, p -> new AudioClip(getClass().getResource(path).toExternalForm()));
 	}
 
-	AudioClip audioClip = new AudioClip(getClass().getResource("/Sad-cat.mp3").toExternalForm());
+	//AudioClip audioClip = new AudioClip(getClass().getResource("/Sad-cat.mp3").toExternalForm());
 
 	/**
 	 * Plays the sound pointed to by the path passed in
@@ -35,6 +36,7 @@ public class SoundView {
 	public void playSound(String path) {
 			//MediaPlayer mediaPlayer = new MediaPlayer(getSound(path));
 			//mediaPlayer.play();
+		AudioClip audioClip = getSound(path);
 		audioClip.play();
 	}
 
@@ -46,7 +48,7 @@ public class SoundView {
 	public void loadSounds(ArrayList<String> paths) {
 		//Preload all pro
 		for(String path : paths) {
-			soundCache.putIfAbsent(path, new Media(new File(path).toURI().toString()));
+			soundCache.putIfAbsent(path, new AudioClip(getClass().getResource(path).toExternalForm()));
 		}
 	}
 }

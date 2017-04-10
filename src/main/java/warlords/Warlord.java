@@ -19,7 +19,7 @@ public class Warlord extends GameObject implements IWarlord {
 	 * @param index the index from 1-3 of the player, used to determine the sprite colour
 	 */
 	public Warlord(int x, int y, Ages age, int index) {
-		super(x, y, age, "build/resources/main/CatScream.mp3", Math.PI/2);
+		super(x, y, age, "/CatScream.mp3", Math.PI/2);
 		this.width = 60;
 		this.height = 85;
 
