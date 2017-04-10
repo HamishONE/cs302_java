@@ -26,7 +26,7 @@ public class Wall extends GameObject implements IWall {
 		this.owner = owner;
 		spritePaths.put(Ages.NEOLITHIC, "/cavemanWall.png");
 		spritePaths.put(Ages.MEDIEVAL, "/wal.png");
-		spritePaths.put(Ages.INDUSTRIAL, null);
+		spritePaths.put(Ages.INDUSTRIAL, "/steelPlate.png");
 		spritePaths.put(Ages.SPACE, null);
 	}
 
@@ -47,7 +47,7 @@ public class Wall extends GameObject implements IWall {
 		this.powerUp = powerUp;
 		spritePaths.put(Ages.NEOLITHIC, "/cavemanWall.png");
 		spritePaths.put(Ages.MEDIEVAL, "/wal.png");
-		spritePaths.put(Ages.INDUSTRIAL, null);
+		spritePaths.put(Ages.INDUSTRIAL, "/steelPlate.png");
 		spritePaths.put(Ages.SPACE, null);
 	}
 

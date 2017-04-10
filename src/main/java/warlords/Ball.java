@@ -22,7 +22,7 @@ public class Ball extends GameObject implements IBall {
 
 		spritePaths.put(Ages.NEOLITHIC, "/meatBall.png");
 		spritePaths.put(Ages.MEDIEVAL, "/cannonBall.png");
-		spritePaths.put(Ages.INDUSTRIAL, null);
+		spritePaths.put(Ages.INDUSTRIAL, "/cannonBall.png");
 		spritePaths.put(Ages.SPACE, null);
 	}
 
