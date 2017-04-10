@@ -28,6 +28,16 @@ public class GameView {
 	private double scalingFactor;
 
 	/**
+	 * Set the graphics contents font to our stanard font with the given size.
+	 * @param size The font size in pt.
+	 */
+	private void setFont(double size) {
+		String url = getClass().getResource("/CALIFB.TTF").toExternalForm();
+		Font font = Font.loadFont(url, size);
+		gc.setFont(font);
+	}
+
+	/**
 	 * Create a new canvas of the specified dimensions
 	 * @param width width of the canvas
 	 * @param height height of the canvas
@@ -44,7 +54,10 @@ public class GameView {
 		grid.setAlignment(Pos.CENTER);
 		Canvas canvas = new Canvas(width, height);
 		grid.add(canvas, 0, 0);
+
 		gc = canvas.getGraphicsContext2D();
+		gc.setTextAlign(TextAlignment.CENTER);
+		gc.setTextBaseline(VPos.CENTER);
 		clearCanvas();
 
 		//Creates new master scene
@@ -167,7 +180,7 @@ public class GameView {
 
 			//Write text to the button
 			gc.setFill(Color.WHITE);
-			gc.setFont(new Font("Algerian", TEXT_HEIGHT));
+			setFont(TEXT_HEIGHT);
 			gc.setTextAlign(TextAlignment.CENTER);
 			gc.setTextBaseline(VPos.CENTER);
 			gc.fillText(menuItem.getText(), WIDTH/2, y, maxWidth);
@@ -215,7 +228,7 @@ public class GameView {
 	public void drawPauseIndicator() {
 		//Sets font to white and draws "Pause", centered at the top of the screen
 		gc.setFill(Color.WHITE);
-		gc.setFont(new Font("Corbel", 50*scalingFactor));
+		setFont(50*scalingFactor);
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.setTextBaseline(VPos.CENTER);
 		gc.fillText("Paused", (Game.backendWidth/2)*scalingFactor, 50, Game.backendWidth - 100);
@@ -228,7 +241,7 @@ public class GameView {
 		drawOverlay();
 		//Sets font to white and draws "Pause", centered at the top of the screen
 		gc.setFill(Color.BLACK);
-		gc.setFont(new Font("Corbel", 50*scalingFactor));
+		setFont(50*scalingFactor);
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.setTextBaseline(VPos.CENTER);
 		gc.fillText("PRESS ESC TO QUIT OR ENTER TO RESUME", (Game.backendWidth/2)*scalingFactor,
@@ -244,7 +257,7 @@ public class GameView {
 		//Make text from seconds to show mins and seconds, write at top of screen
 		String text = String.format("%d:%02d", secsRemaining/60, secsRemaining%60);
 		gc.setFill(Color.WHITE);
-		gc.setFont(new Font("Cambria", 30*scalingFactor));
+		setFont(30*scalingFactor);
 		gc.fillText(text, (Game.backendWidth - 250)*scalingFactor, 30);
 	}
 
@@ -254,7 +267,7 @@ public class GameView {
 	 */
 	public void drawCountdown(int secsRemaining) {
 		gc.setFill(Color.WHITE);
-		gc.setFont(new Font("Cambria", 70*scalingFactor));
+		setFont(70*scalingFactor);
 		gc.fillText(String.valueOf(secsRemaining), (Game.backendWidth/2)*scalingFactor, (Game.backendHeight/2)*scalingFactor);
 	}
 
@@ -272,7 +285,7 @@ public class GameView {
 	 */
 	public void drawWinnerLabel(String playerName) {
 		gc.setFill(Color.WHITE);
-		gc.setFont(new Font("Cambria", 30*scalingFactor));
+		setFont(30*scalingFactor);
 
 		String text = playerName == null ? "Draw" : playerName + " has won!";
 		gc.fillText(text, (Game.backendWidth - 200)*scalingFactor, height/2);
@@ -319,13 +332,13 @@ public class GameView {
 
 		// Draw the heading
 		gc.setFill(Color.GREEN);
-		gc.setFont(new Font("Cambria", 40*scalingFactor));
+		setFont(40*scalingFactor);
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.fillText("High Scores", width/2, Y_GAP);
 
 		// Setup the font for the entries
 		gc.setFill(Color.WHITE);
-		gc.setFont(new Font("Cambria", 30*scalingFactor));
+		setFont(30*scalingFactor);
 		gc.setTextAlign(TextAlignment.LEFT);
 
 		int rank = 1;
@@ -367,13 +380,13 @@ public class GameView {
 
 		// Draw the heading
 		gc.setFill(Color.GREEN);
-		gc.setFont(new Font("Cambria", 60*scalingFactor));
+		setFont(60*scalingFactor);
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.fillText("New High Score! (" + scoreValue + ")", width/2, 150*scalingFactor);
 
 		// Setup the font for the name entry
 		gc.setFill(Color.WHITE);
-		gc.setFont(new Font("Cambria", 30*scalingFactor));
+		setFont(30*scalingFactor);
 		gc.setTextAlign(TextAlignment.LEFT);
 
 		// Draw the name label and name

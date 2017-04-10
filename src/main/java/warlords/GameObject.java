@@ -48,7 +48,7 @@ public abstract class GameObject {
 		if (soundPath != null) {
 			this.soundPath = soundPath;
 		} else {
-			this.soundPath = "build/resources/main/Sad-cat.mp3";
+			this.soundPath = "/Sad-cat.mp3";
 		}
 	}
 
