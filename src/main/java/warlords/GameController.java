@@ -45,7 +45,6 @@ public class GameController implements IGame {
 	private int timeRemaining = GAME_TIME + COUNTDOWN_TIME;
 	private long lastTimestamp;
 	private boolean difficultyIncrease1, difficultyIncrease2, difficultyIncrease3, difficultyIncrease4 = false;
-	private Ages age;
 	private HighScores highScores;
 	private Integer winnerScore;
 	private String winnerName = "";
@@ -69,15 +68,13 @@ public class GameController implements IGame {
 	 * @param game 			Instance of the game model which stores information about the game
 	 * @param gameView		Instance of main view of the game
 	 * @param soundView		Instance of sound player view for the game to use
-	 * @param age			The age (from enum {@link Ages}) to render the sprites for.
 	 */
-	public GameController(ArrayList<IUserInput> userInputs, Game game, GameView gameView, SoundView soundView, Ages age) {
+	public GameController(ArrayList<IUserInput> userInputs, Game game, GameView gameView, SoundView soundView) {
 		//Initialize all parameters passed in through the constructor
 		this.userInputs = userInputs;
 		this.game = game;
 		this.gameView = gameView;
 		this.soundView = soundView;
-		this.age = age;
 
 		//Set up a standard game
 		setupStandardGameObjects();
@@ -200,6 +197,9 @@ public class GameController implements IGame {
 	 * </ul>
 	 */
 	private void setupStandardGameObjects() {
+
+		Ages age = game.getAge();
+
 		//Add boundary, and therefore background
 		boundary = new Boundary(age);
 
@@ -253,7 +253,7 @@ public class GameController implements IGame {
 	 * @param speed The speed of the new ball.
 	 */
 	private void addBall(double speed) {
-		Ball ball = new Ball(Game.backendWidth/2, Game.backendHeight/2, age);
+		Ball ball = new Ball(Game.backendWidth/2, Game.backendHeight/2, game.getAge());
 		ball.generateRandomMovement(speed);
 		balls.add(ball);
 	}

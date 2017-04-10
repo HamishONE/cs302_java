@@ -34,10 +34,22 @@ public class MenuController {
 		this.game = game;
 
 		Menu gameStyleMenu = new Menu();
-		gameStyleMenu.add(new MenuItem("Neolithic", this::startGame).setCallback(() -> game.setAge(Ages.NEOLITHIC)));
-		gameStyleMenu.add(new MenuItem("Medieval", this::startGame).setCallback(() -> game.setAge(Ages.MEDIEVAL)));
-		gameStyleMenu.add(new MenuItem("Industrial", this::startGame).setCallback(() -> game.setAge(Ages.INDUSTRIAL)));
-		gameStyleMenu.add(new MenuItem("Space", this::startGame).setCallback(() -> game.setAge(Ages.SPACE)));
+		gameStyleMenu.add(new MenuItem("Neolithic", () -> {
+			game.setAge(Ages.NEOLITHIC);
+			startGame();
+		}));
+		gameStyleMenu.add(new MenuItem("Medieval", () -> {
+			game.setAge(Ages.MEDIEVAL);
+			startGame();
+		}));
+		gameStyleMenu.add(new MenuItem("Industrial", () -> {
+			game.setAge(Ages.INDUSTRIAL);
+			startGame();
+		}));
+		gameStyleMenu.add(new MenuItem("Space", () -> {
+			game.setAge(Ages.SPACE);
+			startGame();
+		}));
 
 		Menu gameModeMenu = new Menu();
 		gameModeMenu.add(new MenuItem("Single game", gameStyleMenu));
