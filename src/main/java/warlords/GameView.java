@@ -155,37 +155,37 @@ public class GameView {
 	private void drawMenuItems(List<MenuItem> menuItems) {
 
 		//Constants for placements of menu items
-		int PADDING = 50;
+		int PADDING = 5;
 		int TEXT_HEIGHT = 50;
-		int BORDER_WIDTH = 4;
-		int CORNER_RADIUS = 15;
-		double WIDTH = 600*scalingFactor;
+		double WIDTH = 500;
+		double HEIGHT = WIDTH*0.22;
+		String imgPath;
 
 		double maxWidth = WIDTH - PADDING*2;
-		double y = PADDING + TEXT_HEIGHT/2;
+		double y = PADDING;
 
 		//loop through all the menu items and render each
 		for (MenuItem menuItem : menuItems) {
 
 			//If the current item is selected, add a border to the outside
 			if (menuItem.isSelected()) {
-				gc.setFill(Color.WHITE);
-				gc.fillRoundRect(PADDING - BORDER_WIDTH, y - TEXT_HEIGHT/2 - 10 - BORDER_WIDTH, maxWidth + BORDER_WIDTH*2,
-						TEXT_HEIGHT + 20 + BORDER_WIDTH*2, CORNER_RADIUS, CORNER_RADIUS);
+				imgPath = "/buttonSelected.png";
+			}
+			else {
+				imgPath = "/buttonBackground.png";
 			}
 
-			//Set colour and fill buttons with it
-			gc.setFill(Color.ORANGE);
-			gc.fillRoundRect(PADDING, y - TEXT_HEIGHT/2 - 10, maxWidth, TEXT_HEIGHT + 20, CORNER_RADIUS, CORNER_RADIUS);
+			Image image = getImage(imgPath, maxWidth*scalingFactor, HEIGHT*scalingFactor);
+			gc.drawImage(image, PADDING*scalingFactor, y*scalingFactor);
 
 			//Write text to the button
 			gc.setFill(Color.WHITE);
-			setFont(TEXT_HEIGHT);
+			setFont(TEXT_HEIGHT*scalingFactor);
 			gc.setTextAlign(TextAlignment.CENTER);
 			gc.setTextBaseline(VPos.CENTER);
-			gc.fillText(menuItem.getText(), WIDTH/2, y, maxWidth);
+			gc.fillText(menuItem.getText(), WIDTH/2*scalingFactor, (y+HEIGHT/2 + PADDING)*scalingFactor, maxWidth*scalingFactor);
 
-			y += PADDING*2;
+			y += HEIGHT+PADDING/2;
 		}
 	}
 
