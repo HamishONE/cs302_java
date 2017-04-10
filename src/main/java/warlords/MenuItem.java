@@ -31,10 +31,27 @@ public class MenuItem {
 	}
 
 	/**
+	 * Set a new callback for this menu item.
+	 * @param callback The new callback.
+	 * @return A reference to this object.
+	 */
+	public MenuItem setCallback(IMenuCallback callback) {
+		this.callback = callback;
+		return this;
+	}
+
+	/**
 	 * @return If this menu item has a submenu or not.
 	 */
 	public boolean hasSubmenu() {
 		return submenu != null;
+	}
+
+	/**
+	 * @return If this menu item has a callback attached or not.
+	 */
+	public boolean hasCallback() {
+		return callback != null;
 	}
 
 	/**

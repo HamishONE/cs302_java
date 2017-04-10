@@ -5,6 +5,9 @@ package warlords;
  */
 public class Game {
 
+	public static int backendHeight = 600;
+	public static int backendWidth = 800;
+
 	/**
 	 * Enum to keep track of the current state
 	 * Can be IDLE, MENU, GAME or FINISHED
@@ -20,8 +23,7 @@ public class Game {
 	private int numHumanPlayers = 1;
 	private int width;
 	private int height;
-	public static int backendHeight = 600;
-	public static int backendWidth = 800;
+	private Ages age = Ages.NEOLITHIC;
 
 	/**
 	 * Create a new instance of and initialize state to IDLE
@@ -44,6 +46,21 @@ public class Game {
 		this.width = width;
 		this.height = height;
 		this.state = state;
+	}
+
+	/**
+	 * @return The current age.
+	 */
+	public Ages getAge() {
+		return age;
+	}
+
+	/**
+	 * Set the game age.
+	 * @param age The new age.
+	 */
+	public void setAge(Ages age) {
+		this.age = age;
 	}
 
 	/**

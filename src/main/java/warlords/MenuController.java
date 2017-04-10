@@ -33,27 +33,33 @@ public class MenuController {
 		this.gameView = gameView;
 		this.game = game;
 
-		// Setup a submenu with items for selecting the number of players
-		Menu startGameMenu = new Menu();
-		startGameMenu.add(new MenuItem("One player", () -> startGame(1)));
-		startGameMenu.add(new MenuItem("Two players", () -> startGame(2)));
-		startGameMenu.add(new MenuItem("Three players", () -> startGame(3)));
-		startGameMenu.add(new MenuItem("Four players", () -> startGame(4)));
-		startGameMenu.add(new MenuItem("AI only demo", () -> startGame(0)));
+		Menu gameStyleMenu = new Menu();
+		gameStyleMenu.add(new MenuItem("Neolithic", this::startGame).setCallback(() -> game.setAge(Ages.NEOLITHIC)));
+		gameStyleMenu.add(new MenuItem("Medieval", this::startGame).setCallback(() -> game.setAge(Ages.MEDIEVAL)));
+		gameStyleMenu.add(new MenuItem("Industrial", this::startGame).setCallback(() -> game.setAge(Ages.INDUSTRIAL)));
+		gameStyleMenu.add(new MenuItem("Space", this::startGame).setCallback(() -> game.setAge(Ages.SPACE)));
 
-		// Setup the main menu items
+		Menu gameModeMenu = new Menu();
+		gameModeMenu.add(new MenuItem("Single game", gameStyleMenu));
+		gameModeMenu.add(new MenuItem("Campaign Mode", this::startGame));
+
+		Menu numPlayersMenu = new Menu();
+		numPlayersMenu.add(new MenuItem("Single player", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(1)));
+		numPlayersMenu.add(new MenuItem("Two players", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(2)));
+		numPlayersMenu.add(new MenuItem("Three players", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(3)));
+		numPlayersMenu.add(new MenuItem("Four players", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(4)));
+		numPlayersMenu.add(new MenuItem("AI Demo", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(5)));
+
 		currentMenu = new Menu();
-		currentMenu.add(new MenuItem("Start the game", startGameMenu));
-		currentMenu.add(new MenuItem("Do nothing", () -> System.out.println("Nothing has been done!")));
+		currentMenu.add(new MenuItem("New game", numPlayersMenu));
+		currentMenu.add(new MenuItem("High scores", () -> System.out.println("GOTO High Scores")));
 		currentMenu.add(new MenuItem("Quit", Platform::exit));
 	}
 
 	/**
-	 * Sets the number of players in the game model and tells the main controller to start the game.
-	 * @param numHumanPlayers The number of human players.
+	 * Tells the main controller to start the game.
 	 */
-	private void startGame(int numHumanPlayers) {
-		game.setNumHumanPlayers(numHumanPlayers);
+	private void startGame() {
 		doStartGame = true;
 	}
 
@@ -119,6 +125,9 @@ public class MenuController {
 					case RIGHT:
 					case MENU_SELECT:
 						MenuItem menuItem = currentMenu.getSelectedItem();
+						if (menuItem.hasCallback()) {
+							menuItem.runCallback();
+						}
 						if (menuItem.hasSubmenu()) {
 							// Store the current menu in a stack
 							previousMenus.push(currentMenu);
@@ -126,8 +135,6 @@ public class MenuController {
 							transitionTimeRemaining = TRANSITION_TIME;
 							lastTimestamp = System.currentTimeMillis();
 							transitionForward = true;
-						} else {
-							menuItem.runCallback();
 						}
 						break;
 					// If the input to exit restore the previous menu from the stack
