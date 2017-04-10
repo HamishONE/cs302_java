@@ -58,7 +58,6 @@ public class GameController implements IGame {
 
 	{
 		highScores = new HighScores();
-		highScores.loadData();
 	}
 
 	/**
