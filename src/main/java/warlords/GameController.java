@@ -464,9 +464,12 @@ public class GameController implements IGame {
 	private void drawFrame(boolean showBalls) {
 
 		//Add all game objects to a list
-		ArrayList<GameObject> gameObjects = new ArrayList<>(walls);
+		ArrayList<GameObject> gameObjects = new ArrayList<>();
+		gameObjects.add(boundary);
+		gameObjects.addAll(walls);
 		gameObjects.addAll(warlords);
 		gameObjects.addAll(paddles);
+
 		if (showBalls) {
 			gameObjects.addAll(balls);
 		}
