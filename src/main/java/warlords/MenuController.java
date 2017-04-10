@@ -60,7 +60,7 @@ public class MenuController {
 		numPlayersMenu.add(new MenuItem("Two players", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(2)));
 		numPlayersMenu.add(new MenuItem("Three players", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(3)));
 		numPlayersMenu.add(new MenuItem("Four players", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(4)));
-		numPlayersMenu.add(new MenuItem("AI Demo", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(5)));
+		numPlayersMenu.add(new MenuItem("AI Demo", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(0)));
 
 		currentMenu = new Menu();
 		currentMenu.add(new MenuItem("New game", numPlayersMenu));
