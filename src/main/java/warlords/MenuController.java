@@ -54,7 +54,10 @@ public class MenuController {
 
 		Menu gameModeMenu = new Menu();
 		gameModeMenu.add(new MenuItem("Single game", gameStyleMenu));
-		gameModeMenu.add(new MenuItem("Campaign Mode", this::startGame));
+		gameModeMenu.add(new MenuItem("Campaign Mode", () -> {
+			game.enableCampaignMode();
+			startGame();
+		}));
 
 		Menu numPlayersMenu = new Menu();
 		numPlayersMenu.add(new MenuItem("Single player", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(1)));

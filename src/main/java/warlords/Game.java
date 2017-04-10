@@ -1,5 +1,7 @@
 package warlords;
 
+import java.util.EnumSet;
+
 /**
  * Model class to store the current state, window dimensions and number of game players
  */
@@ -24,6 +26,7 @@ public class Game {
 	private int width;
 	private int height;
 	private Ages age = Ages.NEOLITHIC;
+	private boolean campaignMode = false;
 
 	/**
 	 * Create a new instance of and initialize state to IDLE
@@ -49,6 +52,20 @@ public class Game {
 	}
 
 	/**
+	 * @return If the user has selected campaign mode.
+	 */
+	public boolean isCampaignMode() {
+		return campaignMode;
+	}
+
+	/**
+	 * Enable the campaign mode.
+	 */
+	public void enableCampaignMode() {
+		campaignMode = true;
+	}
+
+	/**
 	 * @return The current age.
 	 */
 	public Ages getAge() {
@@ -61,6 +78,25 @@ public class Game {
 	 */
 	public void setAge(Ages age) {
 		this.age = age;
+	}
+
+	/**
+	 * Move to the next age in the sequence (for campaign mode).
+	 * @return True if successful, false if their are no more ages.
+	 */
+	public boolean nextAge() {
+
+		boolean returnNextAge = false;
+		for (Ages setAge : EnumSet.allOf(Ages.class)) {
+			if (returnNextAge) {
+				age = setAge;
+				return true;
+			}
+			if (age == setAge) {
+				returnNextAge = true;
+			}
+		}
+		return false;
 	}
 
 	/**
