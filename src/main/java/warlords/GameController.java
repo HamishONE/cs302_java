@@ -69,15 +69,20 @@ public class GameController implements IGame {
 	 * @param gameView		Instance of main view of the game
 	 * @param soundView		Instance of sound player view for the game to use
 	 */
-	public GameController(ArrayList<IUserInput> userInputs, Game game, GameView gameView, SoundView soundView) {
+	public GameController(ArrayList<IUserInput> userInputs, Game game, GameView gameView, SoundView soundView, boolean gotoScoreBoard) {
 		//Initialize all parameters passed in through the constructor
 		this.userInputs = userInputs;
 		this.game = game;
 		this.gameView = gameView;
 		this.soundView = soundView;
 
-		//Set up a standard game
-		setupStandardGameObjects();
+		if (gotoScoreBoard) {
+			internalState = InternalState.SCORE_SCREEN;
+		}
+		else {
+			//Set up a standard game
+			setupStandardGameObjects();
+		}
 	}
 
 	/**

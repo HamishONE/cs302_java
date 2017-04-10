@@ -92,8 +92,12 @@ public class MainController {
 				// If the menu is ready for the game to be launched create a new game controller instance and start it
 				if (menuController.doStartGame()) {
 					game.setState(Game.State.GAME);
-					gameController = new GameController(userInputs, game, gameView, soundView);
+					gameController = new GameController(userInputs, game, gameView, soundView, false);
 					gameController.beginGame();
+				}
+				else if (menuController.doGoToScoreBoard()) {
+					game.setState(Game.State.GAME);
+					gameController = new GameController(userInputs, game, gameView, soundView, true);
 				}
 				break;
 			case GAME:
@@ -102,7 +106,6 @@ public class MainController {
 				if (gameController.doExitGame()) {
 					game.setState(Game.State.MENU);
 					gameController = null;
-					menuController.reset();
 				}
 				break;
 		}

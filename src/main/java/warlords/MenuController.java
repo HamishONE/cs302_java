@@ -15,6 +15,7 @@ public class MenuController {
 	private Menu currentMenu;
 	private ArrayList<IUserInput> userInputs;
 	private boolean doStartGame = false;
+	private boolean doGoToScoreBoard = false;
 	private Stack<Menu> previousMenus = new Stack<>();
 	private Game game;
 	private int transitionTimeRemaining = 0;
@@ -64,7 +65,7 @@ public class MenuController {
 
 		currentMenu = new Menu();
 		currentMenu.add(new MenuItem("New game", numPlayersMenu));
-		currentMenu.add(new MenuItem("High scores", () -> System.out.println("GOTO High Scores")));
+		currentMenu.add(new MenuItem("High scores", () -> doGoToScoreBoard = true));
 		currentMenu.add(new MenuItem("Quit", Platform::exit));
 	}
 
@@ -104,14 +105,22 @@ public class MenuController {
 	 * @return whether the game should be started
 	 */
 	public boolean doStartGame() {
-		return doStartGame;
+		if (doStartGame) {
+			doStartGame = false;
+			return true;
+		}
+		return false;
 	}
 
 	/**
-	 * Resets the menu controller to it's initial state
+	 * @return if the game should be started, going straight to the score board
 	 */
-	public void reset() {
-		doStartGame = false;
+	public boolean doGoToScoreBoard() {
+		if (doGoToScoreBoard) {
+			doGoToScoreBoard = false;
+			return true;
+		}
+		return false;
 	}
 
 	/**
