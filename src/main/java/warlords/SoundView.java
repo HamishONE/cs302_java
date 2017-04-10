@@ -1,5 +1,6 @@
 package warlords;
 
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -24,14 +25,17 @@ public class SoundView {
 		return soundCache.computeIfAbsent(path, p -> new Media(new File(path).toURI().toString()));
 	}
 
+	AudioClip audioClip = new AudioClip(getClass().getResource("/Sad-cat.mp3").toExternalForm());
+
 	/**
 	 * Plays the sound pointed to by the path passed in
 	 *
 	 * @param path path to the location of the sound to be played
 	 */
 	public void playSound(String path) {
-			MediaPlayer mediaPlayer = new MediaPlayer(getSound(path));
-			mediaPlayer.play();
+			//MediaPlayer mediaPlayer = new MediaPlayer(getSound(path));
+			//mediaPlayer.play();
+		audioClip.play();
 	}
 
 	/**
