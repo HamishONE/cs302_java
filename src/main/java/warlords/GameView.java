@@ -198,7 +198,14 @@ public class GameView {
 	 */
 	public void drawAnimatedMenu(Menu leftMenu, Menu mainMenu, Menu rightMenu, double rightShowing) {
 
-		clearCanvas();
+		//clearCanvas();
+
+		//Set background of the menus
+		Image image = getImage("/rock.png", Game.backendWidth*scalingFactor, Game.backendHeight*scalingFactor);
+		double x = 0;
+		double y = 0;
+		gc.drawImage(image, x*scalingFactor, y*scalingFactor);
+
 		gc.save();
 		gc.save();
 		gc.save();
