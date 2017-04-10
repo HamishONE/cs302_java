@@ -64,10 +64,11 @@ public class GameController implements IGame {
 	/**
 	 * Create a new instance of a controller
 	 *
-	 * @param userInputs	An arrayList of "players" to control the paddles, order is important
-	 * @param game 			Instance of the game model which stores information about the game
-	 * @param gameView		Instance of main view of the game
-	 * @param soundView		Instance of sound player view for the game to use
+	 * @param userInputs		An arrayList of "players" to control the paddles, order is important
+	 * @param game 				Instance of the game model which stores information about the game
+	 * @param gameView			Instance of main view of the game
+	 * @param soundView			Instance of sound player view for the game to use
+	 * @param gotoScoreBoard	If true game objects will not be initialised and the high score board will be shown
 	 */
 	public GameController(ArrayList<IUserInput> userInputs, Game game, GameView gameView, SoundView soundView, boolean gotoScoreBoard) {
 		//Initialize all parameters passed in through the constructor
