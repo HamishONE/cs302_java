@@ -35,29 +35,14 @@ public class MenuController {
 		this.game = game;
 
 		Menu gameStyleMenu = new Menu();
-		gameStyleMenu.add(new MenuItem("Neolithic", () -> {
-			game.setAge(Ages.NEOLITHIC);
-			startGame();
-		}));
-		gameStyleMenu.add(new MenuItem("Medieval", () -> {
-			game.setAge(Ages.MEDIEVAL);
-			startGame();
-		}));
-		gameStyleMenu.add(new MenuItem("Industrial", () -> {
-			game.setAge(Ages.INDUSTRIAL);
-			startGame();
-		}));
-		gameStyleMenu.add(new MenuItem("Space", () -> {
-			game.setAge(Ages.SPACE);
-			startGame();
-		}));
+		gameStyleMenu.add(new MenuItem("Neolithic", () -> startGame(Ages.NEOLITHIC, false)));
+		gameStyleMenu.add(new MenuItem("Medieval", () -> startGame(Ages.MEDIEVAL, false)));
+		gameStyleMenu.add(new MenuItem("Industrial", () -> startGame(Ages.INDUSTRIAL, false)));
+		gameStyleMenu.add(new MenuItem("Space", () -> startGame(Ages.SPACE, false)));
 
 		Menu gameModeMenu = new Menu();
 		gameModeMenu.add(new MenuItem("Single game", gameStyleMenu));
-		gameModeMenu.add(new MenuItem("Campaign Mode", () -> {
-			game.enableCampaignMode();
-			startGame();
-		}));
+		gameModeMenu.add(new MenuItem("Campaign Mode", () -> startGame(Ages.values()[0], true)));
 
 		Menu numPlayersMenu = new Menu();
 		numPlayersMenu.add(new MenuItem("Single player", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(1)));
@@ -74,8 +59,12 @@ public class MenuController {
 
 	/**
 	 * Tells the main controller to start the game.
+	 * @param age The age to start with.
+	 * @param campaignMode Whether or not to use campaign mode.
 	 */
-	private void startGame() {
+	private void startGame(Ages age, boolean campaignMode) {
+		game.setAge(age);
+		game.setCampaignMode(campaignMode);
 		doStartGame = true;
 	}
 

@@ -59,10 +59,11 @@ public class Game {
 	}
 
 	/**
-	 * Enable the campaign mode.
+	 * Set if the game should be using campaign mode.
+	 * @param campaignMode if the game should be using campaign mode
 	 */
-	public void enableCampaignMode() {
-		campaignMode = true;
+	public void setCampaignMode(boolean campaignMode) {
+		this.campaignMode = campaignMode;
 	}
 
 	/**
