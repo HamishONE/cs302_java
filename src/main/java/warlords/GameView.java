@@ -266,7 +266,7 @@ public class GameView {
 	 * @param secsRemaining input of number of seconds remaining in countdown
 	 */
 	public void drawCountdown(int secsRemaining) {
-		gc.setFill(Color.WHITE);
+		gc.setFill(Color.GRAY);
 		setFont(70*scalingFactor);
 		gc.fillText(String.valueOf(secsRemaining), (Game.backendWidth/2)*scalingFactor, (Game.backendHeight/2)*scalingFactor);
 	}
