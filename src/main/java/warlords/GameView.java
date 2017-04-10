@@ -200,6 +200,7 @@ public class GameView {
 
 		//clearCanvas();
 
+		//TODO not have hardcoded image path here?
 		//Set background of the menus
 		Image image = getImage("/rock.png", Game.backendWidth*scalingFactor, Game.backendHeight*scalingFactor);
 		double x = 0;
