@@ -46,7 +46,10 @@ public class GameView {
 		grid.setAlignment(Pos.CENTER);
 		Canvas canvas = new Canvas(width, height);
 		grid.add(canvas, 0, 0);
+
 		gc = canvas.getGraphicsContext2D();
+		gc.setTextAlign(TextAlignment.CENTER);
+		gc.setTextBaseline(VPos.CENTER);
 		clearCanvas();
 
 		//Creates new master scene
