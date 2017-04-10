@@ -28,7 +28,7 @@ public class GameView {
 	private double scalingFactor;
 
 	/**
-	 * Set the graphics contents font to our stanard font with the given size.
+	 * Set the graphics contents font to our standard font with the given size.
 	 * @param size The font size in pt.
 	 */
 	private void setFont(double size) {

@@ -61,12 +61,27 @@ public class GameController implements IGame {
 	}
 
 	/**
+	 * Reset the game to it's starting state.
+	 */
+	private void reset() {
+		internalState = InternalState.RUNNING;
+		walls.clear();
+		warlords.clear();
+		balls.clear();
+		paddles.clear();
+		players.clear();
+		timeRemaining = GAME_TIME + COUNTDOWN_TIME;
+		setupStandardGameObjects();
+	}
+
+	/**
 	 * Create a new instance of a controller
 	 *
-	 * @param userInputs	An arrayList of "players" to control the paddles, order is important
-	 * @param game 			Instance of the game model which stores information about the game
-	 * @param gameView		Instance of main view of the game
-	 * @param soundView		Instance of sound player view for the game to use
+	 * @param userInputs		An arrayList of "players" to control the paddles, order is important
+	 * @param game 				Instance of the game model which stores information about the game
+	 * @param gameView			Instance of main view of the game
+	 * @param soundView			Instance of sound player view for the game to use
+	 * @param gotoScoreBoard	If true game objects will not be initialised and the high score board will be shown
 	 */
 	public GameController(ArrayList<IUserInput> userInputs, Game game, GameView gameView, SoundView soundView, boolean gotoScoreBoard) {
 		//Initialize all parameters passed in through the constructor
@@ -280,6 +295,25 @@ public class GameController implements IGame {
 	}
 
 	/**
+	 * Complete the required actions when the screen showing the winner times out or the user requests progression.
+	 */
+	private void processWinnerScreenFinished() {
+		if (game.isCampaignMode()) {
+			if (game.nextAge()) {
+				reset();
+			} else {
+				internalState = InternalState.EXITING;
+			}
+		}
+		else if (winnerScore != null) {
+			internalState = InternalState.ADD_SCORE;
+		}
+		else {
+			internalState = InternalState.SCORE_SCREEN;
+		}
+	}
+
+	/**
 	 * Has to be done so that tick can be used in testing, isolating it from the graphics engine
 	 */
 	@SuppressWarnings("StringConcatenationInLoop")
@@ -300,11 +334,7 @@ public class GameController implements IGame {
 		else if (internalState == InternalState.ENDED) {
 			updateTimer();
 			if (timeRemaining < -END_TIME) {
-				if (winnerScore != null) {
-					internalState = InternalState.ADD_SCORE;
-				} else {
-					internalState = InternalState.SCORE_SCREEN;
-				}
+				processWinnerScreenFinished();
 			}
 		}
 		else if (internalState == InternalState.ADD_SCORE) {
@@ -420,11 +450,7 @@ public class GameController implements IGame {
 								}
 								break;
 							case ENDED:
-								if (winnerScore != null) {
-									internalState = InternalState.ADD_SCORE;
-								} else {
-									internalState = InternalState.SCORE_SCREEN;
-								}
+								processWinnerScreenFinished();
 								break;
 							case CONFIRM_EXIT:
 								internalState = InternalState.RUNNING;
