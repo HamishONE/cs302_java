@@ -338,6 +338,8 @@ public class GameController implements IGame {
 		}
 		else if (winnerScore != null) {
 			internalState = InternalState.ADD_SCORE;
+			// Clear any characters typed in preparation for text entry.
+			userInputs.forEach((input) -> input.getCharInput());
 		}
 		else {
 			internalState = InternalState.SCORE_SCREEN;
