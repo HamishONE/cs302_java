@@ -40,7 +40,7 @@ public class Wall extends GameObject implements IWall {
 	 * @param powerUp the power up to be attached to the wall
 	 */
 	public Wall(int x, int y, double theta, int owner, Ages age, PowerUp powerUp) {
-		super(x, y, age, null, theta);
+		super(x, y, age, "/bounce2.wav", theta);
 		width = 44.6;
 		height = 20.9;
 		this.owner = owner;
