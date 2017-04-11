@@ -71,7 +71,7 @@ public class GameController implements IGame {
 		backgroundSounds.put(Ages.NEOLITHIC, "/neolithic_audio.mp3");
 		backgroundSounds.put(Ages.MEDIEVAL, "/medieval_audio.mp3");
 		backgroundSounds.put(Ages.INDUSTRIAL, "/industrial_audio.mp3");
-		backgroundSounds.put(Ages.SPACE, "/medieval_audio.mp3");
+		backgroundSounds.put(Ages.SPACE, "/space_audio.mp3");
 	}
 
 	/**
