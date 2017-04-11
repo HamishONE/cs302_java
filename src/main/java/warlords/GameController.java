@@ -29,6 +29,15 @@ public class GameController implements IGame {
 		EXITING			// return to menu screen next cycle
 	}
 
+	/**
+	 * The way in which the game ended.
+	 */
+	private enum GameEndType {
+		PLAYER_WON,			// A human or AI player has won with the most walls after timeout or killing all others.
+		ALL_HUMANS_DEAD,	// All human players are now dead so the game ends prematurely.
+		TIMEOUT_DRAW		// A draw after timeout.
+	}
+
 	// Constants
 	private final static int GAME_TIME = 120000;
 	private final static int COUNTDOWN_TIME = 3000;
@@ -384,7 +393,7 @@ public class GameController implements IGame {
 		if (internalState == InternalState.RUNNING) {
 			processGameInput();
 			checkCollisions();
-			checkWinner();
+			checkForGameEnd();
 
 			//Make game harder at a couple of points in the game
 			//Add extra ball somewhere between 20 and 30 seconds
@@ -626,46 +635,64 @@ public class GameController implements IGame {
 
 	/**
 	 * Moves the winning warlord to centre and displays a label with their name.
+	 * @param endType the cause of the game ending
 	 * @param winner the player that has won, or null for a draw
 	 */
-	private void processGameEnd(Warlord winner) {
+	private void processGameEnd(GameEndType endType, Warlord winner) {
 
-		int winnerIndex = warlords.indexOf(winner);
+		// Set the game state to ended.
 		internalState = InternalState.ENDED;
 
-		//Check if not null for testing purposes
-		if (gameView == null) {
-			if (winner != null) {
-				winner.setAsWinner();
+		// If there was a winner set them as the winner and check for a new high score
+		if (winner != null) {
+
+			// Set the winning warlord as a winner.
+			winner.setAsWinner();
+
+			// Only check for high score if winner is not an AI
+			int winnerIndex = warlords.indexOf(winner);
+			if (winnerIndex < game.getNumHumanPlayers()) {
+
+				// Calculate the users score as the number of walls they have remaining
+				int score = 0;
+				for (Wall wall : walls) {
+					if (wall.getOwner() == winnerIndex) {
+						++score;
+					}
+				}
+
+				// If this is a high score set the instance score variable
+				if (highScores.isTopTenScore(score)) {
+					winnerScore = score;
+				}
 			}
-		} else {
+		}
+
+		// Check that the game view has been initialised for testing purposes
+		if (gameView != null) {
+
+			// Draw a translucent overlay over the current screen state.
 			gameView.drawOverlay();
+
+			// If there was a winner draw their warlord sprite in the centre of the screen
 			if (winner != null) {
-				winner.setAsWinner();
-				gameView.drawWinnerLabel("Player " + (winnerIndex + 1));
 				winner.setXPos(Game.backendWidth / 2);
 				winner.setYPos(Game.backendHeight / 2);
 				winner.setDimensions(120, 180);
 				gameView.drawObjects(Collections.singletonList(winner));
-			} else {
-				gameView.drawWinnerLabel(null);
-			}
-		}
-
-		// Only check for high score if winner is not an AI
-		if (winnerIndex < game.getNumHumanPlayers()) {
-
-			// Calculate the users score as the number of walls they have remaining
-			int score = 0;
-			for (Wall wall : walls) {
-				if (wall.getOwner() == winnerIndex) {
-					++score;
-				}
 			}
 
-			// If this is a high score set the instance variable
-			if (highScores.isTopTenScore(score)) {
-				winnerScore = score;
+			// Draw an appropriate label based on how the game ended.
+			switch (endType) {
+				case PLAYER_WON:
+					int winnerIndex = warlords.indexOf(winner);
+					gameView.drawGameEndLabel("Player " + (winnerIndex + 1) + " has won!");
+					break;
+				case TIMEOUT_DRAW:
+					gameView.drawGameEndLabel("Time over,\nthe game is a draw!");
+					break;
+				case ALL_HUMANS_DEAD:
+					gameView.drawGameEndLabel("Bad luck,\nthe AI's have won!");
 			}
 		}
 		
@@ -680,11 +707,19 @@ public class GameController implements IGame {
 	 *
 	 * If there is only one warlord left standing, they are the winner.
 	 */
-	private void checkWinner() {
+	private void checkForGameEnd() {
+
+		// Check if all human users are dead
+		boolean allHumansDead = true;
+		for (int i=0; i<game.getNumHumanPlayers(); i++) {
+			if (!warlords.get(i).isDead()) {
+				allHumansDead = false;
+			}
+		}
 
 		int numPlayers = warlords.size();
 		//When time has run out, loop through all walls and count number remaining in an array
-		if (timeRemaining <= 0) {
+		if (timeRemaining <= 0  || allHumansDead) {
 			int[] ballOwners = new int[numPlayers];
 			for (Wall selectedWall : walls) {
 				ballOwners[selectedWall.getOwner()]++;
@@ -704,11 +739,12 @@ public class GameController implements IGame {
 				}
 				//If someone has won, end the game and set them as the winner
 				if (hasWon) {
-					processGameEnd(warlords.get(i));
+					processGameEnd(GameEndType.PLAYER_WON, warlords.get(i));
 					return;
 				}
 			}
-			processGameEnd(null);
+			GameEndType endType = allHumansDead ? GameEndType.ALL_HUMANS_DEAD : GameEndType.TIMEOUT_DRAW;
+			processGameEnd(endType, null);
 		}
 
 		//Nested loop to check if there is only one player standing
@@ -722,7 +758,7 @@ public class GameController implements IGame {
 			}
 			//If someone has won, end the game and set them as the winner
 			if (hasWon) {
-				processGameEnd(warlords.get(i));
+				processGameEnd(GameEndType.PLAYER_WON, warlords.get(i));
 				return;
 			}
 		}
