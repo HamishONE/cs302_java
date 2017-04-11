@@ -137,10 +137,10 @@ public class Ball extends GameObject implements IBall {
 				switch (getPowerUp()){
 
 					case PADDLE_FASTER:
-						((Paddle) object).modifyPaddleSpeed(PI/300);
+						((Paddle) object).speedUpPaddle();
 						break;
 					case PADDLE_SLOWER:
-						((Paddle) object).modifyPaddleSpeed(-PI/300);
+						((Paddle) object).slowDownPaddle();
 						break;
 					case PADDLE_GROW:
 						((Paddle) object).modifyWidth(20);
@@ -156,10 +156,10 @@ public class Ball extends GameObject implements IBall {
 			if(object.getPowerUp() != null) {
 				switch (object.getPowerUp()) {
 					case BALL_FASTER:
-						multiplySpeed(1.5);
+						multiplySpeed(1.2);
 						break;
 					case BALL_SLOWER:
-						multiplySpeed(0.5);
+						multiplySpeed(0.8);
 						break;
 					default:
 						setPowerUp(object.getPowerUp());

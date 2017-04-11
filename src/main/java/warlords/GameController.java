@@ -169,7 +169,7 @@ public class GameController implements IGame {
 
 				//Generate a random powerup for the walls
 				PowerUp powerUp;
-				int seed = (int)(random() *20.0) ;
+				int seed = (int)(random() *30.0) ;
 				switch (seed) {
 					case 0:
 						powerUp = PowerUp.BALL_FASTER;
@@ -360,8 +360,8 @@ public class GameController implements IGame {
 			checkWinner();
 
 			//Make game harder at a couple of points in the game
-			//Add extra ball somewhere between 5 and 15 seconds
-			if (timeRemaining < (GAME_TIME - (5000+random()*10000)) && !difficultyIncrease1) {
+			//Add extra ball somewhere between 20 and 30 seconds
+			if (timeRemaining < (GAME_TIME - (20000+random()*10000)) && !difficultyIncrease1) {
 				addBall(BALL_SPEED);
 				difficultyIncrease1 = true;
 			}
@@ -384,11 +384,11 @@ public class GameController implements IGame {
 				difficultyIncrease3 = true;
 			}
 
-			//Add another ball when there are 5 to 10 seconds left
-			if(timeRemaining < (5000+random()*5000) && !difficultyIncrease4) {
-				addBall(BALL_SPEED+5);
-				difficultyIncrease4 = true;
-			}
+//			//Add another ball when there are 5 to 10 seconds left
+//			if(timeRemaining < (5000+random()*5000) && !difficultyIncrease4) {
+//				addBall(BALL_SPEED+5);
+//				difficultyIncrease4 = true;
+//			}
 
 
 		}
@@ -499,6 +499,69 @@ public class GameController implements IGame {
 		gameObjects.addAll(walls);
 		gameObjects.addAll(warlords);
 		gameObjects.addAll(paddles);
+
+		for(int i = 0; i < paddles.size(); i++) {
+			String path;
+			if(paddles.get(i) == null) {
+				continue;
+			}
+			if(paddles.get(i).getPaddleSpeed() < paddles.get(i).getInitPaddleSpeed()){
+				path = "/ice.png";
+			}
+			else if (paddles.get(i).getPaddleSpeed() > paddles.get(i).getInitPaddleSpeed()) {
+				path = "/fire.png";
+			}
+			else {
+				path = null;
+			}
+			if(path != null) {
+				final int j = i;
+				gameObjects.add(new GameObject(0, 0, null, null, 0.0) {
+
+					@Override
+					public double getXPosReal() {
+						return warlords.get(j).getXPosReal();
+					}
+
+					@Override
+					public double getYPosReal() {
+						return warlords.get(j).getYPosReal();
+					}
+
+					@Override
+					public int getXPos() {
+						return warlords.get(j).getXPos();
+					}
+
+					@Override
+					public int getYPos() {
+						return warlords.get(j).getYPos();
+					}
+
+
+					@Override
+					public String getSpritePath() {
+						return path;
+					}
+
+					@Override
+					public double getWidth() {
+						return warlords.get(j).getWidth();
+					}
+
+					@Override
+					public double getHeight() {
+						return warlords.get(j).getHeight();
+					}
+
+					@Override
+					public Double getRotation() {
+						return warlords.get(j).getRotation();
+					}
+				});
+			}
+
+		}
 
 		if (showBalls) {
 			gameObjects.addAll(balls);
