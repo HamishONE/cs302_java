@@ -33,7 +33,7 @@ public class GameController implements IGame {
 	private final static int GAME_TIME = 120000;
 	private final static int COUNTDOWN_TIME = 3000;
 	private final static int END_TIME = 2000;
-	private final static double BALL_SPEED = 10; //TODO: Replace with a range of speeds
+	private final static double BALL_SPEED = 10;
 
 	// Instance variables
 	private Game game;
