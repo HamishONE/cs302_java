@@ -85,8 +85,6 @@ public class GameView {
 	 */
 	public void drawObjects(List<GameObject> gameObjects) {
 
-		clearCanvas();
-
 		//Loop through each object, rendering as they go
 		for (GameObject gameObject : gameObjects) {
 
