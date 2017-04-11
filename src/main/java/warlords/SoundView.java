@@ -10,6 +10,7 @@ import java.util.HashMap;
 public class SoundView {
 
 	private HashMap<String, AudioClip> soundCache = new HashMap<>();
+	private AudioClip backgroundTrack;
 
 	/**
 	 * Helper function to get an image, this gets the image path from a cached Image instance, or if it does not already exist, creates it.
@@ -39,6 +40,22 @@ public class SoundView {
 	public void loadSounds(ArrayList<String> paths) {
 		for(String path : paths) {
 			soundCache.putIfAbsent(path, new AudioClip(getClass().getResource(path).toExternalForm()));
+		}
+	}
+
+	/**
+	 * Change the background sound track.
+	 * @param path The path to the audio track.
+	 */
+	public void setBackgroundTrack(String path) {
+		AudioClip ac = getSound(path);
+		if (ac != backgroundTrack) {
+			if (backgroundTrack != null) {
+				backgroundTrack.stop();
+			}
+			ac.setCycleCount(AudioClip.INDEFINITE);
+			ac.play();
+			backgroundTrack = ac;
 		}
 	}
 }

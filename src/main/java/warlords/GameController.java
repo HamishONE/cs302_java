@@ -65,6 +65,15 @@ public class GameController implements IGame {
 	);
 	private String finalStoryText = "This is the final message: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
+	// Background sounds
+	private Map<Ages, String> backgroundSounds = new EnumMap<>(Ages.class);
+	{
+		backgroundSounds.put(Ages.NEOLITHIC, "/neolithic_audio.mp3");
+		backgroundSounds.put(Ages.MEDIEVAL, "/medieval_audio.mp3");
+		backgroundSounds.put(Ages.INDUSTRIAL, "/industrial_audio.mp3");
+		backgroundSounds.put(Ages.SPACE, "/medieval_audio.mp3");
+	}
+
 	/**
 	 * Reset the game to it's starting state.
 	 */
@@ -221,6 +230,8 @@ public class GameController implements IGame {
 	 * </ul>
 	 */
 	private void setupStandardGameObjects() {
+
+		soundView.setBackgroundTrack(backgroundSounds.get(game.getAge()));
 
 		Ages age = game.getAge();
 
