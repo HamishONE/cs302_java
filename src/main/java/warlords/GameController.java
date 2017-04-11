@@ -41,7 +41,7 @@ public class GameController implements IGame {
 	// Constants
 	private final static int GAME_TIME = 120000;
 	private final static int COUNTDOWN_TIME = 3000;
-	private final static int END_TIME = 2000;
+	private final static int END_TIME = 5000;
 	private final static double BALL_SPEED = 10;
 
 	// Instance variables
@@ -281,8 +281,8 @@ public class GameController implements IGame {
 		//Add walls to each corner
 		addWalls(0, 0, 0, 0, age);
 		addWalls(Game.backendWidth, 0, PI/2, 1, age);
-		addWalls(Game.backendWidth, Game.backendHeight, PI, 2, age);
-		addWalls(0, Game.backendHeight, 3*PI/2, 3, age);
+		addWalls(0, Game.backendHeight, 3*PI/2, 2, age);
+		addWalls(Game.backendWidth, Game.backendHeight, PI, 3, age);
 
 		//Preload all the game sounds
 		ArrayList<String> soundPaths = new ArrayList<String>() {{
@@ -731,9 +731,9 @@ public class GameController implements IGame {
 		int numPlayers = warlords.size();
 		//When time has run out, loop through all walls and count number remaining in an array
 		if (timeRemaining <= 0  || allHumansDead) {
-			int[] ballOwners = new int[numPlayers];
+			int[] wallOwners = new int[numPlayers];
 			for (Wall selectedWall : walls) {
-				ballOwners[selectedWall.getOwner()]++;
+				wallOwners[selectedWall.getOwner()]++;
 			}
 
 			//Nested loop to find which player has the most walls
@@ -743,7 +743,7 @@ public class GameController implements IGame {
 					if (i == j) {
 						continue;
 					}
-					if (ballOwners[i] <= ballOwners[j]) {
+					if (wallOwners[i] <= wallOwners[j]) {
 						hasWon = false;
 						break;
 					}
