@@ -44,7 +44,7 @@ public class GameController implements IGame {
 	private InternalState internalState = InternalState.IDLE;
 	private int timeRemaining = GAME_TIME + COUNTDOWN_TIME;
 	private long lastTimestamp;
-	private boolean difficultyIncrease1, difficultyIncrease2, difficultyIncrease3, difficultyIncrease4 = false;
+	private boolean difficultyIncrease1, difficultyIncrease2, difficultyIncrease3, difficultyIncrease4;
 	private HighScores highScores;
 	private Integer winnerScore;
 	private String winnerName = "";
