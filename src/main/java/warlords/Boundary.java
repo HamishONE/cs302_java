@@ -17,6 +17,6 @@ public class Boundary extends GameObject {
 		spritePaths.put(Ages.NEOLITHIC, "/background0.png");
 		spritePaths.put(Ages.MEDIEVAL, "/castleBackground.png");
 		spritePaths.put(Ages.INDUSTRIAL, "/cave_background.jpg");
-		spritePaths.put(Ages.SPACE, "/background0.png");
+		spritePaths.put(Ages.SPACE, "/spaceBackground.jpg");
 	}
 }

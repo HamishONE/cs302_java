@@ -48,7 +48,7 @@ public class Wall extends GameObject implements IWall {
 		spritePaths.put(Ages.NEOLITHIC, "/cavemanWall.png");
 		spritePaths.put(Ages.MEDIEVAL, "/wal.png");
 		spritePaths.put(Ages.INDUSTRIAL, "/steelPlate.png");
-		spritePaths.put(Ages.SPACE, null);
+		spritePaths.put(Ages.SPACE, "/solarPanel.png");
 	}
 
 	@Override
