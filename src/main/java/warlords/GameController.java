@@ -349,41 +349,43 @@ public class GameController implements IGame {
 	@SuppressWarnings("StringConcatenationInLoop")
 	public void runLoop() {
 		processControlInput();
-		if (internalState == InternalState.RUNNING || internalState == InternalState.PAUSED || internalState == InternalState.CONFIRM_EXIT) {
-			if (internalState == InternalState.RUNNING) {
+		switch (internalState) {
+			case RUNNING:
 				updateTimer();
-			}
-			if (timeRemaining > GAME_TIME) {
-				drawFrame(false);
-				gameView.drawCountdown((timeRemaining - GAME_TIME)/1000 + 1);
-			} else {
-				drawFrame(true);
-				tick();
-			}
-		}
-		else if (internalState == InternalState.ENDED) {
-			updateTimer();
-			if (timeRemaining < -END_TIME) {
-				processWinnerScreenFinished();
-			}
-		}
-		else if (internalState == InternalState.ADD_SCORE) {
-			for (IUserInput userInput : userInputs) {
-				String charInput = userInput.getCharInput();
-				if (charInput != null) {
-					winnerName += charInput;
+			case PAUSED:
+			case CONFIRM_EXIT:
+				if (timeRemaining > GAME_TIME) {
+					drawFrame(false);
+					gameView.drawCountdown((timeRemaining - GAME_TIME)/1000 + 1);
+				} else {
+					drawFrame(true);
+					tick();
 				}
-			}
-			gameView.drawAddScore(winnerScore, winnerName);
-		}
-		else if (internalState == InternalState.SCORE_SCREEN) {
-			gameView.drawScoreBoard(highScores.getScores());
-		}
-		else if (internalState == InternalState.STORY_MESSAGE) {
-			gameView.drawStoryMessage(boundary.getSpritePath(), storyText.get(game.getAge().ordinal()));
-		}
-		else if (internalState == InternalState.FINAL_STORY) {
-			gameView.drawStoryMessage(MenuController.menuBackgroundPath, finalStoryText);
+				break;
+			case ENDED:
+				updateTimer();
+				if (timeRemaining < -END_TIME) {
+					processWinnerScreenFinished();
+				}
+				break;
+			case ADD_SCORE:
+				for (IUserInput userInput : userInputs) {
+					String charInput = userInput.getCharInput();
+					if (charInput != null) {
+						winnerName += charInput;
+					}
+				}
+				gameView.drawAddScore(winnerScore, winnerName);
+				break;
+			case SCORE_SCREEN:
+				gameView.drawScoreBoard(highScores.getScores());
+				break;
+			case STORY_MESSAGE:
+				gameView.drawStoryMessage(boundary.getSpritePath(), storyText.get(game.getAge().ordinal()));
+				break;
+			case FINAL_STORY:
+				gameView.drawStoryMessage(MenuController.menuBackgroundPath, finalStoryText);
+				break;
 		}
 	}
 
