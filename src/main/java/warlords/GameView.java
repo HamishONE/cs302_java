@@ -22,6 +22,8 @@ import java.util.List;
  */
 public class GameView {
 
+	private static final String fontUrl = GameView.class.getResource("/CALIFB.TTF").toExternalForm();
+
 	private Scene scene;
 	private GraphicsContext gc;
 	private HashMap<String, Image> imageCache = new HashMap<>();
@@ -35,8 +37,7 @@ public class GameView {
 	 * @param size The font size in pt.
 	 */
 	private void setFont(double size) {
-		String url = getClass().getResource("/CALIFB.TTF").toExternalForm();
-		Font font = Font.loadFont(url, size);
+		Font font = Font.loadFont(fontUrl, size);
 		gc.setFont(font);
 	}
 
@@ -84,8 +85,6 @@ public class GameView {
 	 * @param gameObjects ArrayList of all the game objects to be rendered on the screen
 	 */
 	public void drawObjects(List<GameObject> gameObjects) {
-
-		clearCanvas();
 
 		//Loop through each object, rendering as they go
 		for (GameObject gameObject : gameObjects) {
@@ -424,8 +423,7 @@ public class GameView {
 		dropShadow.setColor(Color.BLACK);
 
 		Text text = new Text(50*scalingFactor, 50*scalingFactor, message);
-		String url = getClass().getResource("/CALIFB.TTF").toExternalForm();
-		Font font = Font.loadFont(url, 30);
+		Font font = Font.loadFont(fontUrl, 30);
 		text.setFont(font);
 		text.setFill(Color.WHITE);
 		text.setEffect(dropShadow);
