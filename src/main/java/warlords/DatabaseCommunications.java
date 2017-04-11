@@ -22,7 +22,7 @@ public class DatabaseCommunications {
 
 	public boolean putValues(String name, int score) {
 		try {
-			URLConnection connection = new URL(putUrl + "?name=" + name + "&score=" + score).openConnection();
+			URLConnection connection = new URL(putUrl + "?name=" + name.replace(" ", "%20") + "&score=" + score).openConnection();
 			connection.setRequestProperty("Accept-Charset", java.nio.charset.StandardCharsets.UTF_8.name());
 			InputStream response = connection.getInputStream();
 
@@ -32,6 +32,7 @@ public class DatabaseCommunications {
 				loadValues();
 				return true;
 			}
+
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
@@ -45,7 +46,7 @@ public class DatabaseCommunications {
 			connection.setRequestProperty("Accept-Charset", java.nio.charset.StandardCharsets.UTF_8.name());
 			InputStream response = connection.getInputStream();
 
-			Scanner scanner = new Scanner(response);
+			Scanner scanner = new Scanner(response).useDelimiter("\\A");
 			if (scanner.hasNext()) {
 				String responseBody = scanner.next();
 				List<String> tempList = Arrays.asList(responseBody.split("\\|"));
