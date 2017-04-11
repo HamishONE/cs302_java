@@ -291,16 +291,14 @@ public class GameView {
 	}
 
 	/**
-	 * Draw a label for who has won.
-	 * @param playerName the winner, or null if it is a draw
+	 * Draw a label for the game end screen.
+	 * @param label the text to be displayed
 	 */
-	public void drawWinnerLabel(String playerName) {
+	public void drawGameEndLabel(String label) {
 		gc.setFill(Color.GRAY);
 		setFont(30*scalingFactor);
 		gc.setTextAlign(TextAlignment.LEFT);
-
-		String text = playerName == null ? "Draw" : playerName + " has won!";
-		gc.fillText(text, (Game.backendWidth/2 + 70)*scalingFactor, height/2);
+		gc.fillText(label, (Game.backendWidth/2 + 70)*scalingFactor, height/2);
 	}
 
 	/**
