@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class MainController {
 
-	private static final String mainBackgroundMusicPath = "/industrial_audio.mp3";
+	private static final String mainBackgroundMusicPath = "/menu_audio.mp3";
 
 	// Set up 4 sets of key mappings with control keys attached to the first set.
 	private HashMap<KeyCode, InputType> P1Map = new HashMap<>();
