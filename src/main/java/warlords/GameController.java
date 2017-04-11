@@ -715,10 +715,16 @@ public class GameController implements IGame {
 	private void checkForGameEnd() {
 
 		// Check if all human users are dead
-		boolean allHumansDead = true;
-		for (int i=0; i<game.getNumHumanPlayers(); i++) {
-			if (!warlords.get(i).isDead()) {
-				allHumansDead = false;
+		boolean allHumansDead;
+		if (game.getNumHumanPlayers() == 0) {
+			allHumansDead = false; // It doesn't count if this is an AI demo.
+		}
+		else {
+			allHumansDead = true;
+			for (int i = 0; i < game.getNumHumanPlayers(); i++) {
+				if (!warlords.get(i).isDead()) {
+					allHumansDead = false;
+				}
 			}
 		}
 
