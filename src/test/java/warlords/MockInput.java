@@ -5,9 +5,10 @@ public class MockInput implements IUserInput {
 	private InputType inputType;
 
 	@Override
-	public InputType getInputType() {
+	public InputType getInputType(boolean resetInput) {
 		return inputType;
 	}
+
 
 	@Override
 	public String getCharInput() {
