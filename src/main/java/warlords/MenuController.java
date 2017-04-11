@@ -9,6 +9,7 @@ import java.util.Stack;
  */
 public class MenuController {
 
+	public static final String menuBackgroundPath = "/rock.png";
 	private static int TRANSITION_TIME = 300; //ms
 
 	private GameView gameView;

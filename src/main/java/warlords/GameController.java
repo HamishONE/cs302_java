@@ -1,9 +1,7 @@
 package warlords;
 
 import warlordstest.IGame;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
 
@@ -23,6 +21,8 @@ public class GameController implements IGame {
 		RUNNING,		// game in progress
 		PAUSED,			// game paused by p key
 		ENDED,			// game has ended (timeout, warlords dead)
+		STORY_MESSAGE,	// show text for story
+		FINAL_STORY,	// the ending text
 		ADD_SCORE,		// screen to add new high score
 		SCORE_SCREEN,	// screen showing all high scores
 		CONFIRM_EXIT,	// confirmation screen on Esc press
@@ -45,7 +45,7 @@ public class GameController implements IGame {
 	private int timeRemaining = GAME_TIME + COUNTDOWN_TIME;
 	private long lastTimestamp;
 	private boolean difficultyIncrease1, difficultyIncrease2, difficultyIncrease3, difficultyIncrease4;
-	private HighScores highScores;
+	private HighScores highScores = new HighScores();
 	private Integer winnerScore;
 	private String winnerName = "";
 
@@ -56,9 +56,14 @@ public class GameController implements IGame {
 	private ArrayList<Paddle> paddles = new ArrayList<>();
 	private Boundary boundary;
 
-	{
-		highScores = new HighScores();
-	}
+	// Storyline text
+	private List<String> storyText = Arrays.asList(
+			"This is the intro message: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			"This is the first transition message: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			"This is the second transition message: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+			"This is the third transition message: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+	);
+	private String finalStoryText = "This is the final message: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
 	/**
 	 * Reset the game to it's starting state.
@@ -282,7 +287,11 @@ public class GameController implements IGame {
 	 * Initializes the clock time to begin the countdown timer
 	 */
 	public void beginGame() {
-		internalState = InternalState.RUNNING;
+		if (game.isCampaignMode()) {
+			internalState = InternalState.STORY_MESSAGE;
+		} else {
+			internalState = InternalState.RUNNING;
+		}
 		lastTimestamp = System.nanoTime();
 	}
 
@@ -301,8 +310,9 @@ public class GameController implements IGame {
 		if (game.isCampaignMode()) {
 			if (game.nextAge()) {
 				reset();
+				internalState = InternalState.STORY_MESSAGE;
 			} else {
-				internalState = InternalState.EXITING;
+				internalState = InternalState.FINAL_STORY;
 			}
 		}
 		else if (winnerScore != null) {
@@ -348,6 +358,12 @@ public class GameController implements IGame {
 		}
 		else if (internalState == InternalState.SCORE_SCREEN) {
 			gameView.drawScoreBoard(highScores.getScores());
+		}
+		else if (internalState == InternalState.STORY_MESSAGE) {
+			gameView.drawStoryMessage(boundary.getSpritePath(), storyText.get(game.getAge().ordinal()));
+		}
+		else if (internalState == InternalState.FINAL_STORY) {
+			gameView.drawStoryMessage(MenuController.menuBackgroundPath, finalStoryText);
 		}
 	}
 
@@ -448,6 +464,14 @@ public class GameController implements IGame {
 								if (timeRemaining > GAME_TIME) {
 									timeRemaining = GAME_TIME;
 								}
+								break;
+							case STORY_MESSAGE:
+								reset();
+								internalState = InternalState.RUNNING;
+								lastTimestamp = System.nanoTime();
+								break;
+							case FINAL_STORY:
+								internalState = InternalState.EXITING;
 								break;
 							case ENDED:
 								processWinnerScreenFinished();

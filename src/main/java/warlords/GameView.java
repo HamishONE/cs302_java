@@ -1,15 +1,17 @@
 package warlords;
 
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 import java.util.HashMap;
@@ -26,6 +28,7 @@ public class GameView {
 	private double width;
 	private double height;
 	private double scalingFactor;
+	private Pane pane;
 
 	/**
 	 * Set the graphics contents font to our standard font with the given size.
@@ -49,11 +52,10 @@ public class GameView {
 
 		scalingFactor = width/800.0;
 
-		//Creates alignment grid and creates canvas within, also creates master graphics context
-		GridPane grid = new GridPane();
-		grid.setAlignment(Pos.CENTER);
+		// Create the pane and create a canvas within, also gets the graphics context
+		pane = new Pane();
 		Canvas canvas = new Canvas(width, height);
-		grid.add(canvas, 0, 0);
+		pane.getChildren().add(canvas);
 
 		gc = canvas.getGraphicsContext2D();
 		gc.setTextAlign(TextAlignment.CENTER);
@@ -61,7 +63,7 @@ public class GameView {
 		clearCanvas();
 
 		//Creates new master scene
-		scene = new Scene(grid);
+		scene = new Scene(pane);
 		Main.setScene(scene);
 	}
 
@@ -69,6 +71,7 @@ public class GameView {
 	 * Helper function to make the canvas totally black
 	 */
 	public void clearCanvas() {
+		pane.getChildren().removeIf(node -> !(node instanceof Canvas));
 		if (!Main.isDebugMode()) {
 			gc.setFill(Color.BLACK);
 			gc.fillRect(0, 0, width, height);
@@ -81,6 +84,8 @@ public class GameView {
 	 * @param gameObjects ArrayList of all the game objects to be rendered on the screen
 	 */
 	public void drawObjects(List<GameObject> gameObjects) {
+
+		clearCanvas();
 
 		//Loop through each object, rendering as they go
 		for (GameObject gameObject : gameObjects) {
@@ -198,11 +203,9 @@ public class GameView {
 	 */
 	public void drawAnimatedMenu(Menu leftMenu, Menu mainMenu, Menu rightMenu, double rightShowing) {
 
-		//clearCanvas();
-
-		//TODO not have hardcoded image path here?
 		//Set background of the menus
-		Image image = getImage("/rock.png", Game.backendWidth*scalingFactor, Game.backendHeight*scalingFactor);
+		clearCanvas();
+		Image image = getImage(MenuController.menuBackgroundPath, Game.backendWidth*scalingFactor, Game.backendHeight*scalingFactor);
 		double x = 0;
 		double y = 0;
 		gc.drawImage(image, x*scalingFactor, y*scalingFactor);
@@ -266,6 +269,7 @@ public class GameView {
 		String text = String.format("%d:%02d", secsRemaining/60, secsRemaining%60);
 		gc.setFill(Color.WHITE);
 		setFont(30*scalingFactor);
+		gc.setTextBaseline(VPos.CENTER);
 		gc.fillText(text, (Game.backendWidth - 250)*scalingFactor, 30);
 	}
 
@@ -402,5 +406,31 @@ public class GameView {
 		name = showCursor() ? name + "|" : name;
 		gc.fillText("Name:", 50*scalingFactor, 250*scalingFactor);
 		gc.fillText(name, 150*scalingFactor, 250*scalingFactor, 650*scalingFactor);
+	}
+
+	/**
+	 * Draw the story text full screen on top of a background image.
+	 * @param backgroundImage The background image.
+	 * @param message The text to display.
+	 */
+	public void drawStoryMessage(String backgroundImage, String message) {
+
+		clearCanvas();
+		gc.drawImage(getImage(backgroundImage, width, height), 0, 0);
+
+		DropShadow dropShadow = new DropShadow();
+		dropShadow.setOffsetY(3);
+		dropShadow.setWidth(100);
+		dropShadow.setColor(Color.BLACK);
+
+		Text text = new Text(50*scalingFactor, 50*scalingFactor, message);
+		String url = getClass().getResource("/CALIFB.TTF").toExternalForm();
+		Font font = Font.loadFont(url, 30);
+		text.setFont(font);
+		text.setFill(Color.WHITE);
+		text.setEffect(dropShadow);
+		text.setWrappingWidth(width - 50*2*scalingFactor);
+
+		pane.getChildren().add(text);
 	}
 }
