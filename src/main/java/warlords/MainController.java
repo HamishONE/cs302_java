@@ -11,6 +11,8 @@ import java.util.HashMap;
  */
 public class MainController {
 
+	private static final String mainBackgroundMusicPath = "/industrial_audio.mp3";
+
 	// Set up 4 sets of key mappings with control keys attached to the first set.
 	private HashMap<KeyCode, InputType> P1Map = new HashMap<>();
 	private HashMap<KeyCode, InputType> P2Map = new HashMap<>();
@@ -89,6 +91,7 @@ public class MainController {
 		switch (game.getState()) {
 			case MENU:
 				menuController.runLoop();
+				soundView.setBackgroundTrack(mainBackgroundMusicPath);
 				// If the menu is ready for the game to be launched create a new game controller instance and start it
 				if (menuController.doStartGame()) {
 					game.setState(Game.State.GAME);
