@@ -668,6 +668,9 @@ public class GameController implements IGame {
 				winnerScore = score;
 			}
 		}
+		
+		// Set the time remaining to zero so it will automatically continue to the next screen as intended
+		timeRemaining = 0;
 	}
 
 	/**
