@@ -29,7 +29,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 * @param balls a list of balls to ensure never end up inside the paddle
 	 */
 	public Paddle(int x, int y, Ages age, Double theta, Game game, List<Ball> balls) {
-		super(x, y, age, null, theta + PI/4);
+		super(x, y, age, "/bounce3.mp3", theta + PI/4);
 		this.width = 100;
 		this.height = 20;
 		x_init = x;

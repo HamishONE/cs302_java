@@ -10,7 +10,7 @@ public class Boundary extends GameObject {
 	 * @param age the age to base the sprite on
 	 */
 	public Boundary(Ages age) {
-		super(Game.backendWidth/2, Game.backendHeight/2, age, null, Math.PI/2);
+		super(Game.backendWidth/2, Game.backendHeight/2, age, "/bounce1.mp3", Math.PI/2);
 		this.width = Game.backendWidth;
 		this.height = Game.backendHeight;
 
