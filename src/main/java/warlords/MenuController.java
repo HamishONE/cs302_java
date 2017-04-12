@@ -17,6 +17,10 @@ public class MenuController {
 	private ArrayList<IUserInput> userInputs;
 	private boolean doStartGame = false;
 	private boolean doGoToScoreBoard = false;
+	/**
+	 * Boolean to contain state of credits visibility
+	 */
+	private boolean showCredits = false;
 	private Stack<Menu> previousMenus = new Stack<>();
 	private Game game;
 	private int transitionTimeRemaining = 0;
@@ -53,8 +57,10 @@ public class MenuController {
 		numPlayersMenu.add(new MenuItem("AI Demo", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(0)));
 
 		currentMenu = new Menu();
+		currentMenu.setTitle("Age of Balls");
 		currentMenu.add(new MenuItem("New game", numPlayersMenu));
 		currentMenu.add(new MenuItem("High scores", () -> doGoToScoreBoard = true));
+		currentMenu.add(new MenuItem("Credits", () -> showCredits = true));
 		currentMenu.add(new MenuItem("Quit", Platform::exit));
 	}
 
@@ -73,6 +79,14 @@ public class MenuController {
 	 * Check and respond to any user inputs and redraw the menu items.
 	 */
 	public void runLoop() {
+
+		//Show credits when selected
+		if (showCredits) {
+			checkCreditExit();
+			gameView.drawStoryMessage("/rock.png", "Thanks to the people who made their work available to the public");
+			return;
+		}
+
 		checkUserInput();
 
 		if (transitionTimeRemaining > 0) {
@@ -161,6 +175,22 @@ public class MenuController {
 							transitionForward = false;
 						}
 				}
+			}
+		}
+	}
+
+	/**
+	 * 	Checks if player has pressed any of the mapped keys
+	 * 	Sets boolean {@link MenuController#showCredits} to false to close the credits
+	 */
+	private void checkCreditExit() {
+
+		// Loop through each player's user input
+		for (IUserInput userInput : userInputs) {
+			InputType input = userInput.getInputType(true);
+			// If the user has made an input check which type it is
+			if (input != null) {
+				showCredits = false;
 			}
 		}
 	}

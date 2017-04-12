@@ -60,7 +60,7 @@ public class Main extends Application {
 
 		// Show the primary window with a simple title
 		stage = primaryStage;
-		primaryStage.setTitle("CS302 Java Game");
+		primaryStage.setTitle("Age of Balls");
 		primaryStage.show();
 
 		// Instantiate and start the main controller

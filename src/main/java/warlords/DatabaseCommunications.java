@@ -12,8 +12,8 @@ import java.util.Scanner;
 
 public class DatabaseCommunications {
 
-	private String putUrl = "http://romana.co.nz/CS302/insert.php";
-	private String getUrl = "http://romana.co.nz/CS302/getScores.php";
+	private final String putUrl = "http://romana.co.nz/CS302/insert.php";
+	private final String getUrl = "http://romana.co.nz/CS302/getScores.php";
 	private ArrayList<Score> scores = new ArrayList<>();
 
 	public DatabaseCommunications() {
