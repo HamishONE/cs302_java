@@ -1,7 +1,6 @@
 package warlords;
 
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -147,7 +146,6 @@ public class GameView {
 			}
 
 			gc.restore(); // back to original state (before rotation and hue change)
-
 		}
 	}
 

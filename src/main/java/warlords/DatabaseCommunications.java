@@ -2,7 +2,6 @@ package warlords;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -10,18 +9,29 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Manages the syncing of the high scores with the web server.
+ */
 public class DatabaseCommunications {
 
-	private final String putUrl = "http://romana.co.nz/CS302/insert.php";
-	private final String getUrl = "http://romana.co.nz/CS302/getScores.php";
+	private static final String putUrl = "http://romana.co.nz/CS302/insert.php";
+	private static final String getUrl = "http://romana.co.nz/CS302/getScores.php";
+
 	private ArrayList<Score> scores = new ArrayList<>();
 
+	/**
+	 * Create a new instance with high scores loaded from the server.
+	 */
 	public DatabaseCommunications() {
 		loadValues();
 	}
 
-
-	public boolean putValues(String name, int score) {
+	/**
+	 * Add a new high score to central database.
+	 * @param name The name of the player who has won.
+	 * @param score The score the player achieved.
+	 */
+	public void putValues(String name, int score) {
 		try {
 			URLConnection connection = new URL(putUrl + "?name=" + getURLSafeString(name) + "&score=" + score).openConnection();
 			connection.setRequestProperty("Accept-Charset", java.nio.charset.StandardCharsets.UTF_8.name());
@@ -31,16 +41,21 @@ public class DatabaseCommunications {
 			String responseBody = scanner.next();
 			if(responseBody.equals("Success")) {
 				loadValues();
-				return true;
 			}
-
+			else {
+				throw new IOException("The return status from the server was not of success.");
+			}
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex);
 		}
-		return false;
 	}
 
-	public String getURLSafeString(String input) {
+	/**
+	 * Replace special characters with their equivalents for use in http addresses.
+	 * @param input The string to be parsed.
+	 * @return The corrected string.
+	 */
+	private String getURLSafeString(String input) {
 		input = input.replace(" ", "%20");
 		input = input.replace("$", "%24");
 		input = input.replace("&", "%26");
@@ -71,14 +86,16 @@ public class DatabaseCommunications {
 		return input;
 	}
 
-	
+	/**
+	 * Refresh the list of high scores from the server.
+	 */
 	public void loadValues() {
 		try {
 			URLConnection connection = new URL(getUrl).openConnection();
 			connection.setRequestProperty("Accept-Charset", java.nio.charset.StandardCharsets.UTF_8.name());
 			InputStream response = connection.getInputStream();
 
-			Scanner scanner = new Scanner(response).useDelimiter("\\A");
+			Scanner scanner = new Scanner(response).useDelimiter("\\A"); // \A means the entire input will be read
 			if (scanner.hasNext()) {
 				String responseBody = scanner.next();
 				List<String> tempList = Arrays.asList(responseBody.split("\\|"));
@@ -93,14 +110,15 @@ public class DatabaseCommunications {
 				}
 			}
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			throw new RuntimeException(ex);
 		}
 	}
 
+	/**
+	 * Get the list of high scores from the local cache.
+	 * @return the list of high scores
+	 */
 	public ArrayList<Score> getValues() {
 		return scores;
 	}
-
-
-
 }

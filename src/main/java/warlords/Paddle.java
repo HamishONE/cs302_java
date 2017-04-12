@@ -12,12 +12,11 @@ public class Paddle extends GameObject implements IPaddle {
 
 	private Game game;
 	private List<Ball> balls;
-	private Double theta_init;
-	private int x_init;
-	private int y_init;
+	private Double thetaInit;
+	private int xInit;
+	private int yInit;
 	private double paddleSpeed, initPaddleSpeed;
 	private double modifierMagnitude = PI/300;
-
 
 	/**
 	 * Create a new paddle instance at a given position
@@ -32,9 +31,9 @@ public class Paddle extends GameObject implements IPaddle {
 		super(x, y, age, "/bounce3.mp3", theta + PI/4);
 		this.width = 100;
 		this.height = 20;
-		x_init = x;
-		y_init = y;
-		theta_init = theta;
+		xInit = x;
+		yInit = y;
+		thetaInit = theta;
 		paddleSpeed = PI/150;
 		initPaddleSpeed = paddleSpeed;
 		this.game = game;
@@ -51,7 +50,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 * @return The initial angle provided in the paddle constructor.
 	 */
 	public double getStartingRotation() {
-		return theta_init;
+		return thetaInit;
 	}
 
 	/**
@@ -66,7 +65,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 * Move the paddle in a arc to the left (from the user's perspective).
 	 */
 	public void moveLeft() {
-		if (y_init < Game.backendWidth/2) {
+		if (yInit < Game.backendWidth/2) {
 			moveCW();
 		} else {
 			moveCCW();
@@ -77,7 +76,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 * Move the paddle in a arc to the right (from the user's perspective).
 	 */
 	public void moveRight() {
-		if (y_init > Game.backendWidth/2) {
+		if (yInit > Game.backendWidth/2) {
 			moveCW();
 		} else {
 			moveCCW();
@@ -88,7 +87,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 * Move the paddle one increment in a clockwise arc.
 	 */
 	private void moveCW() {
-		if (rotationAngle <= theta_init + PI/2) {
+		if (rotationAngle <= thetaInit + PI/2) {
 			moveAvoidingBall(paddleSpeed);
 		}
 	}
@@ -97,7 +96,7 @@ public class Paddle extends GameObject implements IPaddle {
 	 * Move the paddle one increment in a counterclockwise arc.
 	 */
 	private void moveCCW() {
-		if (rotationAngle >= theta_init) {
+		if (rotationAngle >= thetaInit) {
 			moveAvoidingBall(-paddleSpeed);
 		}
 	}
@@ -133,27 +132,38 @@ public class Paddle extends GameObject implements IPaddle {
 	 * Generates the circular arc based on fixed ratios of the game window dimensions.
 	 */
 	private void setPosition() {
-		x = (5.0/18.0)*Game.backendWidth*cos(rotationAngle) + x_init;
-		y = (5.0/12.0)*Game.backendHeight*sin(rotationAngle) + y_init;
+		x = (5.0/18.0)*Game.backendWidth*cos(rotationAngle) + xInit;
+		y = (5.0/12.0)*Game.backendHeight*sin(rotationAngle) + yInit;
 	}
 
-
+	/**
+	 * Increase the paddle speed as the result of a powerup.
+	 */
 	public void speedUpPaddle() {
 		if (paddleSpeed <= initPaddleSpeed) {
 			paddleSpeed += modifierMagnitude;
 		}
 	}
 
+	/**
+	 * Decrease the paddle speed as the result of a powerup.
+	 */
 	public void slowDownPaddle() {
 		if (paddleSpeed >= (PI/150)) {
 			paddleSpeed -= modifierMagnitude;
 		}
 	}
 
+	/**
+	 * @return The current speed of the paddle.
+	 */
 	public double getPaddleSpeed() {
 		return paddleSpeed;
 	}
 
+	/**
+	 * @return The initial speed of the paddle.
+	 */
 	public double getInitPaddleSpeed() {
 		return initPaddleSpeed;
 	}
