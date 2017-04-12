@@ -6,13 +6,17 @@ This is an offline Java game based on the 1980s Atari Warlords game.
 
 #### Build instructions
 
+* Check that the JAVA_HOME environment variable is set to a valid Java 8 JDK location
+* On the university linux system (UG2/3) this should only be an issue with custom `.bashrc` files
+	* If necessary, run `export JAVA_HOME=/usr/lib/jvm/jdk8`
 * Run the game: `gradle run`
 * Run the tests: `gradle test`
 
 ##### Note for systems other than the university linux system:
 
 * Gradle and Java 8 including JavaFX are required.
-* If you do not have Gradle installed you can replace 'gradle' with 'gradlew'. This will download the
+* On some systems sounds will not work correctly without an mp3 codec installed.
+* If you do not have Gradle installed you can replace `gradle` with `gradlew`. This will download the
 	correct version of gradle for you from the internet. On linux `chmod +x gradlew` will be required.
 * Gradle will connect to Maven Central to download JUnit as required.
 
