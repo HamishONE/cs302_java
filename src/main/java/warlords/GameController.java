@@ -68,8 +68,20 @@ public class GameController implements IGame {
 	// Storyline text
 	private Map<Ages, String> storyText = new EnumMap<>(Ages.class);
 	{
-		storyText.put(Ages.NEOLITHIC, "This is the intro message: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-		storyText.put(Ages.MEDIEVAL, "This is the first transition message: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+		storyText.put(Ages.NEOLITHIC, "Once upon a time there were four brothers. The brothers all grew up together in a plentiful and luscious region of the Moa Plains. \n" +
+				"The brothers were brought up together by the village cheifton and were taught how to be a high functioning members of the neolithic society. \n" +
+				"Together they would hunt, fish, carve wood with rocks, collect firewood and do various other barbaric tasks. \n" +
+				"One day they were running through the long grass of the Moa Plains, spear in hand, when they see her. \n" +
+				"\"She is the most beautiful thing I have ever seen\" said one brother, \"She is flawless\" said another, \"She looks amazing\" said the third, \"She is mine\" said the last. \n" +
+				"As the finish their hushed discussions, the brothers look up to see her closer than before, her brown feathers shimmering in the sun, head held high and legs stretching below. \n" +
+				"\"LETS EAT\" yelled the first brother as he threw his spear. A tussle quickly breaks out as the brothers fight over who gets the best cut of moa, which quickly leads to them throwing meat at each other. \n\n" +
+				"Press ENTER to continue");
+		storyText.put(Ages.MEDIEVAL, "Thousands of years later, the great, great, great, great (you get the picture) grandchildren of our four neolithic brothers find themselves together. \n" +
+				"Their fathers have decided to put their loose change together and spend it on something more important that multi-lane highways, their sons. \n" +
+				"They have decided to purchase a castle for their sons to share, and live together as they secretly want the kids out of the house. They are nearly 40 after all! \n" +
+				"The brothers quickly find themselves fighting over the largest room in their new shared castle. As the diplomatic gentlemen that they are, they decide the matter is best resolved with fisticuffs. \n" +
+				"This fist fight quickly evolves into a twitter battle, and then escalates further into a full blown war, with each brother lobbing cannon balls at each other! \n\n" +
+				"Press ENTER to continue");
 		storyText.put(Ages.INDUSTRIAL, "This is the second transition message: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
 		storyText.put(Ages.SPACE, "This is the third transition message: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
 	}
