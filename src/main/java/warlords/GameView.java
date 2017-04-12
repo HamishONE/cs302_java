@@ -155,8 +155,9 @@ public class GameView {
 	 * Draws menu buttons to canvas
 	 *
 	 * @param menuItems list of menu items to be added
+	 * @param title 	The title of the menu being drawn
 	 */
-	private void drawMenuItems(List<MenuItem> menuItems) {
+	private void drawMenuItems(List<MenuItem> menuItems, String title) {
 
 		//Constants for placements of menu items
 		int PADDING = 5;
@@ -167,6 +168,26 @@ public class GameView {
 
 		double maxWidth = WIDTH - PADDING*2;
 		double y = PADDING;
+
+		gc.save();
+
+		//If there is a title, apply it with a drop shadow and shift GC down
+		if (title != null) {
+
+			DropShadow dropShadow = new DropShadow();
+			dropShadow.setOffsetY(3);
+			dropShadow.setWidth(100);
+			dropShadow.setColor(Color.BLACK);
+
+			gc.setEffect(dropShadow);
+			gc.setFill(Color.WHITE);
+			setFont(80*scalingFactor);
+			gc.setTextAlign(TextAlignment.CENTER);
+			gc.setTextBaseline(VPos.CENTER);
+			gc.fillText(title, WIDTH/2*scalingFactor, (y+HEIGHT/2 + PADDING)*scalingFactor, maxWidth*scalingFactor);
+			gc.translate(0, 100*scalingFactor);
+			gc.setEffect(null);
+		}
 
 		//loop through all the menu items and render each
 		for (MenuItem menuItem : menuItems) {
@@ -191,6 +212,7 @@ public class GameView {
 
 			y += HEIGHT+PADDING/2;
 		}
+		gc.restore();
 	}
 
 	/**
@@ -216,19 +238,19 @@ public class GameView {
 		// Draw the left hand menu
 		gc.translate((-500 - rightShowing*600)*scalingFactor, 0);
 		gc.setEffect(new ColorAdjust(0, 0, -0.5 - rightShowing/2, 0));
-		drawMenuItems(leftMenu.getMenuItems());
+		drawMenuItems(leftMenu.getMenuItems(), leftMenu.getTitle());
 		gc.restore();
 
 		// Draw the main menu
 		gc.translate((100 - rightShowing*600)*scalingFactor, 0);
 		gc.setEffect(new ColorAdjust(0, 0, -Math.abs(rightShowing)/2, 0));
-		drawMenuItems(mainMenu.getMenuItems());
+		drawMenuItems(mainMenu.getMenuItems(), mainMenu.getTitle());
 		gc.restore();
 
 		// Draw the right hand menu
 		gc.translate((700 - rightShowing*600)*scalingFactor, 0);
 		gc.setEffect(new ColorAdjust(0, 0, -0.5 + rightShowing/2, 0));
-		drawMenuItems(rightMenu.getMenuItems());
+		drawMenuItems(rightMenu.getMenuItems(), rightMenu.getTitle());
 		gc.restore();
 	}
 

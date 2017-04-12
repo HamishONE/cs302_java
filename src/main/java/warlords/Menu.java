@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Menu {
 
 	private ArrayList<MenuItem> menuItems = new ArrayList<>();
+	private String title;
 
 	/**
 	 * @return An ordered list of menu items in the collection.
@@ -75,5 +76,23 @@ public class Menu {
 
 		// Set the menu item at the new index as selected
 		menuItems.get(selectedItem).setSelected(true);
+	}
+
+	/**
+	 * Getter for the title of the menu instance
+	 *
+	 * @return title of the menu
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	/**
+	 * Setter for the menu instance
+	 *
+	 * @param title title of the menu
+	 */
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

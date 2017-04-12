@@ -57,6 +57,7 @@ public class MenuController {
 		numPlayersMenu.add(new MenuItem("AI Demo", gameModeMenu).setCallback(() -> game.setNumHumanPlayers(0)));
 
 		currentMenu = new Menu();
+		currentMenu.setTitle("Age of Balls");
 		currentMenu.add(new MenuItem("New game", numPlayersMenu));
 		currentMenu.add(new MenuItem("High scores", () -> doGoToScoreBoard = true));
 		currentMenu.add(new MenuItem("Credits", () -> showCredits = true));
