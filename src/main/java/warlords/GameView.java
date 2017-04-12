@@ -441,7 +441,7 @@ public class GameView {
 		dropShadow.setColor(Color.BLACK);
 
 		Text text = new Text(50*scalingFactor, 50*scalingFactor, message);
-		Font font = Font.loadFont(fontUrl, 30);
+		Font font = Font.loadFont(fontUrl, 23*scalingFactor);
 		text.setFont(font);
 		text.setFill(Color.WHITE);
 		text.setEffect(dropShadow);

@@ -82,10 +82,23 @@ public class GameController implements IGame {
 				"The brothers quickly find themselves fighting over the largest room in their new shared castle. As the diplomatic gentlemen that they are, they decide the matter is best resolved with fisticuffs. \n" +
 				"This fist fight quickly evolves into a twitter battle, and then escalates further into a full blown war, with each brother lobbing cannon balls at each other! \n\n" +
 				"Press ENTER to continue");
-		storyText.put(Ages.INDUSTRIAL, "This is the second transition message: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-		storyText.put(Ages.SPACE, "This is the third transition message: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+		storyText.put(Ages.INDUSTRIAL, "A few thousand years down the line, the descendants of our original brothers are still, surprisingly, living together." +
+				"The once peaceful Moa Plains however are not fairing as well, they are now pockmarked with mineshafts and scattered with huts. \n" +
+				"One would think they would have separated paths by now, but let's not dwell on that. \n" +
+				"Our favourite brothers are now in the center of the industrial revolution and have gone from living in a castle, to working in a coal mine. \n" +
+				"Mining coal is not a fun job, the hours are long, the conditions are rough, and it isn't very good for your health. It is however a very worthwhile business, that is if you can find lots of coal. \n" +
+				"Our brothers are nearing the end of a long shift down the mines, when they collectively stumble upon a mighty vein of coal. \n" +
+				"As is becoming somewhat of a theme between these dysfunctional families a fight quickly breaks out, leaving each of the brothers to defend themselves as hunks of coal fly around. \n\n" +
+				"Press ENTER to continue");
+		storyText.put(Ages.SPACE, "Another few thousand years later, the world has been left a wasteland from the unstoppable fighting of the factions that have become of this once peaceful family. \n" +
+				"A nuke was once dropped on the Moa Plains, all over who gets the last flux capacitor from the store! \n" +
+				"Our brothers' defendants managed to escape by the skin on their teeth by taking off in a private rocket, or four. It isn't like they are capable of sharing at this point.\n" +
+				"Our space travelling relatives have seen a beautiful new planet in the distance after years of travelling through the sprawling expanses of space. \n" +
+				"As is now expected, a fight again breaks out. They all want to be the first one to set foot on the ground! \n" +
+				"As is obviously the best approach to resolve this dispute, they all go for a spacewalk, and begin shooting spacerocks at each other. \n\n" +
+				"Press ENTER to continue");
 	}
-	private String finalStoryText = "This is the final message: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+	private String finalStoryText = "";
 
 	// Background sounds
 	private Map<Ages, String> backgroundSounds = new EnumMap<>(Ages.class);
