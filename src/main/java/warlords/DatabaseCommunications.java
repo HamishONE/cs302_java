@@ -20,9 +20,10 @@ public class DatabaseCommunications {
 		loadValues();
 	}
 
+
 	public boolean putValues(String name, int score) {
 		try {
-			URLConnection connection = new URL(putUrl + "?name=" + name.replace(" ", "%20") + "&score=" + score).openConnection();
+			URLConnection connection = new URL(putUrl + "?name=" + getURLSafeString(name) + "&score=" + score).openConnection();
 			connection.setRequestProperty("Accept-Charset", java.nio.charset.StandardCharsets.UTF_8.name());
 			InputStream response = connection.getInputStream();
 
@@ -37,6 +38,37 @@ public class DatabaseCommunications {
 			ex.printStackTrace();
 		}
 		return false;
+	}
+
+	public String getURLSafeString(String input) {
+		input.replace(" ", "%20");
+		input.replace("$", "%24");
+		input.replace("&", "%26");
+		input.replace("`", "%60");
+		input.replace(":", "%3A");
+		input.replace("<", "%3C");
+		input.replace(">", "%3E");
+		input.replace("[", "%5B");
+		input.replace("]", "%5D");
+		input.replace("{", "%7B");
+		input.replace("}", "%7D");
+		input.replace("\"", "%22");
+		input.replace("+", "%2B");
+		input.replace("#", "%23");
+		input.replace("%", "%25");
+		input.replace("@", "%40");
+		input.replace("/", "%2F");
+		input.replace(";", "%3B");
+		input.replace("=", "%3D");
+		input.replace("?", "%3F");
+		input.replace("\\", "%5C");
+		input.replace("^", "%5E");
+		input.replace("|", "%7C");
+		input.replace("~", "%7E");
+		input.replace("'", "%27");
+		input.replace(",", "%2C");
+
+		return input;
 	}
 
 	
