@@ -694,7 +694,7 @@ public class GameController implements IGame {
 					gameView.drawGameEndLabel("Time over,\nthe game is a draw!");
 					break;
 				case ALL_HUMANS_DEAD:
-					gameView.drawGameEndLabel("Bad luck,\nthe AIs have won!");
+					gameView.drawGameEndLabel("Bad luck,\nthe AI have won!");
 			}
 		}
 		
