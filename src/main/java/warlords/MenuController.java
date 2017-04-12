@@ -60,8 +60,8 @@ public class MenuController {
 		currentMenu.setTitle("Age of Balls");
 		currentMenu.add(new MenuItem("New game", numPlayersMenu));
 		currentMenu.add(new MenuItem("High scores", () -> doGoToScoreBoard = true));
+		currentMenu.add(new MenuItem("Instructions", Platform::exit));
 		currentMenu.add(new MenuItem("Credits", () -> showCredits = true));
-		currentMenu.add(new MenuItem("Quit", Platform::exit));
 	}
 
 	/**
