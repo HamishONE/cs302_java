@@ -6,7 +6,6 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import static java.lang.Math.PI;
 
 /**

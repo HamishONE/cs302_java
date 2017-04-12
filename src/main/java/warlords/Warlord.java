@@ -69,6 +69,7 @@ public class Warlord extends GameObject implements IWarlord {
 	public void causeDamage(int damage) {
 		health -= damage;
 	}
+
 	/**
 	 * Sets the current warlord as the winning character
 	 */

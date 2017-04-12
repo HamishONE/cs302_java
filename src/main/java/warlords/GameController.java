@@ -53,7 +53,7 @@ public class GameController implements IGame {
 	private InternalState internalState = InternalState.IDLE;
 	private int timeRemaining = GAME_TIME + COUNTDOWN_TIME;
 	private long lastTimestamp;
-	private boolean difficultyIncrease1, difficultyIncrease2, difficultyIncrease3, difficultyIncrease4;
+	private boolean difficultyIncrease1, difficultyIncrease2, difficultyIncrease3;
 	private HighScores highScores = new HighScores();
 	private Integer winnerScore;
 	private String winnerName = "";
@@ -424,14 +424,6 @@ public class GameController implements IGame {
 				}
 				difficultyIncrease3 = true;
 			}
-
-//			//Add another ball when there are 5 to 10 seconds left
-//			if(timeRemaining < (5000+random()*5000) && !difficultyIncrease4) {
-//				addBall(BALL_SPEED+5);
-//				difficultyIncrease4 = true;
-//			}
-
-
 		}
 	}
 
@@ -536,6 +528,49 @@ public class GameController implements IGame {
 	}
 
 	/**
+	 * Gets a new object extending GameObject that matches it's location to that of the provided warlord.
+	 * @param imagePath The path sprite image to be drawn to the screen.
+	 * @param warlord The warlord to match the location to.
+	 * @return The new drawable object.
+	 */
+	private GameObject getWarlordOverlay(String imagePath, Warlord warlord) {
+		return new GameObject(0, 0, null, null, 0.0) {
+			@Override
+			public double getXPosReal() {
+				return warlord.getXPosReal();
+			}
+			@Override
+			public double getYPosReal() {
+				return warlord.getYPosReal();
+			}
+			@Override
+			public int getXPos() {
+				return warlord.getXPos();
+			}
+			@Override
+			public int getYPos() {
+				return warlord.getYPos();
+			}
+			@Override
+			public String getSpritePath() {
+				return imagePath;
+			}
+			@Override
+			public double getWidth() {
+				return warlord.getWidth();
+			}
+			@Override
+			public double getHeight() {
+				return warlord.getHeight();
+			}
+			@Override
+			public Double getRotation() {
+				return warlord.getRotation();
+			}
+		};
+	}
+
+	/**
 	 * Draws a frame by creating a list of all the objects on the screen and passes them to the view to be rendered
 	 * Also passes the time remaining and the pause text when applicable.
 	 * @param showBalls Whether to show the balls or not.
@@ -549,67 +584,17 @@ public class GameController implements IGame {
 		gameObjects.addAll(warlords);
 		gameObjects.addAll(paddles);
 
-		for(int i = 0; i < paddles.size(); i++) {
-			String path;
-			if(paddles.get(i) == null) {
-				continue;
+		// If a paddle is not travelling at the standard speed (due to powerups) show a fire or ice overlay as appropriate.
+		for (int i = 0; i < paddles.size(); i++) {
+			Paddle paddle = paddles.get(i);
+			if (paddle != null) {
+				if(paddle.getPaddleSpeed() < paddle.getInitPaddleSpeed()){
+					gameObjects.add(getWarlordOverlay("/ice.png", warlords.get(i)));
+				}
+				else if (paddle.getPaddleSpeed() > paddle.getInitPaddleSpeed()) {
+					gameObjects.add(getWarlordOverlay("/fire.png", warlords.get(i)));
+				}
 			}
-			if(paddles.get(i).getPaddleSpeed() < paddles.get(i).getInitPaddleSpeed()){
-				path = "/ice.png";
-			}
-			else if (paddles.get(i).getPaddleSpeed() > paddles.get(i).getInitPaddleSpeed()) {
-				path = "/fire.png";
-			}
-			else {
-				path = null;
-			}
-			if(path != null) {
-				final int j = i;
-				gameObjects.add(new GameObject(0, 0, null, null, 0.0) {
-
-					@Override
-					public double getXPosReal() {
-						return warlords.get(j).getXPosReal();
-					}
-
-					@Override
-					public double getYPosReal() {
-						return warlords.get(j).getYPosReal();
-					}
-
-					@Override
-					public int getXPos() {
-						return warlords.get(j).getXPos();
-					}
-
-					@Override
-					public int getYPos() {
-						return warlords.get(j).getYPos();
-					}
-
-
-					@Override
-					public String getSpritePath() {
-						return path;
-					}
-
-					@Override
-					public double getWidth() {
-						return warlords.get(j).getWidth();
-					}
-
-					@Override
-					public double getHeight() {
-						return warlords.get(j).getHeight();
-					}
-
-					@Override
-					public Double getRotation() {
-						return warlords.get(j).getRotation();
-					}
-				});
-			}
-
 		}
 
 		if (showBalls) {

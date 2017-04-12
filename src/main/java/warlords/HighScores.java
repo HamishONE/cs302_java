@@ -1,16 +1,13 @@
 package warlords;
 
-import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Manages the storage of the high scores list.
  */
 public class HighScores {
 
-	private DatabaseCommunications dbcoms = new DatabaseCommunications();
-
+	private DatabaseCommunications dbComs = new DatabaseCommunications();
 
 	/**
 	 * Add a new score to the list.
@@ -18,16 +15,15 @@ public class HighScores {
 	 * @param scoreValue See {@link Score#getScoreValue()}.
 	 */
 	public void addScore(String name, int scoreValue) {
-		dbcoms.putValues(name, scoreValue);
+		dbComs.putValues(name, scoreValue);
 	}
 
 	/**
 	 * @return A sorted list of the top ten scores.
 	 */
 	public ArrayList<Score> getScores() {
-		return dbcoms.getValues();
+		return dbComs.getValues();
 	}
-
 
 	/**
 	 * Determine if a score is large enough to be added to the scoreboard.
@@ -35,7 +31,7 @@ public class HighScores {
 	 * @return If the score is large enough.
 	 */
 	public boolean isTopTenScore(int scoreValue) {
-		ArrayList<Score> scores = dbcoms.getValues();
+		ArrayList<Score> scores = dbComs.getValues();
 		if (scores.size() < 10) {
 			return true;
 		}

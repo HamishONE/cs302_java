@@ -10,7 +10,6 @@ public class Wall extends GameObject implements IWall {
 	private int health = 1;
 	private int owner;
 
-
 	/**
 	 * Create a new wall at a given position with a given owner
 	 * @param x the x position of the wall
