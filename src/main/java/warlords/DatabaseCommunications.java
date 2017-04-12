@@ -41,32 +41,32 @@ public class DatabaseCommunications {
 	}
 
 	public String getURLSafeString(String input) {
-		input.replace(" ", "%20");
-		input.replace("$", "%24");
-		input.replace("&", "%26");
-		input.replace("`", "%60");
-		input.replace(":", "%3A");
-		input.replace("<", "%3C");
-		input.replace(">", "%3E");
-		input.replace("[", "%5B");
-		input.replace("]", "%5D");
-		input.replace("{", "%7B");
-		input.replace("}", "%7D");
-		input.replace("\"", "%22");
-		input.replace("+", "%2B");
-		input.replace("#", "%23");
-		input.replace("%", "%25");
-		input.replace("@", "%40");
-		input.replace("/", "%2F");
-		input.replace(";", "%3B");
-		input.replace("=", "%3D");
-		input.replace("?", "%3F");
-		input.replace("\\", "%5C");
-		input.replace("^", "%5E");
-		input.replace("|", "%7C");
-		input.replace("~", "%7E");
-		input.replace("'", "%27");
-		input.replace(",", "%2C");
+		input = input.replace(" ", "%20");
+		input = input.replace("$", "%24");
+		input = input.replace("&", "%26");
+		input = input.replace("`", "%60");
+		input = input.replace(":", "%3A");
+		input = input.replace("<", "%3C");
+		input = input.replace(">", "%3E");
+		input = input.replace("[", "%5B");
+		input = input.replace("]", "%5D");
+		input = input.replace("{", "%7B");
+		input = input.replace("}", "%7D");
+		input = input.replace("\"", "%22");
+		input = input.replace("+", "%2B");
+		input = input.replace("#", "%23");
+		input = input.replace("%", "%25");
+		input = input.replace("@", "%40");
+		input = input.replace("/", "%2F");
+		input = input.replace(";", "%3B");
+		input = input.replace("=", "%3D");
+		input = input.replace("?", "%3F");
+		input = input.replace("\\", "%5C");
+		input = input.replace("^", "%5E");
+		input = input.replace("|", "%7C");
+		input = input.replace("~", "%7E");
+		input = input.replace("'", "%27");
+		input = input.replace(",", "%2C");
 
 		return input;
 	}
