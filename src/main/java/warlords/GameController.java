@@ -69,7 +69,7 @@ public class GameController implements IGame {
 	private Map<Ages, String> storyText = new EnumMap<>(Ages.class);
 	{
 		storyText.put(Ages.NEOLITHIC, "Once upon a time there were four brothers. The brothers all grew up together in a plentiful and luscious region of the Moa Plains. \n" +
-				"The brothers were brought up together by the village cheifton and were taught how to be a high functioning members of the neolithic society. \n" +
+				"The brothers were brought up together by the village cheifton and were taught how to be high functioning members of the neolithic society. \n" +
 				"Together they would hunt, fish, carve wood with rocks, collect firewood and do various other barbaric tasks. \n" +
 				"One day they were running through the long grass of the Moa Plains, spear in hand, when they see her. \n" +
 				"\"She is the most beautiful thing I have ever seen\" said one brother, \"She is flawless\" said another, \"She looks amazing\" said the third, \"She is mine\" said the last. \n" +
