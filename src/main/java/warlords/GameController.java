@@ -83,7 +83,7 @@ public class GameController implements IGame {
 				"This fist fight quickly evolves into a twitter battle, and then escalates further into a full blown war, with each brother lobbing cannon balls at each other! \n\n" +
 				"Press ENTER to continue");
 		storyText.put(Ages.INDUSTRIAL, "A few thousand years down the line, the descendants of our original brothers are still, surprisingly, living together." +
-				"The once peaceful Moa Plains however are not fairing as well, they are now pockmarked with mineshafts and scattered with huts. \n" +
+				"The once peaceful Moa Plains however are not faring as well, they are now pockmarked with mineshafts and scattered with huts. \n" +
 				"One would think they would have separated paths by now, but let's not dwell on that. \n" +
 				"Our favourite brothers are now in the center of the industrial revolution and have gone from living in a castle, to working in a coal mine. \n" +
 				"Mining coal is not a fun job, the hours are long, the conditions are rough, and it isn't very good for your health. It is however a very worthwhile business, that is if you can find lots of coal. \n" +
@@ -92,13 +92,19 @@ public class GameController implements IGame {
 				"Press ENTER to continue");
 		storyText.put(Ages.SPACE, "Another few thousand years later, the world has been left a wasteland from the unstoppable fighting of the factions that have become of this once peaceful family. \n" +
 				"A nuke was once dropped on the Moa Plains, all over who gets the last flux capacitor from the store! \n" +
-				"Our brothers' defendants managed to escape by the skin on their teeth by taking off in a private rocket, or four. It isn't like they are capable of sharing at this point.\n" +
+				"Our brothers' descendants managed to escape by the skin on their teeth by taking off in a private rocket, or four. It isn't like they are capable of sharing at this point.\n" +
 				"Our space travelling relatives have seen a beautiful new planet in the distance after years of travelling through the sprawling expanses of space. \n" +
 				"As is now expected, a fight again breaks out. They all want to be the first one to set foot on the ground! \n" +
 				"As is obviously the best approach to resolve this dispute, they all go for a spacewalk, and begin shooting spacerocks at each other. \n\n" +
 				"Press ENTER to continue");
 	}
-	private String finalStoryText = "";
+	private String finalStoryText = "After centuries of quibbles, war, fighting and throwing various objects at each other, earth has been destroyed, this new planet has been destroyed, Moa are extinct and coal mining has been outlawed. \n" +
+			"Our favourite families have decided it will be best to part ways and live their own lives on opposite sides of the galaxy in the hopes that they don't destroy any more hopes or dreams.\n\n" +
+			"There is finally peace in this world" +
+			"\n\n" +
+			"Thanks for playing" +
+			"\n\n" +
+			"Press ENTER to continue";
 
 	// Background sounds
 	private Map<Ages, String> backgroundSounds = new EnumMap<>(Ages.class);
