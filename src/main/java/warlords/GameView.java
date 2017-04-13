@@ -274,8 +274,8 @@ public class GameView {
 		setFont(50*scalingFactor);
 		gc.setTextAlign(TextAlignment.CENTER);
 		gc.setTextBaseline(VPos.CENTER);
-		gc.fillText("PRESS ESC TO QUIT OR ENTER TO RESUME", (Game.backendWidth/2)*scalingFactor,
-				(Game.backendWidth/2)*scalingFactor, Game.backendWidth - 100);
+		gc.fillText("PRESS ESC TO QUIT\n OR\n ENTER TO RESUME", (Game.backendWidth/2)*scalingFactor,
+				(Game.backendWidth/2.5)*scalingFactor, Game.backendWidth - 100);
 	}
 
 	/**
