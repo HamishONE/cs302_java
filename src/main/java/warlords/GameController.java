@@ -306,7 +306,7 @@ public class GameController implements IGame {
 
 		// Add AI players suc that all 4 paddles are controlled
 		for (int i=game.getNumHumanPlayers(); i<4; i++) {
-			players.add(new ArtificialUser(balls.get(0), paddles.get(i))); //TODO: The AI will use all balls
+			players.add(new ArtificialUser(balls.get(0), paddles.get(i)));
 		}
 
 		//Add walls to each corner
