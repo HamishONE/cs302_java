@@ -1,6 +1,5 @@
 package warlords;
 
-import javafx.application.Platform;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -21,6 +20,10 @@ public class MenuController {
 	 * Boolean to contain state of credits visibility
 	 */
 	private boolean showCredits = false;
+	/**
+	 * Boolean to contain state of instructions visibility
+	 */
+	private boolean showInstructions = false;
 	private Stack<Menu> previousMenus = new Stack<>();
 	private Game game;
 	private int transitionTimeRemaining = 0;
@@ -60,7 +63,7 @@ public class MenuController {
 		currentMenu.setTitle("Age of Balls");
 		currentMenu.add(new MenuItem("New game", numPlayersMenu));
 		currentMenu.add(new MenuItem("High scores", () -> doGoToScoreBoard = true));
-		currentMenu.add(new MenuItem("Instructions", Platform::exit));
+		currentMenu.add(new MenuItem("Instructions", () -> showInstructions = true));
 		currentMenu.add(new MenuItem("Credits", () -> showCredits = true));
 	}
 
@@ -82,7 +85,7 @@ public class MenuController {
 
 		//Show credits when selected
 		if (showCredits) {
-			checkCreditExit();
+			checkInfoExit();
 			gameView.drawStoryMessage("/rock.png", "" +
 					"Thanks to those who made their work available to the public for reuse. \n" +
 					"Credit for the music goes to:\n" +
@@ -104,6 +107,13 @@ public class MenuController {
 					"\n" +
 					"\n" +
 					"All other sprites were developed in house by Roman Amor");
+			return;
+		}
+
+		//Show instructions when selected
+		if (showInstructions) {
+			checkInfoExit();
+			gameView.drawStoryMessage("/instructions.png", "");
 			return;
 		}
 
@@ -202,15 +212,17 @@ public class MenuController {
 	/**
 	 * 	Checks if player has pressed any of the mapped keys
 	 * 	Sets boolean {@link MenuController#showCredits} to false to close the credits
+	 * 	Sets boolean {@link MenuController#showInstructions} to false to close the instructions
 	 */
-	private void checkCreditExit() {
+	private void checkInfoExit() {
 
 		// Loop through each player's user input
 		for (IUserInput userInput : userInputs) {
 			InputType input = userInput.getInputType(true);
-			// If the user has made an input check which type it is
+			// If the user has made an input close the screens
 			if (input != null) {
 				showCredits = false;
+				showInstructions = false;
 			}
 		}
 	}
