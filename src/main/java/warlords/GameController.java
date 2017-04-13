@@ -74,7 +74,7 @@ public class GameController implements IGame {
 				"One day they were running through the long grass of the Moa Plains, spear in hand, when they see her. \n" +
 				"\"She is the most beautiful thing I have ever seen\" said one brother, \"She is flawless\" said another, \"She looks amazing\" said the third, \"She is mine\" said the last. \n" +
 				"As the finish their hushed discussions, the brothers look up to see her closer than before, her brown feathers shimmering in the sun, head held high and legs stretching below. \n" +
-				"\"LETS EAT\" yelled the first brother as he threw his spear. A tussle quickly breaks out as the brothers fight over who gets the best cut of moa, which quickly leads to them throwing meat at each other. \n\n" +
+				"\"LET'S EAT\" yelled the first brother as he threw his spear. A tussle quickly breaks out as the brothers fight over who gets the best cut of moa, which quickly leads to them throwing meat at each other. \n\n" +
 				"Press ENTER to continue");
 		storyText.put(Ages.MEDIEVAL, "Thousands of years later, the great, great, great, great (you get the picture) grandchildren of our four neolithic brothers find themselves together. \n" +
 				"Their fathers have decided to put their loose change together and spend it on something more important that multi-lane highways, their sons. \n" +
