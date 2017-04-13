@@ -57,6 +57,7 @@ public class GameController implements IGame {
 	private HighScores highScores = new HighScores();
 	private Integer winnerScore;
 	private String winnerName = "";
+	private double randomNumber = random();
 
 	// Game objects
 	private ArrayList<Wall> walls = new ArrayList<>();
@@ -345,6 +346,8 @@ public class GameController implements IGame {
 			internalState = InternalState.RUNNING;
 		}
 		lastTimestamp = System.nanoTime();
+
+		randomNumber = random();
 	}
 
 	/**
@@ -433,13 +436,13 @@ public class GameController implements IGame {
 
 			//Make game harder at a couple of points in the game
 			//Add extra ball somewhere between 20 and 30 seconds
-			if (timeRemaining < (GAME_TIME - (20000+random()*10000)) && !difficultyIncrease1) {
+			if (timeRemaining < (GAME_TIME - (20000+randomNumber*10000)) && !difficultyIncrease1) {
 				addBall(BALL_SPEED);
 				difficultyIncrease1 = true;
 			}
 
 			//Speed all balls up somewhere from 20 to 30 seconds left
-			if(timeRemaining < (20000+random()*10000) && !difficultyIncrease2) {
+			if(timeRemaining < (20000+randomNumber*10000) && !difficultyIncrease2) {
 				for(Ball ball : balls) {
 					ball.multiplySpeed(1.2);
 				}
@@ -447,7 +450,7 @@ public class GameController implements IGame {
 			}
 
 			//Shrink all paddles when there is somewhere from 10 to 20 seconds left
-			if(timeRemaining < (10000+random()*10000) && !difficultyIncrease3) {
+			if(timeRemaining < (10000+randomNumber*10000) && !difficultyIncrease3) {
 				for(Paddle paddle : paddles) {
 					if(paddle != null) {
 						paddle.modifyWidth(-30);
