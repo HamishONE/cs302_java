@@ -83,7 +83,27 @@ public class MenuController {
 		//Show credits when selected
 		if (showCredits) {
 			checkCreditExit();
-			gameView.drawStoryMessage("/rock.png", "Thanks to the people who made their work available to the public");
+			gameView.drawStoryMessage("/rock.png", "" +
+					"Thanks to those who made their work available to the public for reuse. \n" +
+					"Credit for the music goes to:\n" +
+					"  • Alexandr Zhelanov for 'Heroic Minority'\n" +
+					"  • HorrorPen for 'Small Loss'\n" +
+					"  • Matthew Pablo for 'Theme of Agrual'\n" +
+					"  • Wolfgang for 'Battle Theme'\n" +
+					"  • Telaron for 'Space Marines'\n" +
+					"\n" +
+					"Credit for the bounce sounds goes to:\n" +
+					"  • theshaggyfreak for 'thump2' and 'thump3'\n" +
+					"  • SamsterBirdies for 'Thump'\n" +
+					"\n" +
+					"Credit for the background images goes to:\n" +
+					"  • Cuzco for the space background\n" +
+					"  • Zeyu Ren for the menu background and neolithic background\n" +
+					"  • OlKu for the medieval background\n" +
+					"  • Austin Boucher for the industrial background\n" +
+					"\n" +
+					"\n" +
+					"All other sprites were developed in house by Roman Amor");
 			return;
 		}
 

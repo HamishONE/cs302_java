@@ -449,12 +449,12 @@ public class GameView {
 		DropShadow dropShadow = new DropShadow();
 		dropShadow.setOffsetY(3);
 		dropShadow.setWidth(100);
-		dropShadow.setColor(Color.BLACK);
+		dropShadow.setColor(Color.WHITE);
 
 		Text text = new Text(50*scalingFactor, 50*scalingFactor, message);
 		Font font = Font.loadFont(fontUrl, 23*scalingFactor);
 		text.setFont(font);
-		text.setFill(Color.WHITE);
+		text.setFill(Color.BLACK);
 		text.setEffect(dropShadow);
 		text.setWrappingWidth(width - 50*2*scalingFactor);
 
