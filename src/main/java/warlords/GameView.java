@@ -297,9 +297,20 @@ public class GameView {
 	 * @param secsRemaining input of number of seconds remaining in countdown
 	 */
 	public void drawCountdown(int secsRemaining) {
-		gc.setFill(Color.GRAY);
+
+		gc.save();
+
+		DropShadow dropShadow = new DropShadow();
+		dropShadow.setOffsetY(3);
+		dropShadow.setWidth(120);
+		dropShadow.setColor(Color.WHITE);
+
+		gc.setEffect(dropShadow);
+		gc.setFill(Color.BLACK);
 		setFont(70*scalingFactor);
 		gc.fillText(String.valueOf(secsRemaining), (Game.backendWidth/2)*scalingFactor, (Game.backendHeight/2)*scalingFactor);
+
+		gc.restore();
 	}
 
 	/**
