@@ -289,6 +289,7 @@ public class GameView {
 		gc.setFill(Color.WHITE);
 		setFont(30*scalingFactor);
 		gc.setTextBaseline(VPos.CENTER);
+		gc.setTextAlign(TextAlignment.CENTER);
 		gc.fillText(text, (Game.backendWidth - 250)*scalingFactor, 30);
 	}
 
